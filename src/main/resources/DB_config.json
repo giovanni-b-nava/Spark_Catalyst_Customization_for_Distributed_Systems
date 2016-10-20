@@ -1,0 +1,46 @@
+{
+  "nodes": [
+    {
+      "name" : "CL1",
+      "type" : "client",
+      "performance" : { "aes" : 500 },
+      "costs" : { "cpu" : 0.0006, "in" : 0.0, "out" : 0.0 },
+      "links" : {
+        "SS1" : { "throughput" : 100 },
+        "CS1" : { "throughput" : 100 }
+      },
+      "plain" : [
+        "employees", "salaries", "departments", "dept_emp", "dept_manager", "titles"
+      ],
+      "encrypted" : []
+    },
+    {
+      "name" : "SS1",
+      "type" : "storage",
+      "performance" : { "aes" : 500 },
+      "costs" : { "cpu" : 0.0002, "in" : 0.00001, "out" : 0.00001 },
+      "links" : {
+        "CL1" : { "throughput" : 100 },
+        "CS1" : { "throughput" : 10000 }
+      },
+      "plain" : [
+        "employees", "salaries", "departments", "dept_emp", "dept_manager", "titles"
+      ],
+      "encrypted" : []
+    },
+    {
+      "name" : "CS1",
+      "type" : "computational",
+      "performance" : { "aes" : 500 },
+      "costs" : { "cpu" : 0.00006, "in" : 0.00001, "out" : 0.00001 },
+      "links" : {
+        "CL1" : { "throughput" : 100 },
+        "SS1" : { "throughput" : 10000 }
+      },
+      "plain" : [],
+      "encrypted" : [
+        "employees", "salaries", "departments", "dept_emp", "dept_manager", "titles"
+      ]
+    }
+  ]
+}
