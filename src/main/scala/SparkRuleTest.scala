@@ -7,7 +7,7 @@ import org.apache.spark.sql.catalyst.rules.Rule
 /**
   * User Defined Optimization
   */
-object Rules {
+object SparkRuleTest {
 
   object MultiplyOptimizationRule extends Rule[LogicalPlan] {
     def apply(plan: LogicalPlan): LogicalPlan = plan transformAllExpressions {
@@ -27,7 +27,7 @@ object Rules {
       .getOrCreate()
 
 
-    val df = sparkSession.read.option("header","true").csv("src/main/resources/sales.csv")
+    val df = sparkSession.read.option("header","true").csv("src/main/resources/test.csv")
     val multipliedDF = df.selectExpr("amountPaid * 1")
     println(multipliedDF.queryExecution.optimizedPlan.numberedTreeString)
 
