@@ -7,14 +7,15 @@ import org.apache.spark.sql.catalyst.rules.Rule
   */
 object Optimization1 {
 
-  def main(args: Array[String]): Unit = {
+  def main(args: Array[String]): Unit =
+  {
 
     val sparkSession = SparkSession.builder.
       master("optimization")
       .appName("rule1")
       .getOrCreate()
 
-    val df = sparkSession.read.json("src/main/resources/DB_Employees.json")
+    val dataFrame = sparkSession.read.json("src/main/resources/DB_Employees.json")
 
   }
 }
