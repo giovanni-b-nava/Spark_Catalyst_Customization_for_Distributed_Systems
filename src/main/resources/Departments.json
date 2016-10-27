@@ -1,0 +1,83 @@
+{
+    "type": "database",
+    "name": "DB_Employees",
+    "objects": [
+        {
+            "type": "table",
+            "database": null,
+            "name": "departments",
+            "withoutRowId": true,
+            "ddl": "CREATE TABLE departments (dept_no CHAR (4) NOT NULL, dept_name VARCHAR (40) NOT NULL UNIQUE, PRIMARY KEY (dept_no))",
+            "columns": [
+                {
+                    "name": "dept_no",
+                    "type": "CHAR",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL"
+                        }
+                    ]
+                },
+                {
+                    "name": "dept_name",
+                    "type": "VARCHAR",
+                    "constraints": [
+                        {
+                            "type": "NOT NULL",
+                            "definition": "NOT NULL "
+                        },
+                        {
+                            "type": "UNIQUE",
+                            "definition": "UNIQUE"
+                        }
+                    ]
+                }
+            ],
+            "constraints": [
+                {
+                    "type": "PRIMARY KEY",
+                    "definition": "PRIMARY KEY (dept_no)"
+                }
+            ],
+            "rows": [
+                [
+                    "d001",
+                    "Marketing"
+                ],
+                [
+                    "d002",
+                    "Finance"
+                ],
+                [
+                    "d003",
+                    "Human Resources"
+                ],
+                [
+                    "d004",
+                    "Production"
+                ],
+                [
+                    "d005",
+                    "Development"
+                ],
+                [
+                    "d006",
+                    "Quality Management"
+                ],
+                [
+                    "d007",
+                    "Sales"
+                ],
+                [
+                    "d008",
+                    "Research"
+                ],
+                [
+                    "d009",
+                    "Customer Service"
+                ]
+            ]
+        }
+    ]
+}
