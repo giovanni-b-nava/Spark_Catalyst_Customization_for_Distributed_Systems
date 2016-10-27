@@ -33,7 +33,5 @@ object SparkRuleTest {
     println("after optimization")
 
     println(multipliedDFWithOptimization.queryExecution.optimizedPlan.numberedTreeString)
-
-   // var client : Node = new Node()
   }
 }
