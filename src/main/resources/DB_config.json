@@ -213,10 +213,10 @@
           "name" : "titles",
           "attributes" :
           {
-            "emp_no": "encrypted",
-            "title": "encrypted",
-            "from_date": "encrypted",
-            "to_date": "encrypted"
+            "emp_no": "plaintext",
+            "title": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
           }
         }
       ]
