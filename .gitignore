@@ -1,7 +1,6 @@
-*.iml
 .idea/
-*.iml
 target/
-project/target
-dependency-reduced-pom.xml
-*.pdf
+project/
+spark-warehouse/
+src/main/java/
+src/test/
