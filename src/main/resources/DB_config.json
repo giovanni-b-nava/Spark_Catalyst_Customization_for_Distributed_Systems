@@ -1,45 +1,224 @@
 {
-  "nodes": [
+  "nodes":
+  [
     {
       "name" : "CL1",
       "type" : "client",
       "performance" : { "aes" : 500 },
       "costs" : { "cpu" : 0.0006, "in" : 0.0, "out" : 0.0 },
-      "links" : {
+      "links" :
+      {
         "SS1" : { "throughput" : 100 },
         "CS1" : { "throughput" : 100 }
       },
-      "plain" : [
-        "employees", "salaries", "departments", "dept_emp", "dept_manager", "titles"
-      ],
-      "encrypted" : []
+      "tables":
+      [
+        {
+          "name" : "employees",
+          "attributes" :
+          {
+            "emp_no" : "plaintext",
+            "birth_date" : "plaintext",
+            "first_name" : "plaintext",
+            "last_name" : "plaintext",
+            "gender" : "plaintext",
+            "hire_date" : "plaintext"
+          }
+        },
+        {
+          "name" : "departments",
+          "attributes" :
+          {
+            "dept_no": "plaintext",
+            "dept_name": "plaintext"
+          }
+        },
+        {
+          "name" : "dept_emp",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "dept_no": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        },
+        {
+          "name" : "dept_manager",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "dept_no": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        },
+        {
+          "name" : "salaries",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "salary": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        },
+        {
+          "name" : "titles",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "title": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        }
+      ]
     },
     {
       "name" : "SS1",
-      "type" : "storage",
+      "type" : "storage_server",
       "performance" : { "aes" : 500 },
       "costs" : { "cpu" : 0.0002, "in" : 0.00001, "out" : 0.00001 },
       "links" : {
         "CL1" : { "throughput" : 100 },
         "CS1" : { "throughput" : 10000 }
       },
-      "plain" : [
-        "employees", "salaries", "departments", "dept_emp", "dept_manager", "titles"
-      ],
-      "encrypted" : []
+      "tables":
+      [
+        {
+          "name" : "employees",
+          "attributes" :
+          {
+            "emp_no" : "plaintext",
+            "birth_date" : "plaintext",
+            "first_name" : "plaintext",
+            "last_name" : "plaintext",
+            "gender" : "plaintext",
+            "hire_date" : "plaintext"
+          }
+        },
+        {
+          "name" : "departments",
+          "attributes" :
+          {
+            "dept_no": "plaintext",
+            "dept_name": "plaintext"
+          }
+        },
+        {
+          "name" : "dept_emp",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "dept_no": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        },
+        {
+          "name" : "dept_manager",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "dept_no": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        },
+        {
+          "name" : "salaries",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "salary": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        },
+        {
+          "name" : "titles",
+          "attributes" :
+          {
+            "emp_no": "plaintext",
+            "title": "plaintext",
+            "from_date": "plaintext",
+            "to_date": "plaintext"
+          }
+        }
+      ]
     },
     {
       "name" : "CS1",
-      "type" : "computational",
+      "type" : "computational_server",
       "performance" : { "aes" : 500 },
       "costs" : { "cpu" : 0.00006, "in" : 0.00001, "out" : 0.00001 },
       "links" : {
         "CL1" : { "throughput" : 100 },
         "SS1" : { "throughput" : 10000 }
       },
-      "plain" : [],
-      "encrypted" : [
-        "employees", "salaries", "departments", "dept_emp", "dept_manager", "titles"
+      "tables":
+      [
+        {
+          "name" : "employees",
+          "attributes" :
+          {
+            "emp_no" : "encrypted",
+            "birth_date" : "encrypted",
+            "first_name" : "encrypted",
+            "last_name" : "encrypted",
+            "gender" : "encrypted",
+            "hire_date" : "encrypted"
+          }
+        },
+        {
+          "name" : "departments",
+          "attributes" :
+          {
+            "dept_no": "encrypted",
+            "dept_name": "encrypted"
+          }
+        },
+        {
+          "name" : "dept_emp",
+          "attributes" :
+          {
+            "emp_no": "encrypted",
+            "dept_no": "encrypted",
+            "from_date": "encrypted",
+            "to_date": "encrypted"
+          }
+        },
+        {
+          "name" : "dept_manager",
+          "attributes" :
+          {
+            "emp_no": "encrypted",
+            "dept_no": "encrypted",
+            "from_date": "encrypted",
+            "to_date": "encrypted"
+          }
+        },
+        {
+          "name" : "salaries",
+          "attributes" :
+          {
+            "emp_no": "encrypted",
+            "salary": "encrypted",
+            "from_date": "encrypted",
+            "to_date": "encrypted"
+          }
+        },
+        {
+          "name" : "titles",
+          "attributes" :
+          {
+            "emp_no": "encrypted",
+            "title": "encrypted",
+            "from_date": "encrypted",
+            "to_date": "encrypted"
+          }
+        }
       ]
     }
   ]
