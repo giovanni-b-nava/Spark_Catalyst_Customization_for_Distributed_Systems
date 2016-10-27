@@ -27,7 +27,7 @@ object Rules {
       .getOrCreate()
 
 
-    val df = sparkSession.read.option("header","true").csv("src/main/resources/DB_config.json")
+    val df = sparkSession.read.option("header","true").csv("src/main/resources/sales.csv")
     val multipliedDF = df.selectExpr("amountPaid * 1")
     println(multipliedDF.queryExecution.optimizedPlan.numberedTreeString)
 
