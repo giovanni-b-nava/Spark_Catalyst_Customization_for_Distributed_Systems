@@ -3,10 +3,6 @@ import org.apache.spark.sql.catalyst.expressions.{Literal, Multiply}
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan
 import org.apache.spark.sql.catalyst.rules.Rule
 
-
-/**
-  * User Defined Optimization
-  */
 object SparkRuleTest {
 
   object MultiplyOptimizationRule extends Rule[LogicalPlan] {
