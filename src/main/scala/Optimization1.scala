@@ -13,12 +13,12 @@ object Optimization1 {
       .appName("optimization1")
       .getOrCreate()
 
-    val employees = sparkSession.read.json("src/main/resources/Employees.json")
-    val salaries = sparkSession.read.json("src/main/resources/Salaries.json")
-    val departments = sparkSession.read.json("src/main/resources/Departments.json")
-    val titles = sparkSession.read.json("src/main/resources/Titles.json")
-    val dept_emp = sparkSession.read.json("src/main/resources/Dept_emp.json")
-    val dept_manager = sparkSession.read.json("src/main/resources/Dept_manager.json")
+    val employees = sparkSession.read.json("src/main/resources/employees.csv")
+    val salaries = sparkSession.read.json("src/main/resources/salaries.csv")
+    val departments = sparkSession.read.json("src/main/resources/departments.csv")
+    val titles = sparkSession.read.json("src/main/resources/titles.csv")
+    val dept_emp = sparkSession.read.json("src/main/resources/dept_emp.csv")
+    val dept_manager = sparkSession.read.json("src/main/resources/dept_manager.csv")
 
     // Parsing da file a formato map di string
     val jsonSource : String = Source.fromFile("src/main/resources/DB_config.json").getLines.mkString
@@ -30,6 +30,10 @@ object Optimization1 {
       case None => println("Parsing failed")
       case other => println("Unknown data structure: " + other)
     }
+
+    val path = "src/main/resources/salaries.csv"
+    val db = sparkSession.read.json(path)
+    db.printSchema()
 
   }
 }
