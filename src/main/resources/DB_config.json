@@ -3,7 +3,7 @@
   [
     {
       "name" : "CL1",
-      "type" : "client",
+      "category" : "client",
       "performance" : { "aes" : 500 },
       "costs" : { "cpu" : 0.0006, "in" : 0.0, "out" : 0.0 },
       "links" :
@@ -77,7 +77,7 @@
     },
     {
       "name" : "SS1",
-      "type" : "storage_server",
+      "category" : "storage_server",
       "performance" : { "aes" : 500 },
       "costs" : { "cpu" : 0.0002, "in" : 0.00001, "out" : 0.00001 },
       "links" : {
@@ -150,7 +150,7 @@
     },
     {
       "name" : "CS1",
-      "type" : "computational_server",
+      "category" : "computational_server",
       "performance" : { "aes" : 500 },
       "costs" : { "cpu" : 0.00006, "in" : 0.00001, "out" : 0.00001 },
       "links" : {
