@@ -13,12 +13,12 @@ object Optimization1 {
       .appName("optimization1")
       .getOrCreate()
 
-    val employees = sparkSession.read.json("src/main/resources/employees.csv")
-    val salaries = sparkSession.read.json("src/main/resources/salaries.csv")
-    val departments = sparkSession.read.json("src/main/resources/departments.csv")
-    val titles = sparkSession.read.json("src/main/resources/titles.csv")
-    val dept_emp = sparkSession.read.json("src/main/resources/dept_emp.csv")
-    val dept_manager = sparkSession.read.json("src/main/resources/dept_manager.csv")
+    val employees = sparkSession.read.option("header","true").csv("src/main/resources/employees.csv")
+    val salaries = sparkSession.read.option("header","true").csv("src/main/resources/salaries.csv")
+    val departments = sparkSession.read.option("header","true").csv("src/main/resources/departments.csv")
+    val titles = sparkSession.read.option("header","true").csv("src/main/resources/titles.csv")
+    val dept_emp = sparkSession.read.option("header","true").csv("src/main/resources/dept_emp.csv")
+    val dept_manager = sparkSession.read.option("header","true").csv("src/main/resources/dept_manager.csv")
 
     // Parsing da file a formato map di string
     val jsonSource : String = Source.fromFile("src/main/resources/DB_config.json").getLines.mkString
@@ -32,7 +32,7 @@ object Optimization1 {
     }
 
     val path = "src/main/resources/salaries.csv"
-    val db = sparkSession.read.json(path)
+    val db = sparkSession.read.option("header","true").csv(path)
     db.printSchema()
 
   }

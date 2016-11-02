@@ -4,36 +4,35 @@ import scala.util.parsing.json.JSON
 /**
   * Created by Spark on 19/10/2016.
   */
-class CC[T] { def unapply(a:Any):Option[T] = Some(a.asInstanceOf[T]) }
-
-object Name extends CC[String]
-object Type extends CC[String]
-object Performance extends CC[Map[String, Double]]
-object Cost extends CC[Map[String, Double]]
-object Link extends CC[Array[Map[String, Double]]]
-object Table extends CC[Array[Map[String, Any]]]
-
-object M extends CC[Map[String, Any]]
-object L extends CC[List[Any]]
-object S extends CC[String]
-object D extends CC[Double]
-object B extends CC[Boolean]
+class Node(
+  val name: String,
+  val category: String,
+  val performance: List[Map[String, Double]],
+  val costs: List[Map[String,Double]],
+  val links: List[List[Map[String,Double]]],
+  val tables: List[Map[String, Any]]
+  ) {}
 
 
-/*val jsonSource : String = Source.fromFile("src/main/resources/DB_config.json").getLines.mkString
+object Parser {
 
-val result = for {
-  Some(M(map)) <- List(JSON.parseFull(jsonSource))
-  L(languages) = map("languages")
-  M(language) <- languages
-  S(name) = language("name")
-  B(active) = language("is_active")
-  D(completeness) = language("completeness")
-} yield {
-  (name, active, completeness)
+  def main(args: Array[String]): Unit = {
+    val jsonSource: String = Source.fromFile("src/main/resources/DB_config.json").getLines.mkString
+
+    val json: Option[Any] = JSON.parseFull(jsonSource)
+    val map: Map[String, Any] = json.get.asInstanceOf[Map[String, Any]]
+    val nodes: List[Any] = map.get("nodes").get.asInstanceOf[List[Any]]
+    nodes.foreach(langMap => {
+      val node: Map[String, Any] = langMap.asInstanceOf[Map[String, Any]]
+      val name: String = node.get("name").get.asInstanceOf[String]
+      val category: String = node.get("category").get.asInstanceOf[String]
+      val performance: List[Map[String,Double]] = node.get("performance").get.asInstanceOf[List[Map[String,Double]]]
+      var n : Node = new Node()
+      /* val isActive:Boolean = language.get("is_active").get.asInstanceOf[Boolean]
+  val completeness:Double = language.get("completeness").get.asInstanceOf[Double]*/
+    })
+
+    println(nodes)
+
+  }
 }
-
-assert( result == List(("English",true,2.5), ("Latin",false,0.9)))
-{
-
-}*/
