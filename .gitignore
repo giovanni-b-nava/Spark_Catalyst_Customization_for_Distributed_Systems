@@ -2,5 +2,4 @@
 target/
 project/
 spark-warehouse/
-src/main/java/
 src/test/

@@ -15,7 +15,7 @@ object SparkRuleTest {
   }
 
 
-  def main(args: Array[String]) {
+  /*def main(args: Array[String]) {
 
     val sparkSession = SparkSession.builder.
       master("local")
@@ -33,5 +33,8 @@ object SparkRuleTest {
     println("after optimization")
 
     println(multipliedDFWithOptimization.queryExecution.optimizedPlan.numberedTreeString)
-  }
+
+    val catalog = sparkSession.catalog
+    println("catalog = "+catalog.listDatabases().select("name").show())
+  }*/
 }
