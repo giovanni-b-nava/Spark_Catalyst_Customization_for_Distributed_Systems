@@ -4,6 +4,7 @@ import org.apache.spark.sql.SparkSession;
 
 import java.util.List;
 
+
 /**
  * Created by Spark on 11/11/2016.
  */
@@ -45,7 +46,15 @@ public class Optimization1 {
         // ritorna il tipo di operazione eseguita per prima nel piano
         System.out.println(sqlDF.queryExecution().optimizedPlan().nodeName());
 
-        System.out.println(sqlDF.queryExecution().optimizedPlan().expressions());
+        // produce l'attributo corrente con 0 e l'albero dei figli con 1
+        System.out.println(sqlDF.queryExecution().optimizedPlan().productElement(0));
+
+        // produce l'albero delle varie fasi di ottimizzazione
+        System.out.println(sqlDF.queryExecution());
+
+        System.out.println("Json String:\n");
+        System.out.println(sqlDF.queryExecution().optimizedPlan().toJSON());
+
 
     }
 }
