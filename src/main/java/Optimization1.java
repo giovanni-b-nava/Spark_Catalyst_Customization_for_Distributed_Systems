@@ -1,9 +1,8 @@
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import JsonParser.ParserJson;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
+import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
 
 import java.util.List;
 
@@ -37,36 +36,24 @@ public class Optimization1 {
         employees.createOrReplaceTempView("employees");
         titles.createOrReplaceTempView("titles");
 
-        Dataset<Row> sqlDF = sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE gender=='F'");
+        Dataset<Row> sqlDF = sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
         /*Dataset<Row> sqlDF2 = sparkSession.sql("SELECT first_name FROM employees e JOIN (SELECT s.emp_no, salary FROM salaries s JOIN titles t " +
         "ON s.emp_no=t.emp_no GROUP BY s.salary HAVING t.title='Staff') st ON e.emp_no=st.emp_no GROUP BY first_name HAVING salary>70000");
         System.out.println(sqlDF2.queryExecution().optimizedPlan().numberedTreeString());*/
 
-        // ritorna il tipo del primo attributo presente nel piano
-        System.out.println(sqlDF.queryExecution().optimizedPlan().expressions().head());
-
-        // ritorna il tipo di operazione eseguita per prima nel piano
-        System.out.println(sqlDF.queryExecution().optimizedPlan().nodeName());
-
-        // produce l'attributo corrente con 0 e l'albero dei figli con 1
-        System.out.println(sqlDF.queryExecution().optimizedPlan().productElement(0));
-
         // produce l'albero delle varie fasi di ottimizzazione
         System.out.println(sqlDF.queryExecution());
 
-        System.out.println("Json String:\n");
         String json = sqlDF.queryExecution().optimizedPlan().toJSON();
+        System.out.println(json);
 
-        JsonElement je = new JsonParser().parse(json);
+        ParserJson p = new ParserJson();
+        System.out.println(p.parse("{\"data\": { \"translations\": [ { \"translatedText\": \"Hello world\"}]}}"));
 
-        JsonObject root = je.getAsJsonObject();
-        JsonElement je2 = root.get("org.apache.spark.sql.catalyst.plans.logical.Join");
-
-        JsonObject lightObjectSet = je2.getAsJsonObject();
-        JsonElement je3 = lightObjectSet.get("org.apache.spark.sql.catalyst.expressions.AttributeReference");
-
-        System.out.println(je3.getAsString());
-
+        LogicalPlan plan = sqlDF.queryExecution().optimizedPlan();
+        Collector c = new Collector();
+        c.collect(plan);
+        System.out.println(c.nodes.toString());
     }
 }

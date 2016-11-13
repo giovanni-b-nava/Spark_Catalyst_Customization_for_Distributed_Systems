@@ -1,9 +1,73 @@
 [
   {
+    "class":"org.apache.spark.sql.catalyst.plans.logical.Aggregate",
+    "num-children":1,
+    "groupingExpressions":[
+      [
+        {
+          "class":"org.apache.spark.sql.catalyst.expressions.AttributeReference",
+          "num-children":0,
+          "name":"first_name",
+          "dataType":"string",
+          "nullable":true,
+          "metadata":{
+
+          },
+          "exprId":{
+            "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
+            "id":2,
+            "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
+          },
+          "qualifier":"e",
+          "isGenerated":false
+        }
+      ]
+    ],
+    "aggregateExpressions":[
+      [
+        {
+          "class":"org.apache.spark.sql.catalyst.expressions.AttributeReference",
+          "num-children":0,
+          "name":"first_name",
+          "dataType":"string",
+          "nullable":true,
+          "metadata":{
+
+          },
+          "exprId":{
+            "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
+            "id":2,
+            "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
+          },
+          "qualifier":"e",
+          "isGenerated":false
+        }
+      ]
+    ],
+    "child":0
+  },
+  {
     "class":"org.apache.spark.sql.catalyst.plans.logical.Project",
     "num-children":1,
     "projectList":[
-      [  ]
+      [
+        {
+          "class":"org.apache.spark.sql.catalyst.expressions.AttributeReference",
+          "num-children":0,
+          "name":"first_name",
+          "dataType":"string",
+          "nullable":true,
+          "metadata":{
+
+          },
+          "exprId":{
+            "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
+            "id":2,
+            "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
+          },
+          "isGenerated":false
+        }
+      ]
     ],
     "child":0
   },
@@ -34,7 +98,7 @@
         "exprId":{
           "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
           "id":13,
-          "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
+          "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
         },
         "qualifier":"s",
         "isGenerated":false
@@ -51,7 +115,7 @@
         "exprId":{
           "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
           "id":0,
-          "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
+          "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
         },
         "qualifier":"e",
         "isGenerated":false
@@ -75,7 +139,7 @@
           "exprId":{
             "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
             "id":13,
-            "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
+            "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
           },
           "isGenerated":false
         }
@@ -87,6 +151,75 @@
     "class":"org.apache.spark.sql.catalyst.plans.logical.Filter",
     "num-children":1,
     "condition":[
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.And",
+        "num-children":2,
+        "left":0,
+        "right":1
+      },
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.And",
+        "num-children":2,
+        "left":0,
+        "right":1
+      },
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.IsNotNull",
+        "num-children":1,
+        "child":0
+      },
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.AttributeReference",
+        "num-children":0,
+        "name":"salary",
+        "dataType":"string",
+        "nullable":true,
+        "metadata":{
+
+        },
+        "exprId":{
+          "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
+          "id":14,
+          "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
+        },
+        "qualifier":"s",
+        "isGenerated":false
+      },
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.GreaterThan",
+        "num-children":2,
+        "left":0,
+        "right":1
+      },
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.Cast",
+        "num-children":1,
+        "child":0,
+        "dataType":"double"
+      },
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.AttributeReference",
+        "num-children":0,
+        "name":"salary",
+        "dataType":"string",
+        "nullable":true,
+        "metadata":{
+
+        },
+        "exprId":{
+          "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
+          "id":14,
+          "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
+        },
+        "qualifier":"s",
+        "isGenerated":false
+      },
+      {
+        "class":"org.apache.spark.sql.catalyst.expressions.Literal",
+        "num-children":0,
+        "value":"70000.0",
+        "dataType":"double"
+      },
       {
         "class":"org.apache.spark.sql.catalyst.expressions.IsNotNull",
         "num-children":1,
@@ -104,7 +237,7 @@
         "exprId":{
           "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
           "id":13,
-          "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
+          "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
         },
         "qualifier":"s",
         "isGenerated":false
@@ -134,7 +267,7 @@
           "exprId":{
             "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
             "id":0,
-            "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
+            "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
           },
           "isGenerated":false
         }
@@ -152,7 +285,7 @@
           "exprId":{
             "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
             "id":2,
-            "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
+            "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
           },
           "isGenerated":false
         }
@@ -164,69 +297,6 @@
     "class":"org.apache.spark.sql.catalyst.plans.logical.Filter",
     "num-children":1,
     "condition":[
-      {
-        "class":"org.apache.spark.sql.catalyst.expressions.And",
-        "num-children":2,
-        "left":0,
-        "right":1
-      },
-      {
-        "class":"org.apache.spark.sql.catalyst.expressions.And",
-        "num-children":2,
-        "left":0,
-        "right":1
-      },
-      {
-        "class":"org.apache.spark.sql.catalyst.expressions.IsNotNull",
-        "num-children":1,
-        "child":0
-      },
-      {
-        "class":"org.apache.spark.sql.catalyst.expressions.AttributeReference",
-        "num-children":0,
-        "name":"gender",
-        "dataType":"string",
-        "nullable":true,
-        "metadata":{
-
-        },
-        "exprId":{
-          "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
-          "id":4,
-          "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
-        },
-        "qualifier":"e",
-        "isGenerated":false
-      },
-      {
-        "class":"org.apache.spark.sql.catalyst.expressions.EqualTo",
-        "num-children":2,
-        "left":0,
-        "right":1
-      },
-      {
-        "class":"org.apache.spark.sql.catalyst.expressions.AttributeReference",
-        "num-children":0,
-        "name":"gender",
-        "dataType":"string",
-        "nullable":true,
-        "metadata":{
-
-        },
-        "exprId":{
-          "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
-          "id":4,
-          "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
-        },
-        "qualifier":"e",
-        "isGenerated":false
-      },
-      {
-        "class":"org.apache.spark.sql.catalyst.expressions.Literal",
-        "num-children":0,
-        "value":"F",
-        "dataType":"string"
-      },
       {
         "class":"org.apache.spark.sql.catalyst.expressions.IsNotNull",
         "num-children":1,
@@ -244,7 +314,7 @@
         "exprId":{
           "product-class":"org.apache.spark.sql.catalyst.expressions.ExprId",
           "id":0,
-          "jvmId":"9d7aa13c-aefc-46f6-b322-d595ae9cd74d"
+          "jvmId":"a560a52c-95c0-4d79-8902-e54014f7f633"
         },
         "qualifier":"e",
         "isGenerated":false

@@ -10,13 +10,20 @@ import com.google.gson.JsonParser;
  */
 public class ParserJson {
 
+    // modello per creare il parser del file di configurazione
     public String parse(String jsonLine) {
+
         JsonElement jelement = new JsonParser().parse(jsonLine);
         JsonObject jobject = jelement.getAsJsonObject();
+
         jobject = jobject.getAsJsonObject("data");
+
         JsonArray jarray = jobject.getAsJsonArray("translations");
+
         jobject = jarray.get(0).getAsJsonObject();
+
         String result = jobject.get("translatedText").toString();
+
         return result;
     }
 }
