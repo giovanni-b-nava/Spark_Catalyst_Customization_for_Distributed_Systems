@@ -11,35 +11,27 @@ import java.util.Map;
  */
 public class Collector {
 
-    public Map<String, List<String>> nodes;
+    public Map<Integer, String> operations;
+    public Map<Integer, List<String>> attributes;
 
     public void collect(LogicalPlan plan) {
 
-        nodes = new HashMap<>();
+        operations = new HashMap<>();
+        attributes = new HashMap<>();
 
-        // crea una lista degli attributi coinvolti nell'operazione corrente
-        System.out.println(plan.expressions());
-        // ritorna il tipo di operazione corrente
-        System.out.println(plan.nodeName());
-        // ritorna il piano logico dei figli dell'operazione corrente
-        System.out.println(plan.children());
         // crea una sequenza delle foglie del piano
         System.out.println(plan.collectLeaves());
-        // crea una lista con la sequenza delle istruzioni json
-        System.out.println(plan.jsonFields());
+        // stampa l'argomento come stringa dell'operazione
+        System.out.println(plan.apply(4).argString());
 
-        System.out.println(plan.apply(2));
-
-        /* Scrivo due appunti qui come promemoria: il ciclo qui sotto dovrà inserire in una mappa le operazioni con i
-           relativi attributi coinvolti. Il problema è come recuperare le lunghezze delle liste per dare gli indici al while.
-         */
+        System.out.println(plan.apply(7).expressions().apply(0));
+        System.out.println(plan.apply(4));
 
         int i = 0;
-        //plan.apply(i).toString() != "null"
-        while (i<2) {
+        while (plan.apply(i) != null) {
+            operations.put(i, plan.apply(i).nodeName());
             List e = new ArrayList();
-            e.add(plan.apply(i).expressions().apply(0));
-            nodes.put(plan.apply(i).nodeName(), e);
+            //e.add(plan.apply(i).expressions().apply(0));
             i++;
         }
     }
