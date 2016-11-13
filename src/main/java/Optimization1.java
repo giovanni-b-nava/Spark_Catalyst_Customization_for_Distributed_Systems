@@ -1,3 +1,6 @@
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -53,8 +56,17 @@ public class Optimization1 {
         System.out.println(sqlDF.queryExecution());
 
         System.out.println("Json String:\n");
-        System.out.println(sqlDF.queryExecution().optimizedPlan().toJSON());
+        String json = sqlDF.queryExecution().optimizedPlan().toJSON();
 
+        JsonElement je = new JsonParser().parse(json);
+
+        JsonObject root = je.getAsJsonObject();
+        JsonElement je2 = root.get("org.apache.spark.sql.catalyst.plans.logical.Join");
+
+        JsonObject lightObjectSet = je2.getAsJsonObject();
+        JsonElement je3 = lightObjectSet.get("org.apache.spark.sql.catalyst.expressions.AttributeReference");
+
+        System.out.println(je3.getAsString());
 
     }
 }
