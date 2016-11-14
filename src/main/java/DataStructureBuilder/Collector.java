@@ -1,3 +1,5 @@
+package DataStructureBuilder;
+
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
 
 import java.util.ArrayList;
@@ -11,14 +13,18 @@ import java.util.Map;
  */
 public class Collector {
 
+    // Contains the ordered sequence of operations
     public Map<Integer, String> operations;
+    // Contains the list of attributes involved in each operation
     public Map<Integer, List<String>> attributes;
 
+    // Generates the list of attributes for the current operation
     private List<String> collectAttributes(LogicalPlan plan) {
 
         List<String> l = new ArrayList<>();
 
         switch(plan.nodeName()) {
+            //TODO migliorare la generazione di join e filter (non vedono gli operatori coinvolti
             case "Project":
             case "Aggregate":
             case "Join":
@@ -43,6 +49,7 @@ public class Collector {
         return l;
     }
 
+    // Builds the two maps for operations and attributes
     public void collect(LogicalPlan plan) {
 
         operations = new HashMap<>();
@@ -51,7 +58,7 @@ public class Collector {
         int i = 0;
         while (plan.apply(i) != null) {
             operations.put(i, plan.apply(i).nodeName());
-            List e = collectAttributes(plan.apply(i));
+            List e = this.collectAttributes(plan.apply(i));
             attributes.put(i, e);
             i++;
         }

@@ -1,35 +1,30 @@
+package ParserConfigurator;
+
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Spark on 09/11/2016.
  */
 public class Node {
 
+    // Name of the node
     private String name;
+    // Type of the node
     private String category;
-    private Map<String, Double> encryption = new HashMap<>();
-    private Map<String, Double> costs = new HashMap<>();
-    private Map<String, Double> links = new HashMap<>();
+    // Costs attached to the node
+    private Costs costs;
+    // Connections between the nodes (two ordered lists: one with the names of the nodes and one with the throughput values)
+    private Links links;
+    // List of tables with plaintext and encrypted attributes
     private List<Table> tables = new ArrayList<>();
 
-    public Node(String n, String c, Map<String, Double> e, Map<String, Double> co, Map<String, Double> l, List<Table> t) {
+    public Node(String n, String c, Costs co, Links l, List<Table> t) {
         this.name = n;
         this.category = c;
-        this.encryption = e;
         this.costs = co;
         this.links = l;
         this.tables = t;
-    }
-
-    public Map<String, Double> getCosts() {
-        return costs;
-    }
-
-    public void setCosts(Map<String, Double> costs) {
-        this.costs = costs;
     }
 
     public String getName() {
@@ -48,19 +43,19 @@ public class Node {
         this.category = category;
     }
 
-    public Map<String, Double> getEncryption() {
-        return encryption;
+    public Costs getCosts() {
+        return costs;
     }
 
-    public void setEncryption(Map<String, Double> encryption) {
-        this.encryption = encryption;
+    public void setCosts(Costs costs) {
+        this.costs = costs;
     }
 
-    public Map<String, Double> getLinks() {
+    public Links getLinks() {
         return links;
     }
 
-    public void setLinks(Map<String, Double> links) {
+    public void setLinks(Links links) {
         this.links = links;
     }
 

@@ -4,220 +4,141 @@
     {
       "name" : "CL1",
       "category" : "client",
-      "performance" : { "aes" : 500 },
-      "costs" : { "cpu" : 0.0006, "in" : 0.0, "out" : 0.0 },
+      "costs" : { "cpu" : 0.0006, "in" : 0.0, "out" : 0.0, "encryption" : 500},
       "links" :
       {
-        "SS1" : { "throughput" : 100 },
-        "CS1" : { "throughput" : 100 }
+        "name" : ["CL1", "SS1", "CS1"],
+        "throughput" : [0, 100, 100]
       },
       "tables":
       [
         {
           "name" : "employees",
-          "attributes" :
-          {
-            "emp_no" : "plaintext",
-            "birth_date" : "plaintext",
-            "first_name" : "plaintext",
-            "last_name" : "plaintext",
-            "gender" : "plaintext",
-            "hire_date" : "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"],
+          "encrypted" : []
         },
         {
           "name" : "departments",
-          "attributes" :
-          {
-            "dept_no": "plaintext",
-            "dept_name": "plaintext"
-          }
+          "plaintext" :
+          ["dept_no", "dept_name"],
+          "encrypted" : []
         },
         {
           "name" : "dept_emp",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "dept_no": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "dept_manager",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "dept_no": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "salaries",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "salary": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "salary", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "titles",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "title": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "title", "from_date", "to_date"],
+          "encrypted" : []
         }
       ]
     },
     {
       "name" : "SS1",
       "category" : "storage_server",
-      "performance" : { "aes" : 500 },
-      "costs" : { "cpu" : 0.0002, "in" : 0.00001, "out" : 0.00001 },
-      "links" : {
-        "CL1" : { "throughput" : 100 },
-        "CS1" : { "throughput" : 10000 }
+      "costs" : { "cpu" : 0.0002, "in" : 0.00001, "out" : 0.00001, "encryption" : 500},
+      "links" :
+      {
+        "name" : ["CL1", "SS1", "CS1"],
+        "throughput" : [100, 0, 10000]
       },
       "tables":
       [
         {
           "name" : "employees",
-          "attributes" :
-          {
-            "emp_no" : "plaintext",
-            "birth_date" : "plaintext",
-            "first_name" : "plaintext",
-            "last_name" : "plaintext",
-            "gender" : "plaintext",
-            "hire_date" : "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"],
+          "encrypted" : []
         },
         {
           "name" : "departments",
-          "attributes" :
-          {
-            "dept_no": "plaintext",
-            "dept_name": "plaintext"
-          }
+          "plaintext" :
+          ["dept_no", "dept_name"],
+          "encrypted" : []
         },
         {
           "name" : "dept_emp",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "dept_no": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "dept_manager",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "dept_no": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "salaries",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "salary": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "salary", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "titles",
-          "attributes" :
-          {
-            "emp_no": "plaintext",
-            "title": "plaintext",
-            "from_date": "plaintext",
-            "to_date": "plaintext"
-          }
+          "plaintext" :
+          ["emp_no", "title", "from_date", "to_date"],
+          "encrypted" : []
         }
       ]
     },
     {
       "name" : "CS1",
       "category" : "computational_server",
-      "performance" : { "aes" : 500 },
-      "costs" : { "cpu" : 0.00006, "in" : 0.00001, "out" : 0.00001 },
-      "links" : {
-        "CL1" : { "throughput" : 100 },
-        "SS1" : { "throughput" : 10000 }
+      "costs" : { "cpu" : 0.00006, "in" : 0.00001, "out" : 0.00001, "encryption" : 500},
+      "links" :
+      {
+        "name" : ["CL1", "SS1", "CS1"],
+        "throughput" : [100, 10000, 0]
       },
       "tables":
       [
         {
           "name" : "employees",
-          "attributes" :
-          {
-            "emp_no" : "encrypted",
-            "birth_date" : "encrypted",
-            "first_name" : "encrypted",
-            "last_name" : "encrypted",
-            "gender" : "encrypted",
-            "hire_date" : "encrypted"
-          }
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"]
         },
         {
           "name" : "departments",
-          "attributes" :
-          {
-            "dept_no": "encrypted",
-            "dept_name": "encrypted"
-          }
+          "plaintext" : [],
+          "encrypted" : ["dept_no", "dept_name"]
         },
         {
           "name" : "dept_emp",
-          "attributes" :
-          {
-            "emp_no": "encrypted",
-            "dept_no": "encrypted",
-            "from_date": "encrypted",
-            "to_date": "encrypted"
-          }
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "dept_no", "from_date", "to_date"]
         },
         {
           "name" : "dept_manager",
-          "attributes" :
-          {
-            "emp_no": "encrypted",
-            "dept_no": "encrypted",
-            "from_date": "encrypted",
-            "to_date": "encrypted"
-          }
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "dept_no", "from_date", "to_date"]
         },
         {
           "name" : "salaries",
-          "attributes" :
-          {
-            "emp_no": "encrypted",
-            "salary": "encrypted",
-            "from_date": "encrypted",
-            "to_date": "encrypted"
-          }
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "salary", "from_date", "to_date"]
         },
         {
           "name" : "titles",
-          "attributes" :
-          {
-            "emp_no": "encrypted",
-            "title": "encrypted",
-            "from_date": "encrypted",
-            "to_date": "encrypted"
-          }
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "title", "from_date", "to_date"]
         }
       ]
     }

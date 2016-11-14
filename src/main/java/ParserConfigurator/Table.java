@@ -1,6 +1,7 @@
+package ParserConfigurator;
+
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Spark on 09/11/2016.
@@ -31,5 +32,13 @@ public class Table {
 
     public void setPlaintext(List<String> plaintext) {
         this.plaintext = plaintext;
+    }
+
+    public List<String> getEncrypted() {
+        return encrypted;
+    }
+
+    public void setEncrypted(List<String> encrypted) {
+        this.encrypted = encrypted;
     }
 }
