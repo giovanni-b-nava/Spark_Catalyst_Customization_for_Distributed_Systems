@@ -14,24 +14,45 @@ public class Collector {
     public Map<Integer, String> operations;
     public Map<Integer, List<String>> attributes;
 
+    private List<String> collectAttributes(LogicalPlan plan) {
+
+        List<String> l = new ArrayList<>();
+
+        switch(plan.nodeName()) {
+            case "Project":
+            case "Aggregate":
+            case "Join":
+            case "Filter":
+                int i = 0;
+                while(i < plan.expressions().toList().length()) {
+                    String s = plan.expressions().apply(i).toString();
+                    l.add(s);
+                    i++;
+                }
+                break;
+            case "LogicalRelation":
+                int f = 0;
+                while(f < plan.output().size()) {
+                    String s = String.valueOf(plan.output().apply(f));
+                    l.add(s);
+                    f++;
+                }
+            default:
+                System.out.println("default");
+        }
+        return l;
+    }
+
     public void collect(LogicalPlan plan) {
 
         operations = new HashMap<>();
         attributes = new HashMap<>();
 
-        // crea una sequenza delle foglie del piano
-        System.out.println(plan.collectLeaves());
-        // stampa l'argomento come stringa dell'operazione
-        System.out.println(plan.apply(4).argString());
-
-        System.out.println(plan.apply(7).expressions().apply(0));
-        System.out.println(plan.apply(4));
-
         int i = 0;
         while (plan.apply(i) != null) {
             operations.put(i, plan.apply(i).nodeName());
-            List e = new ArrayList();
-            //e.add(plan.apply(i).expressions().apply(0));
+            List e = collectAttributes(plan.apply(i));
+            attributes.put(i, e);
             i++;
         }
     }

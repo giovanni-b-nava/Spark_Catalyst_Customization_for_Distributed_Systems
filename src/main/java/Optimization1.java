@@ -20,7 +20,7 @@ public class Optimization1 {
                 .appName("Java Spark SQL Example")
                 .getOrCreate();
 
-        // Generation of the datasets
+        // Generate tables datasets
         Dataset<Row> employees = sparkSession.read().option("header","true").csv("src/main/resources/employees.csv");
         Dataset<Row> salaries = sparkSession.read().option("header","true").csv("src/main/resources/salaries.csv");
         Dataset<Row> departments = sparkSession.read().option("header","true").csv("src/main/resources/departments.csv");
@@ -44,16 +44,17 @@ public class Optimization1 {
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
 
         // produce l'albero delle varie fasi di ottimizzazione
-        System.out.println(sqlDF.queryExecution());
+        //System.out.println(sqlDF.queryExecution());
 
         // Prova parser
         ParserJson p = new ParserJson();
-        System.out.println(p.parse("{\"data\": { \"translations\": [ { \"translatedText\": \"Hello world\"}]}}"));
+        //System.out.println(p.parse("{\"data\": { \"translations\": [ { \"translatedText\": \"Hello world\"}]}}"));
 
         // Generazione strutture dati dell'albero
         LogicalPlan plan = sqlDF.queryExecution().optimizedPlan();
         Collector c = new Collector();
         c.collect(plan);
         System.out.println(c.operations.toString());
-    }
+        System.out.println(c.attributes.toString());
+     }
 }
