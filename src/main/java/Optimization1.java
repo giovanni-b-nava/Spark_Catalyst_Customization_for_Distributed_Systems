@@ -32,7 +32,9 @@ public class Optimization1 {
         // Generazione strutture dati dell'albero
         Collector c = new Collector();
         c.collect(sqlDF.queryExecution().optimizedPlan());
+        System.out.println("Operations: ");
         System.out.println(c.operations.toString());
+        System.out.println("Attributes: ");
         System.out.println(c.attributes.toString());
      }
 }
