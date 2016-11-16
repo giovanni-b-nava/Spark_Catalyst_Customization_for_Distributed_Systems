@@ -17,25 +17,20 @@ public class Collector {
     public Map<Integer, String> operations;
     // Contains the list of attributes involved in each operation
     public Map<Integer, List<String>> attributes;
-    // Contains the operators used for evaluation in each operation
-    public Map<Integer, List<String>> operators;
 
     // Generates the list of attributes for the current operation
-    private List<List<String>> collectAttributes(LogicalPlan plan) {
+    private List<String> collectAttributes(LogicalPlan plan) {
 
-        List<List<String>> list = new ArrayList<>();
         List<String> l = new ArrayList<>();
-        List<String> o = new ArrayList<>();
 
         switch(plan.nodeName()) {
-            //TODO migliorare la generazione di join e filter (non vedono gli operatori coinvolti
+            //TODO migliorare la generazione di join e filter (non vedono gli operatori coinvolti)
             case "Project":
             case "Aggregate":
                 int i = 0;
                 while(i < plan.expressions().toList().length()) {
                     String s = plan.expressions().apply(i).toString();
                     l.add(s);
-                    o.add("none");
                     i++;
                 }
                 break;
@@ -49,7 +44,7 @@ public class Collector {
                         l.add(s);
                     } else {
                         s = plan.apply(0).constraints().toList().apply(x).prettyName();
-                        o.add(s);
+                        l.add(s);
                     }
                     x++;
                 }
@@ -59,16 +54,13 @@ public class Collector {
                 while(f < plan.output().size()) {
                     String s = String.valueOf(plan.output().apply(f));
                     l.add(s);
-                    o.add("none");
                     f++;
                 }
                 break;
             default:
                 System.out.println("default");
         }
-        list.add(l);
-        list.add(o);
-        return list;
+        return l;
     }
 
     // Builds the two maps for operations and attributes
@@ -76,14 +68,12 @@ public class Collector {
 
         operations = new HashMap<>();
         attributes = new HashMap<>();
-        operators = new HashMap<>();
 
         int i = 0;
         while (plan.apply(i) != null) {
             operations.put(i, plan.apply(i).nodeName());
             List e = this.collectAttributes(plan.apply(i));
-            attributes.put(i, (List<String>) e.get(0));
-            operators.put(i, (List<String>) e.get(1));
+            attributes.put(i, e);
             i++;
         }
     }
