@@ -27,11 +27,14 @@ public class Optimization1 {
         // produce l'albero ottimizzato numerato
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
         // produce l'albero delle varie fasi di ottimizzazione
-        System.out.println(sqlDF.queryExecution());
+        //System.out.println(sqlDF.queryExecution());
+        // produce la lista degli attributi coinvolti nell'operazione
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(1).references());
 
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).nodeName());
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList());
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(0).flatArguments().toList().apply(0));
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).nodeName());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
         // Generazione strutture dati dell'albero
         Collector c = new Collector();
@@ -40,5 +43,7 @@ public class Optimization1 {
         System.out.println(c.operations.toString());
         System.out.println("Attributes list: ");
         System.out.println(c.attributes.toString());
+        System.out.println("Operators list: ");
+        System.out.println(c.operators.toString());
      }
 }
