@@ -38,6 +38,7 @@ public class Collector {
             case "Filter":
                 int x=0;
                 while(x < plan.apply(0).constraints().toList().size()) {
+
                     if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 1) {
                         String b = plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(0).toString();
                         l.add(b);
