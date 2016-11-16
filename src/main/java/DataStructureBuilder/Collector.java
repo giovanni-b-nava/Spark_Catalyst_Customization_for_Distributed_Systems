@@ -27,13 +27,22 @@ public class Collector {
             //TODO migliorare la generazione di join e filter (non vedono gli operatori coinvolti
             case "Project":
             case "Aggregate":
-            case "Join":
-            case "Filter":
                 int i = 0;
                 while(i < plan.expressions().toList().length()) {
                     String s = plan.expressions().apply(i).toString();
                     l.add(s);
                     i++;
+                }
+                break;
+            case "Join":
+            case "Filter":
+                int x=0;
+                while(x < plan.apply(0).constraints().toList().size()) {
+                    if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 1) {
+                        String b = plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(0).toString();
+                        l.add(b);
+                    }
+                    x++;
                 }
                 break;
             case "LogicalRelation":

@@ -29,6 +29,10 @@ public class Optimization1 {
         // produce l'albero delle varie fasi di ottimizzazione
         System.out.println(sqlDF.queryExecution());
 
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).nodeName());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(0).flatArguments().toList().apply(0));
+
         // Generazione strutture dati dell'albero
         Collector c = new Collector();
         c.collect(sqlDF.queryExecution().optimizedPlan());
