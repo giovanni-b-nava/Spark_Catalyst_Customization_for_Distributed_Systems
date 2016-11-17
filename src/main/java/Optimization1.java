@@ -32,11 +32,11 @@ public class Optimization1 {
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(1).references());
 
         // istruzioni per stampare gli operatori di ogni operazione
-        /*System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).statistics());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).inputSet().toList());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
-*/
+
         // Generazione strutture dati dell'albero
         Collector c = new Collector();
         c.collect(sqlDF.queryExecution().optimizedPlan());
