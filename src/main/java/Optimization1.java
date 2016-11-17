@@ -29,10 +29,10 @@ public class Optimization1 {
         // produce l'albero delle varie fasi di ottimizzazione
         //System.out.println(sqlDF.queryExecution());
         // produce la lista degli attributi coinvolti nell'operazione
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(1).references());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).references());
 
         // istruzioni per stampare gli operatori di ogni operazione
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).inputSet().toList());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).children().toList());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
@@ -44,5 +44,6 @@ public class Optimization1 {
         System.out.println(c.operations.toString());
         System.out.println("Attributes list: ");
         System.out.println(c.attributes.toString());
+
      }
 }

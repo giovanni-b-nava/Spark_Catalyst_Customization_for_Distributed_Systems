@@ -42,8 +42,11 @@ public class AuthorizationModel {
         return subjectsLists;
     }
 
+    // Return true if the node is authorized to execute the operation
     private boolean authorized(RelationProfile profile, Node node) {
         //TODO implementare le tre regole per verificare se un soggetto è autorizzato
+
+
         return true;
     }
 }

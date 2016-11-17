@@ -66,6 +66,7 @@ public class Collector {
     // Builds the two maps for operations and attributes
     public void collect(LogicalPlan plan) {
 
+        //TODO operazioni e attributi vanno rappresentati con un albero
         operations = new HashMap<>();
         attributes = new HashMap<>();
 

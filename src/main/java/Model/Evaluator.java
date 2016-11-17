@@ -41,25 +41,53 @@ public class Evaluator {
         return profileList;
     }
 
+    // Generate the specific profile for each operation
     private RelationProfile generateProfile(RelationProfile profile, String operation, List<String> attributes) {
 
-        //TODO modificare il profilo a seconda dell'operazione corrente
-        RelationProfile p;
+        //TODO modificare il profilo (per il join servono due relazioni e per filter bisogna scandire le operazioni)
+        RelationProfile p = new RelationProfile(null, null, null, null, null);
 
         switch (operation) {
             case "Aggregate":
+                p.setVisiblePlaintext(attributes);
+                p.setVisibleEncrypted(profile.getVisibleEncrypted());
+                for(int i = 0; i < profile.getVisiblePlaintext().size(); i++) {
+                    if(p.getVisiblePlaintext().contains(profile.getVisiblePlaintext().get(i))) {
+                        p.getImplicitPlaintext().add(profile.getVisiblePlaintext().get(i));
+                    }
+                }
+                p.setImplicitEncrypted(profile.getImplicitEncrypted());
+                p.setEquivalenceSets(profile.getEquivalenceSets());
                 break;
             case "Project":
+                p.setVisiblePlaintext(attributes);
+                p.setVisibleEncrypted(profile.getVisibleEncrypted());
+                p.setImplicitPlaintext(profile.getImplicitPlaintext());
+                p.setImplicitEncrypted(profile.getImplicitEncrypted());
+                p.setEquivalenceSets(profile.getEquivalenceSets());
                 break;
             case "Filter":
                 break;
             case "Join":
-                break;
-            case "Logicalrelation":
+
                 break;
             default:
-                System.out.println("default");
+                System.out.println("LogicalRelation or unknown");
         }
-        return profile;
+        return p;
+    }
+
+    // Support method to join two lists without duplicates
+    private List<String> joinLists(List<String> l1, List<String> l2) {
+
+        List<String> list = new ArrayList<>();
+
+        list.addAll(l1);
+        for(int i = 0; i < l2.size(); i++) {
+            if(!list.contains(l2.get(i))) {
+                list.add(l2.get(i));
+            }
+        }
+        return list;
     }
 }
