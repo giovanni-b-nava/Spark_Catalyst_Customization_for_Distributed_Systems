@@ -14,9 +14,9 @@ public class BinaryTree<E>
 		root = null;
 	}
 	
-	public BinaryTree(E elemento)
+	public BinaryTree(E element)
 	{
-		root = new BinaryNode<E>(elemento);
+		root = new BinaryNode<E>(element);
 	}
 	
 	public BinaryTree(BinaryNode<E> root)
@@ -29,14 +29,14 @@ public class BinaryTree<E>
 		return root;
 	}
 	
-	public void setRoot(BinaryNode<E> nodo)
+	public void setRoot(BinaryNode<E> node)
 	{
-		root = nodo;
+		root = node;
 	}
 	
-	public int getNumeroNodi()
+	public int getNodeNumber()
 	{
-		return getNumeroNodi(root);
+		return getNodeNumber(root);
 	}
 	
 	/*
@@ -44,120 +44,120 @@ public class BinaryTree<E>
 	 * Conteggio ricorsivo del numero di nodi dei sottoalberi
 	 * radicati nei figli di root
 	 */
-	private int getNumeroNodi(BinaryNode<E> radice)
+	private int getNodeNumber(BinaryNode<E> root)
 	{
-		return (radice == null ? 0 : (getNumeroNodi(radice.getSinistro()) + getNumeroNodi(radice.getDestro()) + 1));
+		return (root == null ? 0 : (getNodeNumber(root.getLeft()) + getNodeNumber(root.getRight()) + 1));
 	}
 	
-	public int getGrado(BinaryNode<E> nodo)
+	public int getLevel(BinaryNode<E> node)
 	{
-		int grado = 0;
-		if (nodo == null) return -1;
-		if (nodo.getSinistro() != null) grado++;
-		if (nodo.getDestro() != null) grado++;
-		return grado;
+		int level = 0;
+		if (node == null) return -1;
+		if (node.getLeft() != null) level++;
+		if (node.getRight() != null) level++;
+		return level;
 	}
 	
-	public E getElemento(BinaryNode<E> nodo)
+	public E getElementt(BinaryNode<E> node)
 	{
-		return nodo.getElement();
+		return node.getElement();
 	}
 	
-	public BinaryNode<E> getPadre(BinaryNode<E> nodo)
+	public BinaryNode<E> getFather(BinaryNode<E> node)
     {
-	   return nodo.getPadre();
+	   return node.getFather();
     }
 	
-	public BinaryNode<E> getSinistro(BinaryNode<E> nodo)
+	public BinaryNode<E> getLeft(BinaryNode<E> node)
 	{
-		return nodo.getSinistro();
+		return node.getLeft();
 	}
 		
-	public BinaryNode<E> getDestro(BinaryNode<E> nodo)
+	public BinaryNode<E> getRight(BinaryNode<E> node)
 	{
-		return nodo.getDestro();
+		return node.getRight();
 	}
 	
-	public boolean isFiglioSinistro(BinaryNode<E> nodo)
+	public boolean isLeftChild(BinaryNode<E> node)
 	{
-		if (nodo.equals(nodo.getPadre().getSinistro()))
+		if (node.equals(node.getFather().getLeft()))
 			return true;
 		return false;		
 	}
 	
-	public boolean isFiglioDestro(BinaryNode<E> nodo)
+	public boolean isRightSon(BinaryNode<E> node)
 	{
-		if (nodo.equals(nodo.getPadre().getDestro()))
+		if (node.equals(node.getFather().getRight()))
 			return true;
 		return false;		
 	}
 	
-	public void setElemento(BinaryNode<E> nodo, E elemento)
+	public void setElement(BinaryNode<E> node, E element)
 	{
-		nodo.setElement(elemento);
+		node.setElement(element);
 	}
 	
-	public void scambiaElemento(BinaryNode<E> nodo1, BinaryNode<E> nodo2)
+	public void swapElement(BinaryNode<E> node1, BinaryNode<E> node2)
 	{
-		E temp = nodo1.getElement();
-		nodo1.setElement(nodo2.getElement());
-		nodo2.setElement(temp);
+		E temp = node1.getElement();
+		node1.setElement(node2.getElement());
+		node2.setElement(temp);
 	}
 	
-	public void innestaSinistro(BinaryNode<E> nodo, BinaryTree<E> albero)
+	public void setLeft(BinaryNode<E> node, BinaryTree<E> tree)
 	{
-		BinaryNode<E> figlio = albero.getRoot();
-		if (figlio != null)
-			figlio.setPadre(nodo);
-		nodo.setSinistro(figlio);
+		BinaryNode<E> child = tree.getRoot();
+		if (child != null)
+			child.setFather(node);
+		node.setLeft(child);
 	}
 	
-	public void innestaDestro(BinaryNode<E> nodo, BinaryTree<E> albero)
+	public void setRight(BinaryNode<E> node, BinaryTree<E> tree)
 	{
-		BinaryNode<E> figlio =  albero.getRoot();
-		if (figlio != null)
-			figlio.setPadre(nodo);
-		nodo.setDestro(figlio);
+		BinaryNode<E> child =  tree.getRoot();
+		if (child != null)
+			child.setFather(node);
+		node.setRight(child);
 	}
 	
-	public BinaryTree<E> potaSinistro(BinaryNode<E> padre)
+	public BinaryTree<E> trimLeft(BinaryNode<E> father)
 	{
-		BinaryNode<E> figlio = padre.getSinistro();
-		figlio.setPadre(null);
-		BinaryTree<E> albero = new BinaryTree<E>(figlio);
-		padre.setSinistro(null);
-		return albero;
+		BinaryNode<E> child = father.getLeft();
+		child.setFather(null);
+		BinaryTree<E> tree = new BinaryTree<E>(child);
+		father.setLeft(null);
+		return tree;
 	}
 	
-	public BinaryTree<E> potaDestro(BinaryNode<E> padre)
+	public BinaryTree<E> trimRight(BinaryNode<E> father)
 	{
-		BinaryNode<E> figlio = padre.getDestro();
-		figlio.setPadre(null);
-		BinaryTree<E> albero = new BinaryTree<E>(figlio);
-		padre.setDestro(null);
-		return albero;
+		BinaryNode<E> child = father.getRight();
+		child.setFather(null);
+		BinaryTree<E> tree = new BinaryTree<E>(child);
+		father.setRight(null);
+		return tree;
 	}
 	
-	public BinaryTree<E> pota(BinaryNode<E> nodo)
+	public BinaryTree<E> trim(BinaryNode<E> node)
 	{
 		// Albero vuoto
-		if (nodo == null)
+		if (node == null)
 			return new BinaryTree<E>();
 		// Nodo � root
-		if (nodo.getPadre() == null) 
+		if (node.getFather() == null)
 		{ 
 			root = null;
-			return new BinaryTree<E>(nodo);
+			return new BinaryTree<E>(node);
 		}
 		
-		BinaryNode<E> padre = nodo.getPadre();
-		if (isFiglioSinistro(nodo))
-			return potaSinistro(padre);
+		BinaryNode<E> father = node.getFather();
+		if (isLeftChild(node))
+			return trimLeft(father);
 		else 
-			return potaDestro(padre);
+			return trimRight(father);
 	}
 	
-	public List<E> visitaDFS()
+	public List<E> DFSVisit()
 	{
 		List<E> output = new LinkedList<E>();
 		Stack<BinaryNode<E>> stack = new Stack<BinaryNode<E>>();
@@ -167,10 +167,10 @@ public class BinaryTree<E>
 		{
 			BinaryNode<E> node = stack.pop();
 			output.add(node.getElement());
-			if (node.getDestro() != null)
-				stack.push(node.getDestro());
-			if (node.getSinistro() != null)
-				stack.push(node.getSinistro());
+			if (node.getRight() != null)
+				stack.push(node.getRight());
+			if (node.getLeft() != null)
+				stack.push(node.getLeft());
 		}
 		return output;
 	}
@@ -185,29 +185,29 @@ public class BinaryTree<E>
 //		{
 //			BinaryNode<E> nodo = coda.dequeue();
 //			output.add(nodo.getElement());
-//			if( nodo.getSinistro() != null)
-//				coda.enqueue(nodo.getSinistro());
-//			if (nodo.getDestro() != null)
-//				coda.enqueue(nodo.getDestro());
+//			if( nodo.getLeft() != null)
+//				coda.enqueue(nodo.getLeft());
+//			if (nodo.getRight() != null)
+//				coda.enqueue(nodo.getRight());
 //		}
 //		return output;
 //	}
 	
-	public List<E> visitaInOrder()
+	public List<E> orderedVisit()
 	{
 		List<E> output = new LinkedList<E>();
-		return visitaInOrder(root, output);
+		return orderedVisit(root, output);
 	}
 
-	private List<E> visitaInOrder(BinaryNode<E> nodo, List<E> output)
+	private List<E> orderedVisit(BinaryNode<E> node, List<E> output)
 	{
-		if (nodo.getSinistro() != null)
-	        visitaInOrder(nodo.getSinistro(), output);
+		if (node.getLeft() != null)
+	        orderedVisit(node.getLeft(), output);
 
-		output.add(nodo.getElement());
+		output.add(node.getElement());
 
-		if(nodo.getDestro() != null )
-	        visitaInOrder(nodo.getDestro(), output);
+		if(node.getRight() != null )
+	        orderedVisit(node.getRight(), output);
 
         return output;
 	}

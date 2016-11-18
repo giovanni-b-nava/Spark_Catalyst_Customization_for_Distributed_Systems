@@ -4,14 +4,14 @@ public class BinaryNode<E>
 {
 
 	private E element;
-	private BinaryNode<E> padre;
-	private BinaryNode<E> sinistro;
-	private BinaryNode<E> destro;
+	private BinaryNode<E> father;
+	private BinaryNode<E> left;
+	private BinaryNode<E> right;
 
 	public BinaryNode(E element)
 	{
 		this.element = element;
-		padre = sinistro = destro = null;	
+		father = left = right = null;
 	}
 
 	public void setElement(E element)
@@ -24,34 +24,34 @@ public class BinaryNode<E>
 		return element;
 	}
 
-	public void setPadre(BinaryNode<E> nodo)
+	public void setFather(BinaryNode<E> node)
 	{
-		padre = nodo;
+		father = node;
 	}
 
-	public BinaryNode<E> getPadre()
+	public BinaryNode<E> getFather()
 	{
-		return padre;
+		return father;
 	}
 
-	public void setSinistro(BinaryNode<E> nodo)
+	public void setLeft(BinaryNode<E> node)
 	{
-		sinistro = nodo;
+		left = node;
 	}
 
-	public BinaryNode<E> getSinistro()
+	public BinaryNode<E> getLeft()
 	{
-		return sinistro;
+		return left;
 	}
 
-	public void setDestro(BinaryNode<E> nodo)
+	public void setRight(BinaryNode<E> node)
 	{
-		destro = nodo;
+		right = node;
 	}
 
-	public BinaryNode<E> getDestro()
+	public BinaryNode<E> getRight()
 	{
-		return destro;
+		return right;
 	}
 
 }

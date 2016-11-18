@@ -1,7 +1,8 @@
 package DataStructureBuilder;
 
 
-import TreeStructure.GenericTreeNode;
+import TreeStructure.BinaryNode;
+import TreeStructure.BinaryTree;
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
 
 import java.util.ArrayList;
@@ -15,44 +16,47 @@ public class Collector
 {
 
     // Tree representing the relations in the optimized plan
-    GenericTreeNode<Relation> tree;
+    BinaryTree<Relation> tree;
 
     // Builds the two maps for operations and attributes
-    public void buildTree(LogicalPlan plan)
-    {
-        // Generate the root of the tree
-        Relation relation = this.createRelation(plan.apply(0));
-        tree = new GenericTreeNode<>(relation);
+    public void buildTree(LogicalPlan plan) {
 
+        // Generate the root of the tree
+        //Relation relation = this.createRelation(plan.apply(0));
+        //tree = new BinaryTree<>(relation);
 
         // Generate the rest of the tree
-
-
-        GenericTreeNode<Relation> root = tree;
-
+        BinaryNode<Relation> current = new BinaryNode<>(null);
+        tree = new BinaryTree<>(current);
         int i = 0;
         while (plan.apply(i) != null)
         {
-            for(int x = 0; x < plan.apply(i).children().size(); x++)
-            {
-                addChildren(root, plan.apply(i).children().toList());
-            }
-            root = root.getChildAt(i);
+            current = this.generateNode(plan.apply(i), current);
             i++;
         }
+        System.out.println(tree.getRoot().getElement().getOperator());
     }
 
-    private void addChildren(GenericTreeNode<Relation> father, scala.collection.immutable.List<LogicalPlan> plan)
-    {
-        Relation relation;
-        GenericTreeNode<Relation> child;
+    private BinaryNode<Relation> generateNode(LogicalPlan plan, BinaryNode<Relation> father) {
 
-        for (int i=0; i < plan.size(); i++)
-        {
-            relation = this.createRelation(plan.apply(i));
-            child = new GenericTreeNode<Relation>(relation);
-            father.addChild(child);
+        Relation e = this.createRelation(plan);
+        BinaryNode<Relation> node = new BinaryNode<>(e);
+        node.setFather(father);
+
+        if(plan.children().size() == 1) {
+            Relation r = this.createRelation(plan.children().toList().apply(0));
+            BinaryNode n = new BinaryNode(r);
+            node.setLeft(n);
         }
+        else if(plan.children().size() == 2) {
+            Relation r1 = this.createRelation(plan.children().toList().apply(0));
+            BinaryNode n1 = new BinaryNode(r1);
+            node.setLeft(n1);
+            Relation r2 = this.createRelation(plan.children().toList().apply(1));
+            BinaryNode n2 = new BinaryNode(r2);
+            node.setRight(n2);
+        }
+        return node;
     }
 
     // Generate the relation of the current level

@@ -32,17 +32,13 @@ public class Optimization1 {
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).references());
 
         // istruzioni per stampare gli operatori di ogni operazione
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).children().size());
+        /*System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).children().toList().apply(0));
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
-
+*/
         // Generazione strutture dati dell'albero
         Collector c = new Collector();
         c.buildTree(sqlDF.queryExecution().optimizedPlan());
-        System.out.println("Operations list: ");
-        //System.out.println(c.operations.toString());
-        System.out.println("Attributes list: ");
-        //System.out.println(c.attributes.toString());
      }
 }
