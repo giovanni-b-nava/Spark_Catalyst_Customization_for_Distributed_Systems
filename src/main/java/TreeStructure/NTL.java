@@ -22,11 +22,11 @@ public class NTL {
                 }
                 return true;
             } else {
-                System.out.println("Nessun figlio da inseririe");
+                System.out.println("No children to insert");
                 return false;
             }
         }
-        System.out.println("Nodo padre inesistente");
+        System.out.println("Father does not exist");
         return false;
     }
 

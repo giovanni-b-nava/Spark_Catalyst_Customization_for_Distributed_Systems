@@ -32,7 +32,7 @@ public class Collector {
         int i = 1;
         while (plan.apply(i) != null) {
             for(int x = 0; x < plan.apply(i).children().size(); x++) {
-                Relation r = this.createRelation(plan.apply(i));
+                r = this.createRelation(plan.apply(i));
                 DefaultMutableTreeNode n = new DefaultMutableTreeNode(r);
             }
             i++;
