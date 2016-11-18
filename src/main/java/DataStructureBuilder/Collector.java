@@ -1,11 +1,9 @@
 package DataStructureBuilder;
 
 
-import TreeStructure.NTL;
-import TreeStructure.TNodeList;
+import TreeStructure.GenericTreeNode;
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
 
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -16,7 +14,7 @@ import java.util.List;
 public class Collector {
 
     // Tree representing the relations in the optimized plan
-    NTL relations;
+    GenericTreeNode<Relation> tree;
 
     // Builds the two maps for operations and attributes
     public void collect(LogicalPlan plan) {
@@ -25,15 +23,22 @@ public class Collector {
 
         // Generate the root of the tree
         Relation r = this.createRelation(plan.apply(0));
-        TNodeList root = new TNodeList(r);
-        relations = new NTL(root);
+        tree = new GenericTreeNode<>(r);
 
         // Generate the rest of the tree
         int i = 1;
-        while (plan.apply(i) != null) {
-            for(int x = 0; x < plan.apply(i).children().size(); x++) {
+        List<GenericTreeNode<Relation>> children = new ArrayList<>();
+        GenericTreeNode<Relation> child;
+
+        while (plan.apply(i) != null)
+        {
+            for(int x = 0; x < plan.apply(i).children().size(); x++)
+            {
                 r = this.createRelation(plan.apply(i));
-                DefaultMutableTreeNode n = new DefaultMutableTreeNode(r);
+                child = new GenericTreeNode<>(r);
+                children.add(child);
+
+
             }
             i++;
         }
