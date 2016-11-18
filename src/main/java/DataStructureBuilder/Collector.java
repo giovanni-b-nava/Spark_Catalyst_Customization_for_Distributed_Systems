@@ -27,7 +27,7 @@ public class Collector
 
         // Generate the rest of the tree
 
-        GenericTreeNode<Relation> child;
+
         GenericTreeNode<Relation> root = tree;
 
         int i = 0;
@@ -35,14 +35,23 @@ public class Collector
         {
             for(int x = 0; x < plan.apply(i).children().size(); x++)
             {
-
-                relation = this.createRelation(plan.apply(i).children().toList().apply(x));
-                child = new GenericTreeNode<Relation>(relation);
-                root.addChild(child);
-
+                addChildren(root, plan.apply(i).children().toList());
             }
             root = root.getChildAt(i);
             i++;
+        }
+    }
+
+    private void addChildren(GenericTreeNode<Relation> father, scala.collection.immutable.List<LogicalPlan> plan)
+    {
+        Relation relation;
+        GenericTreeNode<Relation> child;
+
+        for (int i=0; i < plan.size(); i++)
+        {
+            relation = this.createRelation(plan.apply(i));
+            child = new GenericTreeNode<Relation>(relation);
+            father.addChild(child);
         }
     }
 
