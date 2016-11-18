@@ -11,35 +11,37 @@ import java.util.List;
 /**
  * Created by Spark on 13/11/2016.
  */
-public class Collector {
+public class Collector
+{
 
     // Tree representing the relations in the optimized plan
     GenericTreeNode<Relation> tree;
 
     // Builds the two maps for operations and attributes
-    public void collect(LogicalPlan plan) {
-
-        //TODO operazioni e attributi vanno rappresentati con un albero
-
+    public void buildTree(LogicalPlan plan)
+    {
         // Generate the root of the tree
-        Relation r = this.createRelation(plan.apply(0));
-        tree = new GenericTreeNode<>(r);
+        Relation relation = this.createRelation(plan.apply(0));
+        tree = new GenericTreeNode<>(relation);
+
 
         // Generate the rest of the tree
-        int i = 1;
-        List<GenericTreeNode<Relation>> children = new ArrayList<>();
-        GenericTreeNode<Relation> child;
 
+        GenericTreeNode<Relation> child;
+        GenericTreeNode<Relation> root = tree;
+
+        int i = 0;
         while (plan.apply(i) != null)
         {
             for(int x = 0; x < plan.apply(i).children().size(); x++)
             {
-                r = this.createRelation(plan.apply(i));
-                child = new GenericTreeNode<>(r);
-                children.add(child);
 
+                relation = this.createRelation(plan.apply(i).children().toList().apply(x));
+                child = new GenericTreeNode<Relation>(relation);
+                root.addChild(child);
 
             }
+            root = root.getChildAt(i);
             i++;
         }
     }
