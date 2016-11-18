@@ -3,25 +3,25 @@ package TreeStructure;
 public class BinaryNode<E>
 {
 
-	private E elemento;
+	private E element;
 	private BinaryNode<E> padre;
 	private BinaryNode<E> sinistro;
 	private BinaryNode<E> destro;
 
-	public BinaryNode(E elemento)
+	public BinaryNode(E element)
 	{
-		this.elemento = elemento;
+		this.element = element;
 		padre = sinistro = destro = null;	
 	}
 
-	public void setElemento(E elemento)
+	public void setElement(E element)
 	{
-		this.elemento = elemento;
+		this.element = element;
 	}
 
-	public E getElemento()
+	public E getElement()
 	{
-		return elemento;
+		return element;
 	}
 
 	public void setPadre(BinaryNode<E> nodo)

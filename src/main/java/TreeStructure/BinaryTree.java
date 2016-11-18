@@ -60,7 +60,7 @@ public class BinaryTree<E>
 	
 	public E getElemento(BinaryNode<E> nodo)
 	{
-		return nodo.getElemento();
+		return nodo.getElement();
 	}
 	
 	public BinaryNode<E> getPadre(BinaryNode<E> nodo)
@@ -94,14 +94,14 @@ public class BinaryTree<E>
 	
 	public void setElemento(BinaryNode<E> nodo, E elemento)
 	{
-		nodo.setElemento(elemento);
+		nodo.setElement(elemento);
 	}
 	
 	public void scambiaElemento(BinaryNode<E> nodo1, BinaryNode<E> nodo2)
 	{
-		E temp = nodo1.getElemento();
-		nodo1.setElemento(nodo2.getElemento());
-		nodo2.setElemento(temp);
+		E temp = nodo1.getElement();
+		nodo1.setElement(nodo2.getElement());
+		nodo2.setElement(temp);
 	}
 	
 	public void innestaSinistro(BinaryNode<E> nodo, BinaryTree<E> albero)
@@ -166,7 +166,7 @@ public class BinaryTree<E>
 		while (!(stack.isEmpty()))
 		{
 			BinaryNode<E> node = stack.pop();
-			output.add(node.getElemento());
+			output.add(node.getElement());
 			if (node.getDestro() != null)
 				stack.push(node.getDestro());
 			if (node.getSinistro() != null)
@@ -184,7 +184,7 @@ public class BinaryTree<E>
 //		while (!(coda.isEmpty()))
 //		{
 //			BinaryNode<E> nodo = coda.dequeue();
-//			output.add(nodo.getElemento());
+//			output.add(nodo.getElement());
 //			if( nodo.getSinistro() != null)
 //				coda.enqueue(nodo.getSinistro());
 //			if (nodo.getDestro() != null)
@@ -204,7 +204,7 @@ public class BinaryTree<E>
 		if (nodo.getSinistro() != null)
 	        visitaInOrder(nodo.getSinistro(), output);
 
-		output.add(nodo.getElemento());
+		output.add(nodo.getElement());
 
 		if(nodo.getDestro() != null )
 	        visitaInOrder(nodo.getDestro(), output);
