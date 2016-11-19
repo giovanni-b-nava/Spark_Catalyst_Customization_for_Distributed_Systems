@@ -1,4 +1,4 @@
-package DataStructureBuilder;
+package RelationTreeBuilder;
 
 
 import TreeStructure.BinaryNode;
@@ -12,46 +12,21 @@ import java.util.List;
 /**
  * Created by Spark on 13/11/2016.
  */
-public class Collector
-{
+public class RelationTree {
 
     // Tree representing the relations in the optimized plan
-    public BinaryTree<Relation> tree;
+    public BinaryTree<Relation> relationTree;
 
-    // Builds the tree with the relations representing the operations
+    // Builds the relationTree with the relations representing the operations
     public void buildTree(LogicalPlan plan) {
 
-        // Generate the root of the tree
+        // Generate the root of the relationTree
         Relation e = this.createRelation(plan);
         BinaryNode<Relation> root = new BinaryNode<>(e);
-        tree = new BinaryTree<>(root);
+        relationTree = new BinaryTree<>(root);
 
-        // Generate the rest of the tree
-        this.generateNode(plan.apply(0), root);
-    }
-
-    // Recursively generate all the nodes in the tree
-    private void generateNode(LogicalPlan plan, BinaryNode<Relation> father) {
-
-        if(plan.children().size() == 1) {
-            Relation r = this.createRelation(plan.children().toList().apply(0));
-            BinaryNode n = new BinaryNode(r);
-            father.setLeft(n);
-            n.setFather(father);
-            this.generateNode(plan.children().toList().apply(0), n);
-        }
-        else if(plan.children().size() == 2) {
-            Relation r1 = this.createRelation(plan.children().toList().apply(0));
-            BinaryNode n1 = new BinaryNode(r1);
-            father.setLeft(n1);
-            n1.setFather(father);
-            this.generateNode(plan.children().toList().apply(0), n1);
-            Relation r2 = this.createRelation(plan.children().toList().apply(1));
-            BinaryNode n2 = new BinaryNode(r2);
-            father.setRight(n2);
-            n2.setFather(father);
-            this.generateNode(plan.children().toList().apply(1), n2);
-        }
+        // Generate the rest of the relationTree
+        this.generateNodes(plan.apply(0), root);
     }
 
     // Generate the relation of the current level
@@ -104,5 +79,29 @@ public class Collector
                 System.out.println("default");
         }
         return l;
+    }
+
+    // Recursively generate all the nodes in the relationTree
+    private void generateNodes(LogicalPlan plan, BinaryNode<Relation> father) {
+
+        if(plan.children().size() == 1) {
+            Relation r = this.createRelation(plan.children().toList().apply(0));
+            BinaryNode n = new BinaryNode(r);
+            father.setLeft(n);
+            n.setFather(father);
+            this.generateNodes(plan.children().toList().apply(0), n);
+        }
+        else if(plan.children().size() == 2) {
+            Relation r1 = this.createRelation(plan.children().toList().apply(0));
+            BinaryNode n1 = new BinaryNode(r1);
+            father.setLeft(n1);
+            n1.setFather(father);
+            this.generateNodes(plan.children().toList().apply(0), n1);
+            Relation r2 = this.createRelation(plan.children().toList().apply(1));
+            BinaryNode n2 = new BinaryNode(r2);
+            father.setRight(n2);
+            n2.setFather(father);
+            this.generateNodes(plan.children().toList().apply(1), n2);
+        }
     }
 }

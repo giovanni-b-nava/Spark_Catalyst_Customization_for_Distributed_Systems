@@ -1,4 +1,4 @@
-package DataStructureBuilder;
+package RelationTreeBuilder;
 
 import java.util.List;
 
@@ -7,20 +7,22 @@ import java.util.List;
  */
 public class Relation {
 
-    private String operator;
+    // Type of operation
+    private String operation;
+    // Attributes involved in the operation
     private List<String> attributes;
 
     public Relation(String o, List<String> a) {
-        this.operator = o;
+        this.operation = o;
         this.attributes = a;
     }
 
-    public String getOperator() {
-        return operator;
+    public String getOperation() {
+        return operation;
     }
 
-    public void setOperator(String operator) {
-        this.operator = operator;
+    public void setOperation(String operation) {
+        this.operation = operation;
     }
 
     public List<String> getAttributes() {
@@ -32,6 +34,6 @@ public class Relation {
     }
 
     public String toString() {
-        return "Operation: " + this.operator + "; Attributes: " + this.attributes.toString() + "\n";
+        return "Operation: " + this.operation + "; Attributes: " + this.attributes.toString() + "\n";
     }
 }

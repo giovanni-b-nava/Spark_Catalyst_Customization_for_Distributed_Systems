@@ -1,4 +1,6 @@
-package Model;
+package AuthorizationModel;
+
+import RelationProfileTreeBuilder.RelationProfile;
 
 import java.util.ArrayList;
 import java.util.HashMap;

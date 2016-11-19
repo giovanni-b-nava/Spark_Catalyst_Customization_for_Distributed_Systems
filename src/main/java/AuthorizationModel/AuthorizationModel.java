@@ -1,6 +1,7 @@
-package Model;
+package AuthorizationModel;
 
 import ParserConfigurator.Node;
+import RelationProfileTreeBuilder.RelationProfile;
 
 import java.util.ArrayList;
 import java.util.HashMap;

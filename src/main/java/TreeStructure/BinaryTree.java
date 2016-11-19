@@ -4,53 +4,40 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Stack;
 
-public class BinaryTree<E>
-{
+public class BinaryTree<E> {
 
 	private BinaryNode<E> root;
 	
-	public BinaryTree()
-	{
+	public BinaryTree() {
 		root = null;
 	}
 	
-	public BinaryTree(E element)
-	{
+	public BinaryTree(E element) {
 		root = new BinaryNode<E>(element);
 	}
 	
-	public BinaryTree(BinaryNode<E> root)
-	{
+	public BinaryTree(BinaryNode<E> root) {
 		this.root = root;
 	}
 	
-	public BinaryNode<E> getRoot()
-	{
+	public BinaryNode<E> getRoot() {
 		return root;
 	}
 	
-	public void setRoot(BinaryNode<E> node)
-	{
+	public void setRoot(BinaryNode<E> node) {
 		root = node;
 	}
 	
-	public int getNodeNumber()
-	{
+	public int getNodeNumber() {
 		return getNodeNumber(root);
 	}
-	
-	/*
-	 * Restituisce il numero di nodi dell'albero radicato root.
-	 * Conteggio ricorsivo del numero di nodi dei sottoalberi
-	 * radicati nei figli di root
-	 */
-	private int getNodeNumber(BinaryNode<E> root)
-	{
+
+	// Calculate recursively the numeber of nodes in the tree
+	private int getNodeNumber(BinaryNode<E> root) {
 		return (root == null ? 0 : (getNodeNumber(root.getLeft()) + getNodeNumber(root.getRight()) + 1));
 	}
 	
-	public int getLevel(BinaryNode<E> node)
-	{
+	public int getLevel(BinaryNode<E> node)	{
 		int level = 0;
 		if (node == null) return -1;
 		if (node.getLeft() != null) level++;
@@ -58,70 +45,59 @@ public class BinaryTree<E>
 		return level;
 	}
 	
-	public E getElementt(BinaryNode<E> node)
-	{
+	public E getElementt(BinaryNode<E> node) {
 		return node.getElement();
 	}
 	
-	public BinaryNode<E> getFather(BinaryNode<E> node)
-    {
+	public BinaryNode<E> getFather(BinaryNode<E> node) {
 	   return node.getFather();
     }
 	
-	public BinaryNode<E> getLeft(BinaryNode<E> node)
-	{
+	public BinaryNode<E> getLeft(BinaryNode<E> node) {
 		return node.getLeft();
 	}
 		
-	public BinaryNode<E> getRight(BinaryNode<E> node)
-	{
+	public BinaryNode<E> getRight(BinaryNode<E> node) {
 		return node.getRight();
 	}
 	
-	public boolean isLeftChild(BinaryNode<E> node)
-	{
+	public boolean isLeftChild(BinaryNode<E> node) {
 		if (node.equals(node.getFather().getLeft()))
 			return true;
 		return false;		
 	}
 	
-	public boolean isRightSon(BinaryNode<E> node)
-	{
+	public boolean isRightChild(BinaryNode<E> node) {
 		if (node.equals(node.getFather().getRight()))
 			return true;
 		return false;		
 	}
 	
-	public void setElement(BinaryNode<E> node, E element)
-	{
+	public void setElement(BinaryNode<E> node, E element) {
 		node.setElement(element);
 	}
 	
-	public void swapElement(BinaryNode<E> node1, BinaryNode<E> node2)
-	{
+	public void swapElement(BinaryNode<E> node1, BinaryNode<E> node2) {
 		E temp = node1.getElement();
 		node1.setElement(node2.getElement());
 		node2.setElement(temp);
 	}
 	
-	public void setLeft(BinaryNode<E> node, BinaryTree<E> tree)
-	{
+	public void setLeft(BinaryNode<E> node, BinaryTree<E> tree)	{
 		BinaryNode<E> child = tree.getRoot();
 		if (child != null)
 			child.setFather(node);
 		node.setLeft(child);
 	}
 	
-	public void setRight(BinaryNode<E> node, BinaryTree<E> tree)
-	{
+	public void setRight(BinaryNode<E> node, BinaryTree<E> tree) {
 		BinaryNode<E> child =  tree.getRoot();
 		if (child != null)
 			child.setFather(node);
 		node.setRight(child);
 	}
 	
-	public BinaryTree<E> trimLeft(BinaryNode<E> father)
-	{
+	public BinaryTree<E> trimLeft(BinaryNode<E> father) {
 		BinaryNode<E> child = father.getLeft();
 		child.setFather(null);
 		BinaryTree<E> tree = new BinaryTree<E>(child);
@@ -129,8 +105,7 @@ public class BinaryTree<E>
 		return tree;
 	}
 	
-	public BinaryTree<E> trimRight(BinaryNode<E> father)
-	{
+	public BinaryTree<E> trimRight(BinaryNode<E> father) {
 		BinaryNode<E> child = father.getRight();
 		child.setFather(null);
 		BinaryTree<E> tree = new BinaryTree<E>(child);
@@ -138,18 +113,16 @@ public class BinaryTree<E>
 		return tree;
 	}
 	
-	public BinaryTree<E> trim(BinaryNode<E> node)
-	{
-		// Albero vuoto
+	public BinaryTree<E> trim(BinaryNode<E> node) {
+		// Empty tree
 		if (node == null)
 			return new BinaryTree<E>();
-		// Nodo � root
+		// Root
 		if (node.getFather() == null)
 		{ 
 			root = null;
 			return new BinaryTree<E>(node);
 		}
-		
 		BinaryNode<E> father = node.getFather();
 		if (isLeftChild(node))
 			return trimLeft(father);
@@ -157,8 +130,7 @@ public class BinaryTree<E>
 			return trimRight(father);
 	}
 	
-	public List<E> DFSVisit()
-	{
+	public List<E> DFSVisit() {
 		List<E> output = new LinkedList<E>();
 		Stack<BinaryNode<E>> stack = new Stack<BinaryNode<E>>();
 		if (root != null)
@@ -175,32 +147,12 @@ public class BinaryTree<E>
 		return output;
 	}
 
-//	public List<E> visitaBFS()
-//	{
-//		List<E> output = new LinkedList<E>();
-//		Coda<BinaryNode<E>> coda = new CodaCollegata<BinaryNode<E>>();
-//		if (root != null)
-//			coda.enqueue(root);
-//		while (!(coda.isEmpty()))
-//		{
-//			BinaryNode<E> nodo = coda.dequeue();
-//			output.add(nodo.getElement());
-//			if( nodo.getLeft() != null)
-//				coda.enqueue(nodo.getLeft());
-//			if (nodo.getRight() != null)
-//				coda.enqueue(nodo.getRight());
-//		}
-//		return output;
-//	}
-	
-	public List<E> orderedVisit()
-	{
+	public List<E> orderedVisit() {
 		List<E> output = new LinkedList<E>();
 		return orderedVisit(root, output);
 	}
 
-	private List<E> orderedVisit(BinaryNode<E> node, List<E> output)
-	{
+	private List<E> orderedVisit(BinaryNode<E> node, List<E> output) {
 		if (node.getLeft() != null)
 	        orderedVisit(node.getLeft(), output);
 
@@ -211,5 +163,4 @@ public class BinaryTree<E>
 
         return output;
 	}
-
 }

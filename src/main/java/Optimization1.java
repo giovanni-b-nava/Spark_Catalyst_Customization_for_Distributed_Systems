@@ -1,6 +1,6 @@
-import DataStructureBuilder.Collector;
-import DataStructureBuilder.Generator;
-import DataStructureBuilder.Relation;
+import RelationTreeBuilder.RelationTree;
+import DataConfigBuilder.DataBuilder;
+import RelationTreeBuilder.Relation;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
@@ -15,16 +15,21 @@ public class Optimization1 {
 
     public static void main(String[] args) throws FileNotFoundException {
 
-        Generator builder = new Generator();
-        builder.buildData();
+        DataBuilder dataBuilder = new DataBuilder();
+        dataBuilder.buildData();
 
         // Create views for the query
-        builder.salaries.createOrReplaceTempView("salaries");
-        builder.employees.createOrReplaceTempView("employees");
-        builder.titles.createOrReplaceTempView("titles");
+        dataBuilder.salaries.createOrReplaceTempView("salaries");
+        dataBuilder.employees.createOrReplaceTempView("employees");
+        dataBuilder.titles.createOrReplaceTempView("titles");
 
         // Query
-        Dataset<Row> sqlDF = builder.sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
+        Dataset<Row> sqlDF = dataBuilder.sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
+
+        // Generate the relation tree
+        RelationTree c = new RelationTree();
+        c.buildTree(sqlDF.queryExecution().optimizedPlan());
+
 
         // produce l'albero ottimizzato numerato
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
@@ -34,15 +39,13 @@ public class Optimization1 {
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).references());
 
         // istruzioni per stampare gli operatori di ogni operazione
-        /*System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).children().toList().apply(0));
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
-*/
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(2).children().toList().apply(0));
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
+
         // Generazione strutture dati dell'albero
-        Collector c = new Collector();
-        c.buildTree(sqlDF.queryExecution().optimizedPlan());
-        List<Relation> l = c.tree.DFSVisit();
+        List<Relation> l = c.relationTree.DFSVisit();
         System.out.println(l);
      }
 }

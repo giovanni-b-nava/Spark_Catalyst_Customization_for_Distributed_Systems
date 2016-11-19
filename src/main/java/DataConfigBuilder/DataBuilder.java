@@ -1,4 +1,4 @@
-package DataStructureBuilder;
+package DataConfigBuilder;
 
 import ParserConfigurator.Configurator;
 import ParserConfigurator.Node;
@@ -12,7 +12,7 @@ import java.util.List;
 /**
  * Created by Spark on 14/11/2016.
  */
-public class Generator {
+public class DataBuilder {
 
     // Session
     public SparkSession sparkSession;
