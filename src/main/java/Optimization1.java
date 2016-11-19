@@ -1,9 +1,11 @@
 import DataStructureBuilder.Collector;
 import DataStructureBuilder.Generator;
+import DataStructureBuilder.Relation;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
 import java.io.FileNotFoundException;
+import java.util.List;
 
 
 /**
@@ -40,5 +42,7 @@ public class Optimization1 {
         // Generazione strutture dati dell'albero
         Collector c = new Collector();
         c.buildTree(sqlDF.queryExecution().optimizedPlan());
+        List<Relation> l = c.tree.DFSVisit();
+        System.out.println(l);
      }
 }

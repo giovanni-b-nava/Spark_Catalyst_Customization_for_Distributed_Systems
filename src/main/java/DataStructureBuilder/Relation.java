@@ -30,4 +30,8 @@ public class Relation {
     public void setAttributes(List<String> attributes) {
         this.attributes = attributes;
     }
+
+    public String toString() {
+        return "Operation: " + this.operator + "; Attributes: " + this.attributes.toString() + "\n";
+    }
 }
