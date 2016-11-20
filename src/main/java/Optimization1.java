@@ -1,6 +1,6 @@
-import RelationTreeBuilder.RelationTree;
+import RelationProfileTreeBuilder.RelationProfileTree;
 import DataConfigBuilder.DataBuilder;
-import RelationTreeBuilder.Relation;
+import RelationProfileTreeBuilder.Relation;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
@@ -27,7 +27,7 @@ public class Optimization1 {
         Dataset<Row> sqlDF = dataBuilder.sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
 
         // Generate the relation tree
-        RelationTree c = new RelationTree();
+        RelationProfileTree c = new RelationProfileTree();
         c.buildTree(sqlDF.queryExecution().optimizedPlan());
 
 

@@ -7,6 +7,11 @@ public class BinaryNode<E> {
 	private BinaryNode<E> left;
 	private BinaryNode<E> right;
 
+	public BinaryNode() {
+		this.element = null;
+		father = left = right = null;
+	}
+
 	public BinaryNode(E element) {
 		this.element = element;
 		father = left = right = null;

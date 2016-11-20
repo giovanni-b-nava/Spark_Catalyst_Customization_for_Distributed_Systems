@@ -18,6 +18,10 @@ public class RelationProfile {
     // List of attributes involved in relations between them
     private List<List<String>> equivalenceSets;
 
+    public RelationProfile() {
+        this(null, null, null, null, null);
+    }
+
     public RelationProfile(List<String> vp, List<String> ve, List<String> ip, List<String> ie, List<List<String>> es) {
         this.visiblePlaintext = vp;
         this.visibleEncrypted = ve;
