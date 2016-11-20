@@ -1,53 +1,70 @@
 package AuthorizationModel;
 
 import ParserConfigurator.Node;
+import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
+import TreeStructure.BinaryNode;
+import TreeStructure.BinaryTree;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Spark on 17/11/2016.
  */
 public class AuthorizationModel {
 
-    // Generate the list of subjects authorized to execute each operation
-    public Map<Integer, List<String>> authorizedSubjects(Map<Integer, String> operations, Map<Integer, List<String>> attributes, List<Node> nodes) {
+    public BinaryTree<List<Node>> subjectTree;
 
-        Map<Integer, List<String>> subjectsLists = new HashMap<>();
-        Evaluator evaluator = new Evaluator();
+    // Generate the list of subjects authorized to execute each operation and put them in a tree
+    public void builSubjectTree(List<Node> nodes, BinaryTree<Relation> profileTree) {
 
-        // Generate the profiles of the leaves
-        List<RelationProfile> leaves = evaluator.evaluateLeaves(operations, attributes);
+        // Generate the root of the subjectTree
+        List<Node> n = this.authorizedSubjects(nodes, profileTree.getRoot());
+        BinaryNode<List<Node>> root = new BinaryNode<>(n);
+        subjectTree = new BinaryTree<>(root);
 
-        // Generate the relation profiles for the operations
-        Map<Integer, RelationProfile> profiles = evaluator.evaluateOperations(operations, attributes, leaves);
+        // Generate the rest of the subjectTree
+        this.generateNodes(nodes, root, profileTree.getRoot());
+    }
 
-        for(int i = operations.size()-1; i > 0; i--) {
-
-            List<String> subjects = new ArrayList<>();
-
-            // The leaves can't have subjects
-            if(!operations.get(i).equals("LogicalRelation")) {
-                for (int x = 0; x < nodes.size(); x++) {
-                    // Add the authorized nodes to the list
-                    if (this.authorized(profiles.get(i), nodes.get(x))) {
-                        subjects.add(nodes.get(x).getName());
-                    }
-                }
+    // Generate the list of authorized nodes for the current operation
+    private List<Node> authorizedSubjects(List<Node> nodes, BinaryNode<Relation> node) {
+        List<Node> n = new ArrayList<>();
+        for(int i=0; i < nodes.size(); i++) {
+            if(this.isAuthorized(nodes.get(i), node.getElement().getProfile())) {
+                n.add(nodes.get(i));
             }
-            subjectsLists.put(i, subjects);
         }
-        return subjectsLists;
+        return n;
     }
 
     // Return true if the node is authorized to execute the operation
-    private boolean authorized(RelationProfile profile, Node node) {
+    private boolean isAuthorized(Node node, RelationProfile profile) {
         //TODO implementare le tre regole per verificare se un soggetto è autorizzato
-
-
         return true;
+    }
+
+    // Recursively generate all the nodes in the subjectTree
+    private void generateNodes(List<Node> nodes, BinaryNode<List<Node>> father, BinaryNode<Relation> relation) {
+        if(relation.getLeft() != null && relation.getRight() == null) {
+            List<Node> l = this.authorizedSubjects(nodes, relation.getLeft());
+            BinaryNode n = new BinaryNode(l);
+            father.setLeft(n);
+            n.setFather(father);
+            this.generateNodes(nodes, n, relation.getLeft());
+        }
+        else if(relation.getLeft() != null && relation.getRight() != null) {
+            List<Node> l1 = this.authorizedSubjects(nodes, relation.getLeft());
+            BinaryNode n1 = new BinaryNode(l1);
+            father.setLeft(n1);
+            n1.setFather(father);
+            this.generateNodes(nodes, n1, relation.getLeft());
+            List<Node> l2 = this.authorizedSubjects(nodes, relation.getRight());
+            BinaryNode n2 = new BinaryNode(l2);
+            father.setRight(n2);
+            n2.setFather(father);
+            this.generateNodes(nodes, n2, relation.getRight());
+        }
     }
 }

@@ -86,7 +86,6 @@ public class RelationProfileTree {
 
     // Recursively generate all the nodes in the relationTree
     private void generateNodes(LogicalPlan plan, BinaryNode<Relation> father) {
-
         if(plan.children().size() == 1) {
             Relation r = this.createRelation(plan.children().toList().apply(0));
             BinaryNode n = new BinaryNode(r);
@@ -113,46 +112,96 @@ public class RelationProfileTree {
         if (node == null) return;
         generateProfiles(node.getLeft());
         generateProfiles(node.getRight());
-        setProfile(node);
+        this.setProfile(node);
         return;
     }
 
-    //TODO generare il profilo in base al tipo di operazione ed ai profili dei figli
+    // Set the profile of the current node considering the type of operation and its children
     private void setProfile(BinaryNode<Relation> node) {
+        // If the node has no children is a leaf
+        if(node.getLeft() == null && node.getRight() == null) {
+            node.getElement().setProfile(this.leafProfile(node));
+        } else {
+            node.getElement().setProfile(this.buildProfile(node));
+        }
+    }
+
+    // Generate the relation profile of a leaf
+    private RelationProfile leafProfile(BinaryNode<Relation> node) {
+        RelationProfile profile = new RelationProfile();
+        // The leaf represent the tables
+        if(node.getElement().getOperation().equals("LogicalRelation")) {
+            // All the attributes are set as visible plaintext
+            profile.setVisiblePlaintext(node.getElement().getAttributes());
+        } else {
+            System.out.println("Error, not a table");
+        }
+        return profile;
     }
 
     // Generate the specific profile for each operation
-    private RelationProfile setProfile(BinaryNode<Relation> node, RelationProfile profile) {
-        //TODO modificare il profilo (per il join servono due relazioni e per filter bisogna scandire le operazioni)
-        RelationProfile p = new RelationProfile(null, null, null, null, null);
+    private RelationProfile buildProfile(BinaryNode<Relation> node) {
+
+        RelationProfile p = new RelationProfile();
 
         switch (node.getElement().getOperation()) {
+            // All attributes became implicit except the ones of aggregate that remain visible
             case "Aggregate":
                 p.setVisiblePlaintext(node.getElement().getAttributes());
-                p.setVisibleEncrypted(profile.getVisibleEncrypted());
-                for(int i = 0; i < profile.getVisiblePlaintext().size(); i++) {
-                    if(p.getVisiblePlaintext().contains(profile.getVisiblePlaintext().get(i))) {
-                        p.getImplicitPlaintext().add(profile.getVisiblePlaintext().get(i));
+                p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
+                for(int i = 0; i < node.getLeft().getElement().getProfile().getVisiblePlaintext().size(); i++) {
+                    if(p.getVisiblePlaintext().contains(node.getLeft().getElement().getProfile().getVisiblePlaintext().get(i))) {
+                        p.getImplicitPlaintext().add(node.getLeft().getElement().getProfile().getVisiblePlaintext().get(i));
                     }
                 }
-                p.setImplicitEncrypted(profile.getImplicitEncrypted());
-                p.setEquivalenceSets(profile.getEquivalenceSets());
+                p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
+                p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 break;
+            // Select only the attributes of project as visible, the others remain the same as the child
             case "Project":
                 p.setVisiblePlaintext(node.getElement().getAttributes());
-                p.setVisibleEncrypted(profile.getVisibleEncrypted());
-                p.setImplicitPlaintext(profile.getImplicitPlaintext());
-                p.setImplicitEncrypted(profile.getImplicitEncrypted());
-                p.setEquivalenceSets(profile.getEquivalenceSets());
+                p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
+                p.setImplicitPlaintext(node.getLeft().getElement().getProfile().getImplicitPlaintext());
+                p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
+                p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 break;
             case "Filter":
+                //TODO modificare il profilo per filter bisogna scandire le operazioni
                 break;
+            // Join visible and implicit attributes of the children and add an equivalence for the two attributes in the join
             case "Join":
-
+                List<String> l = joinLists(node.getLeft().getElement().getProfile().getVisiblePlaintext(), node.getRight().getElement().getProfile().getVisiblePlaintext());
+                p.setVisiblePlaintext(l);
+                l = joinLists(node.getLeft().getElement().getProfile().getVisibleEncrypted(), node.getRight().getElement().getProfile().getVisibleEncrypted());
+                p.setVisibleEncrypted(l);
+                l = joinLists(node.getLeft().getElement().getProfile().getImplicitPlaintext(), node.getRight().getElement().getProfile().getImplicitPlaintext());
+                p.setImplicitPlaintext(l);
+                l = joinLists(node.getLeft().getElement().getProfile().getImplicitEncrypted(), node.getRight().getElement().getProfile().getImplicitEncrypted());
+                p.setImplicitEncrypted(l);
+                l = node.getElement().getAttributes();
+                p.getEquivalenceSets().add(l);
                 break;
             default:
-                System.out.println("LogicalRelation or unknown");
+                System.out.println("Error: unknown operation or incorrect tree");
         }
         return p;
+    }
+
+    // Support method to join two lists without duplicates
+    private List<String> joinLists(List<String> l1, List<String> l2) {
+
+        List<String> list = new ArrayList<>();
+
+        if(l1 != null) {
+            list.addAll(l1);
+            if (l2 != null) {
+                for (int i = 0; i < l2.size(); i++) {
+                    if (!list.contains(l2.get(i))) {
+                        list.add(l2.get(i));
+                    }
+                }
+            }
+        }
+        return list;
     }
 }
