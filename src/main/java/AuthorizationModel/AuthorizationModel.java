@@ -17,7 +17,10 @@ public class AuthorizationModel {
     public BinaryTree<List<Node>> subjectTree;
 
     // Generate the list of subjects authorized to execute each operation and put them in a tree
-    public void builSubjectTree(List<Node> nodes, BinaryTree<Relation> profileTree) {
+    public void buildSubjectTree(List<Node> nodes, BinaryTree<Relation> profileTree) {
+
+        // Set identification numbers for the attributes of the nodes
+        this.setIndexNodes(nodes, profileTree);
 
         // Generate the root of the subjectTree
         List<Node> n = this.authorizedSubjects(nodes, profileTree.getRoot());
@@ -26,6 +29,43 @@ public class AuthorizationModel {
 
         // Generate the rest of the subjectTree
         this.generateNodes(nodes, root, profileTree.getRoot());
+    }
+
+    // Copy the same indexes of the tree in the attributes of the node tables
+    private void setIndexNodes(List<Node> nodes, BinaryTree<Relation> profileTree) {
+        // Create the list of logical relations
+        List<Relation> logicalRelations = new ArrayList<>();
+        List<Relation> treeNodes = profileTree.DFSVisit();
+        for (int i = 0; i < treeNodes.size(); i++) {
+            if (treeNodes.get(i).getOperation().equals("LogigalRelation")) {
+                logicalRelations.add(treeNodes.get(i));
+            }
+        }
+        for (int x = 0; x < nodes.size(); x++) {
+            for (int y = 0; y < nodes.get(x).getTables().size(); y++) {
+                for (int z = 0; z < logicalRelations.size(); z++) {
+                    if (nodes.get(x).getTables().get(y).getName().equals(logicalRelations.get(z).getTableName())) {
+                        for (int w = 0; w < logicalRelations.get(z).getAttributes().size(); w++) {
+                            if (nodes.get(x).getTables().get(y).getPlaintext().contains(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
+                                int q = nodes.get(x).getTables().get(y).getPlaintext().indexOf(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
+                                nodes.get(x).getTables().get(y).getPlaintext().set(q, logicalRelations.get(z).getAttributes().get(w));
+                            } else if (nodes.get(x).getTables().get(y).getEncrypted().contains(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
+                                int q = nodes.get(x).getTables().get(y).getEncrypted().indexOf(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
+                                nodes.get(x).getTables().get(y).getEncrypted().set(q, logicalRelations.get(z).getAttributes().get(w));
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+        //TODO metodo duplicato
+        // Cut the index from the attribute name
+    private String cleanAttribute(String s) {
+        CharSequence c = s.subSequence(0, s.indexOf("#"));
+        String r = c.toString();
+        return r;
     }
 
     // Generate the list of authorized nodes for the current operation

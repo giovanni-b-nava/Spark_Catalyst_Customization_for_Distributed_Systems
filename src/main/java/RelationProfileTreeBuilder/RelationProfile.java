@@ -69,4 +69,12 @@ public class RelationProfile {
     public void setEquivalenceSets(List<List<String>> equivalenceSets) {
         this.equivalenceSets = equivalenceSets;
     }
+
+    public String toString() {
+        return "Visible Plaintext: " + this.visiblePlaintext.toString() + "\n" +
+                "Visible Encrypted: " + this.visibleEncrypted.toString() +
+                "\n" +"Implicit Plaintext: " + this.implicitPlaintext.toString() + "\n" +
+                "Implicit Encrypted: " + this.implicitEncrypted.toString() + "\n" +
+                "Equivalence Sets: " + this.equivalenceSets.toString() + "\n";
+    }
 }

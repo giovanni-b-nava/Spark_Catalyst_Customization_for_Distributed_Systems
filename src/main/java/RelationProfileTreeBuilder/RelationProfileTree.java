@@ -1,8 +1,11 @@
 package RelationProfileTreeBuilder;
 
 
+import DataConfigBuilder.DataBuilder;
 import TreeStructure.BinaryNode;
 import TreeStructure.BinaryTree;
+import org.apache.spark.sql.Dataset;
+import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
 
 import java.util.ArrayList;
@@ -29,14 +32,23 @@ public class RelationProfileTree {
         this.generateNodes(plan.apply(0), root);
 
         // Complete the tree with the profile of each operation
-        this.generateProfiles(relationTree.getRoot());
+        //this.generateProfiles(relationTree.getRoot());
     }
+
+    //TODO suddividere i metodi di supporto in nuove classi
+    // GENERAZIONE RELAZIONI
 
     // Generate the relation of the current level
     private Relation createRelation(LogicalPlan plan) {
         String operation = plan.nodeName();
-        List e = this.collectAttributes(plan);
-        return new Relation(operation, e);
+        if(operation.equals("LogicalRelation")) {
+            List<String> e = this.collectAttributes(plan);
+            String tableName = this.getTableName(e, DataBuilder.getDataBuilder().tables);
+            return new Relation(operation, e, tableName);
+        } else {
+            List e = this.collectAttributes(plan);
+            return new Relation(operation, e);
+        }
     }
 
     // Generates the list of attributes for the current operation
@@ -84,6 +96,39 @@ public class RelationProfileTree {
         return l;
     }
 
+    // Get the name of the table using its attributes
+    private String getTableName(List<String> attributes, List<Dataset<Row>> tables) {
+        for(int i = 0; i < tables.size(); i++) {
+            String[] columns = tables.get(i).columns();
+            if(this.isSameTable(attributes, columns)) {
+                return tables.get(i).toString();
+            }
+            break;
+        }
+        return null;
+    }
+
+    // Check if two tables have the same attributes
+    private boolean isSameTable(List<String> attributes, String[] columns) {
+        for(int x = 0; x < columns.length; x++) {
+            if(columns[x].equals(this.cleanAttribute(attributes.get(x)))) {
+                x++;
+            } else {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Cut the index from the attribute name
+    private String cleanAttribute(String s) {
+        CharSequence c = s.subSequence(0, s.indexOf("#"));
+        String r = c.toString();
+        return r;
+    }
+
+    // GENERAZIONE NODI
+
     // Recursively generate all the nodes in the relationTree
     private void generateNodes(LogicalPlan plan, BinaryNode<Relation> father) {
         if(plan.children().size() == 1) {
@@ -106,6 +151,8 @@ public class RelationProfileTree {
             this.generateNodes(plan.children().toList().apply(1), n2);
         }
     }
+
+    // GENERAZIONE PROFILI
 
     // Generate the profile for each node with a post order visit
     private void generateProfiles(BinaryNode<Relation> node) {
