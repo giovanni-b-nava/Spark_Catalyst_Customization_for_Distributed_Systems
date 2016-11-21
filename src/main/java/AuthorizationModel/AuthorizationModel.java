@@ -31,6 +31,9 @@ public class AuthorizationModel {
         this.generateNodes(nodes, root, profileTree.getRoot());
     }
 
+    //TODO spostare i metodi di supporto in classi apposite
+    // GENERAZIONE INDICI
+
     // Copy the same indexes of the tree in the attributes of the node tables
     private void setIndexNodes(List<Node> nodes, BinaryTree<Relation> profileTree) {
         // Create the list of logical relations
@@ -60,13 +63,15 @@ public class AuthorizationModel {
         }
     }
 
-        //TODO metodo duplicato
-        // Cut the index from the attribute name
+    //TODO metodo duplicato
+    // Cut the index from the attribute name
     private String cleanAttribute(String s) {
         CharSequence c = s.subSequence(0, s.indexOf("#"));
         String r = c.toString();
         return r;
     }
+
+    // SOGGETTI AUTORIZZATI
 
     // Generate the list of authorized nodes for the current operation
     private List<Node> authorizedSubjects(List<Node> nodes, BinaryNode<Relation> node) {
@@ -81,9 +86,87 @@ public class AuthorizationModel {
 
     // Return true if the node is authorized to execute the operation
     private boolean isAuthorized(Node node, RelationProfile profile) {
-        //TODO implementare le tre regole per verificare se un soggetto è autorizzato
-        return true;
+
+        boolean authorized = false;
+
+        // Check if node is authorized for visible plaintext
+        if(profile.getVisiblePlaintext() != null) {
+            for (int i = 0; i < profile.getVisiblePlaintext().size(); i++) {
+                authorized = this.checkVisibility(node, profile.getVisiblePlaintext().get(i), "Plaintext");
+                if(!authorized)
+                    return false;
+            }
+        } else authorized = true;
+
+        // Check if node is authorized for implicit plaintext
+        if(authorized) {
+            if(profile.getImplicitPlaintext() != null) {
+                for (int i = 0; i < profile.getImplicitPlaintext().size(); i++) {
+                    authorized = this.checkVisibility(node, profile.getImplicitPlaintext().get(i), "Plaintext");
+                    if(!authorized)
+                        return false;
+                }
+            } else authorized = true;
+        } else return false;
+
+        // Check if node is authorized for visible encrypted
+        if(authorized) {
+            if(profile.getVisibleEncrypted() != null) {
+                for (int i = 0; i < profile.getVisibleEncrypted().size(); i++) {
+                    authorized = this.checkVisibility(node, profile.getVisibleEncrypted().get(i), "Encrypted");
+                    if(!authorized)
+                        return false;
+                }
+            } else authorized = true;
+        } else return false;
+
+        // Check if node is authorized for implicit encrypted
+        if(authorized) {
+            if(profile.getImplicitEncrypted() != null) {
+                for (int i = 0; i < profile.getImplicitEncrypted().size(); i++) {
+                    authorized = this.checkVisibility(node, profile.getImplicitEncrypted().get(i), "Encrypted");
+                    if(!authorized)
+                        return false;
+                }
+            } else authorized = true;
+        } else return false;
+
+        // Check if the equivalence lists have the same visibility
+        if(authorized) {
+            if(profile.getEquivalenceSets() != null) {
+                for(int i = 0; i < profile.getEquivalenceSets().size(); i++) {
+                    boolean plain1 = this.checkVisibility(node, profile.getEquivalenceSets().get(i).get(0), "Plaintext");
+                    boolean plain2 = this.checkVisibility(node, profile.getEquivalenceSets().get(i).get(1), "Plaintext");
+                    boolean enc1 = this.checkVisibility(node, profile.getEquivalenceSets().get(i).get(0), "Encrypted");
+                    boolean enc2 = this.checkVisibility(node, profile.getEquivalenceSets().get(i).get(1), "Encrypted");
+                    if(!(plain1 && plain2) && !(enc1 && enc2))
+                        return false;
+                }
+            } else authorized = true;
+        } else return false;
+
+        return authorized;
     }
+
+    // Check if the current attribute has the right visibility
+    private boolean checkVisibility(Node node, String attribute, String visibility) {
+        for(int x = 0; x < node.getTables().size(); x++) {
+            if(visibility.equals("Plaintext")) {
+                if(node.getTables().get(x).getPlaintext().contains(attribute)) {
+                    return true;
+                }
+            }
+            else if(visibility.equals("Encrypted")) {
+                if (node.getTables().get(x).getPlaintext().contains(attribute) || node.getTables().get(x).getEncrypted().contains(attribute)) {
+                    return true;
+                }
+            }
+            else System.out.println("Error: wrong visibility");
+        }
+        return false;
+    }
+
+    // GENERAZIONE NODI
 
     // Recursively generate all the nodes in the subjectTree
     private void generateNodes(List<Node> nodes, BinaryNode<List<Node>> father, BinaryNode<Relation> relation) {
