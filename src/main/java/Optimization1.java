@@ -1,6 +1,8 @@
+import ConfigurationParser.Node;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfileTree;
+import AuthorizationModel.AuthorizationModel;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
@@ -50,5 +52,13 @@ public class Optimization1 {
         // Generazione strutture dati dell'albero
         List<Relation> l = c.relationTree.DFSVisit();
         System.out.println(l);
+
+        List<List<Node>> n = m.subjectTree.DFSVisit();
+        for (int i = 0; i < n.size(); i++) {
+            System.out.println("Nodo:");
+            for (int x = 0; x < n.get(i).size(); x++) {
+                System.out.println(n.get(i).get(x).getName());
+            }
+        }
     }
 }
