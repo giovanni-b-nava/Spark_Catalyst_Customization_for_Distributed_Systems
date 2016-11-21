@@ -20,14 +20,14 @@ public class Relation {
         this.operation = o;
         this.attributes = a;
         this.profile = null;
-        this.tableName = null;
+        this.tableName = "Not a table";
     }
 
     public Relation(String o, List<String> a, RelationProfile p) {
         this.operation = o;
         this.attributes = a;
         this.profile = p;
-        this.tableName = null;
+        this.tableName = "Not a table";
     }
 
     public Relation(String o, List<String> a, RelationProfile p, String t) {
@@ -78,7 +78,8 @@ public class Relation {
 
     public String toString() {
         return "Operation: " + this.operation + "\n" +
-                "Attributes: " + this.attributes.toString() + "\n"; /*+
-                this.profile.toString() + "\n" + "end relation";*/
+                "Attributes: " + this.attributes.toString() + "\n" +
+                "Table Name: " + this.tableName + "\n" +
+                this.profile.toString() + "end relation" +"\n";
     }
 }

@@ -1,6 +1,6 @@
 package AuthorizationModel;
 
-import ParserConfigurator.Node;
+import ConfigurationParser.Node;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
 import TreeStructure.BinaryNode;

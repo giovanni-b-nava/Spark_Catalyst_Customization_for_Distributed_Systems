@@ -1,6 +1,6 @@
-import RelationProfileTreeBuilder.RelationProfileTree;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
+import RelationProfileTreeBuilder.RelationProfileTree;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
@@ -29,6 +29,10 @@ public class Optimization1 {
         RelationProfileTree c = new RelationProfileTree();
         c.buildTree(sqlDF.queryExecution().optimizedPlan());
 
+        // Generate the tree for the authorized subjects
+        AuthorizationModel m = new AuthorizationModel();
+        m.buildSubjectTree(DataBuilder.getDataBuilder().nodes, c.relationTree);
+
 
         // produce l'albero ottimizzato numerato
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
@@ -38,8 +42,8 @@ public class Optimization1 {
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).references());
 
         // istruzioni per stampare gli operatori di ogni operazione
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(8));
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(0).references());
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(0).constraints().toList());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 

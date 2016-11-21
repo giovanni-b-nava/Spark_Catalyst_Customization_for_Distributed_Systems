@@ -1,7 +1,7 @@
 package DataConfigBuilder;
 
-import ParserConfigurator.Configurator;
-import ParserConfigurator.Node;
+import ConfigurationParser.Configurator;
+import ConfigurationParser.Node;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -24,8 +24,9 @@ public class DataBuilder {
     public Dataset<Row> titles;
     public Dataset<Row> dept_emp;
     public Dataset<Row> dept_manager;
-    // List of tables
+    // List of tables (correspondent list of table names)
     public List<Dataset<Row>> tables = new ArrayList<>();
+    public List<String> tableNames = new ArrayList<>();
     // System nodes
     public List<Node> nodes;
 
@@ -59,13 +60,19 @@ public class DataBuilder {
         dept_emp = sparkSession.read().option("header","true").csv("src/main/resources/dept_emp.csv");
         dept_manager = sparkSession.read().option("header","true").csv("src/main/resources/dept_manager.csv");
 
-        // Fill the table list
+        // Fill the table lists
         tables.add(employees);
+        tableNames.add("employees");
         tables.add(salaries);
+        tableNames.add("salaries");
         tables.add(departments);
+        tableNames.add("departments");
         tables.add(titles);
+        tableNames.add("titles");
         tables.add(dept_emp);
+        tableNames.add("dept_emp");
         tables.add(dept_manager);
+        tableNames.add("dept_manager");
 
         // Generate configuration data
         Configurator conf = new Configurator();

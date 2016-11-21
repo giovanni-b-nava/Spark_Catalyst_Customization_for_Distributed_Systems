@@ -1,4 +1,4 @@
-package ParserConfigurator;
+package ConfigurationParser;
 
 import com.google.gson.*;
 import com.google.gson.stream.JsonReader;

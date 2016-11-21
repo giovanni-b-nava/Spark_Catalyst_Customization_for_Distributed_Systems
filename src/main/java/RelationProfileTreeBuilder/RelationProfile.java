@@ -1,5 +1,6 @@
 package RelationProfileTreeBuilder;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,7 +20,11 @@ public class RelationProfile {
     private List<List<String>> equivalenceSets;
 
     public RelationProfile() {
-        this(null, null, null, null, null);
+        this.visiblePlaintext = new ArrayList<>();
+        this.visibleEncrypted = new ArrayList<>();
+        this.implicitPlaintext = new ArrayList<>();
+        this.implicitEncrypted = new ArrayList<>();
+        this.equivalenceSets = new ArrayList<>();
     }
 
     public RelationProfile(List<String> vp, List<String> ve, List<String> ip, List<String> ie, List<List<String>> es) {

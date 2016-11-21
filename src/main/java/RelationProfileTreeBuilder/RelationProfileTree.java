@@ -9,7 +9,9 @@ import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 /**
@@ -32,7 +34,7 @@ public class RelationProfileTree {
         this.generateNodes(plan.apply(0), root);
 
         // Complete the tree with the profile of each operation
-        //this.generateProfiles(relationTree.getRoot());
+        this.generateProfiles(relationTree.getRoot());
     }
 
     //TODO suddividere i metodi di supporto in nuove classi
@@ -43,7 +45,7 @@ public class RelationProfileTree {
         String operation = plan.nodeName();
         if(operation.equals("LogicalRelation")) {
             List<String> e = this.collectAttributes(plan);
-            String tableName = this.getTableName(e, DataBuilder.getDataBuilder().tables);
+            String tableName = this.getTableName(e, DataBuilder.getDataBuilder().tables, DataBuilder.getDataBuilder().tableNames);
             return new Relation(operation, e, tableName);
         } else {
             List e = this.collectAttributes(plan);
@@ -57,7 +59,6 @@ public class RelationProfileTree {
         List<String> l = new ArrayList<>();
 
         switch(plan.nodeName()) {
-            //TODO migliorare la generazione di join e filter (non vedono gli operatori coinvolti)
             case "Project":
             case "Aggregate":
                 int i = 0;
@@ -65,10 +66,21 @@ public class RelationProfileTree {
                     String s = plan.expressions().apply(i).toString();
                     l.add(s);
                     i++;
-                }
+                } this.eliminateDuplicate(l);
                 break;
             case "Join":
+                int y=0;
+                while(y < plan.apply(0).constraints().toList().size()) {
+                    String s;
+                    if (plan.apply(0).constraints().toList().apply(y).flatArguments().toList().size() == 1) {
+                        s = plan.apply(0).constraints().toList().apply(y).flatArguments().toList().apply(0).toString();
+                        l.add(s);
+                    }
+                    y++;
+                }
+                break;
             case "Filter":
+                //TODO migliorare la generazione di filter (non vedono gli operatori coinvolti)
                 int x=0;
                 while(x < plan.apply(0).constraints().toList().size()) {
                     String s;
@@ -96,14 +108,22 @@ public class RelationProfileTree {
         return l;
     }
 
+    // Eliminate duplicates from a list
+    private void eliminateDuplicate(List<String> l) {
+        // Add elements to al, including duplicates
+        Set<String> hs = new HashSet<>();
+        hs.addAll(l);
+        l.clear();
+        l.addAll(hs);
+    }
+
     // Get the name of the table using its attributes
-    private String getTableName(List<String> attributes, List<Dataset<Row>> tables) {
+    private String getTableName(List<String> attributes, List<Dataset<Row>> tables, List<String> tableNames) {
         for(int i = 0; i < tables.size(); i++) {
             String[] columns = tables.get(i).columns();
             if(this.isSameTable(attributes, columns)) {
-                return tables.get(i).toString();
+                return tableNames.get(i);
             }
-            break;
         }
         return null;
     }
@@ -120,6 +140,7 @@ public class RelationProfileTree {
         return true;
     }
 
+    //TODO metodo duplicato
     // Cut the index from the attribute name
     private String cleanAttribute(String s) {
         CharSequence c = s.subSequence(0, s.indexOf("#"));
@@ -214,6 +235,7 @@ public class RelationProfileTree {
                 break;
             case "Filter":
                 //TODO modificare il profilo per filter bisogna scandire le operazioni
+                System.out.println("OPERAZIONE FILTER");
                 break;
             // Join visible and implicit attributes of the children and add an equivalence for the two attributes in the join
             case "Join":
@@ -248,6 +270,8 @@ public class RelationProfileTree {
                     }
                 }
             }
+        } else if(l2 != null) {
+            list.addAll(l2);
         }
         return list;
     }

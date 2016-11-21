@@ -1,4 +1,4 @@
-package ParserConfigurator;
+package ConfigurationParser;
 
 /**
  * Created by Spark on 14/11/2016.
