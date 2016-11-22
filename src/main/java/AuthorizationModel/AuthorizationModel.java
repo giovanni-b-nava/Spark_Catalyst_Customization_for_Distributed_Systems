@@ -20,27 +20,28 @@ public class AuthorizationModel {
     public void buildSubjectTree(List<Node> nodes, BinaryTree<Relation> profileTree) {
 
         // Set identification numbers for the attributes of the nodes
-        this.setIndexNodes(nodes, profileTree);
+        List<Node> indexed = this.setIndexNodes(nodes, profileTree);
 
         // Generate the root of the subjectTree
-        List<Node> n = this.authorizedSubjects(nodes, profileTree.getRoot());
+        List<Node> n = this.authorizedSubjects(indexed, profileTree.getRoot());
         BinaryNode<List<Node>> root = new BinaryNode<>(n);
         subjectTree = new BinaryTree<>(root);
 
         // Generate the rest of the subjectTree
-        this.generateNodes(nodes, root, profileTree.getRoot());
+        this.generateNodes(indexed, root, profileTree.getRoot());
     }
 
     //TODO spostare i metodi di supporto in classi apposite
     // GENERAZIONE INDICI
 
-    // Copy the same indexes of the tree in the attributes of the node tables
-    private void setIndexNodes(List<Node> nodes, BinaryTree<Relation> profileTree) {
+    // Copy the same indexes of the tree in the attributes of the node's tables
+    private List<Node> setIndexNodes(List<Node> nodes, BinaryTree<Relation> profileTree) {
+        List<Node> indexed = nodes;
         // Create the list of logical relations
         List<Relation> logicalRelations = new ArrayList<>();
         List<Relation> treeNodes = profileTree.DFSVisit();
         for (int i = 0; i < treeNodes.size(); i++) {
-            if (treeNodes.get(i).getOperation().equals("LogigalRelation")) {
+            if (treeNodes.get(i).getOperation().equals("LogicalRelation")) {
                 logicalRelations.add(treeNodes.get(i));
             }
         }
@@ -51,16 +52,17 @@ public class AuthorizationModel {
                         for (int w = 0; w < logicalRelations.get(z).getAttributes().size(); w++) {
                             if (nodes.get(x).getTables().get(y).getPlaintext().contains(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
                                 int q = nodes.get(x).getTables().get(y).getPlaintext().indexOf(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
-                                nodes.get(x).getTables().get(y).getPlaintext().set(q, logicalRelations.get(z).getAttributes().get(w));
+                                indexed.get(x).getTables().get(y).getPlaintext().set(q, logicalRelations.get(z).getAttributes().get(w));
                             } else if (nodes.get(x).getTables().get(y).getEncrypted().contains(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
                                 int q = nodes.get(x).getTables().get(y).getEncrypted().indexOf(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
-                                nodes.get(x).getTables().get(y).getEncrypted().set(q, logicalRelations.get(z).getAttributes().get(w));
+                                indexed.get(x).getTables().get(y).getEncrypted().set(q, logicalRelations.get(z).getAttributes().get(w));
                             }
                         }
                     }
                 }
             }
         }
+        return indexed;
     }
 
     //TODO metodo duplicato

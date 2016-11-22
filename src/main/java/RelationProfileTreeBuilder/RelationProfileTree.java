@@ -216,6 +216,7 @@ public class RelationProfileTree {
             // All attributes became implicit except the ones of aggregate that remain visible
             case "Aggregate":
                 p.setVisiblePlaintext(node.getElement().getAttributes());
+                //TODO question?
                 p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
                 for(int i = 0; i < node.getLeft().getElement().getProfile().getVisiblePlaintext().size(); i++) {
                     if(p.getVisiblePlaintext().contains(node.getLeft().getElement().getProfile().getVisiblePlaintext().get(i))) {
@@ -228,14 +229,21 @@ public class RelationProfileTree {
             // Select only the attributes of project as visible, the others remain the same as the child
             case "Project":
                 p.setVisiblePlaintext(node.getElement().getAttributes());
-                p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
+                //TODO question?
+                p.setVisibleEncrypted(node.getElement().getAttributes());
                 p.setImplicitPlaintext(node.getLeft().getElement().getProfile().getImplicitPlaintext());
                 p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 break;
             case "Filter":
                 //TODO modificare il profilo per filter bisogna scandire le operazioni
-                System.out.println("OPERAZIONE FILTER");
+                p.setVisiblePlaintext(node.getLeft().getElement().getProfile().getVisiblePlaintext());
+                p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
+                p.setImplicitPlaintext(node.getLeft().getElement().getProfile().getImplicitPlaintext());
+                //TODO a op x aggiungere a agli impliciti plaintext
+                p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
+                p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
+                //TODO a op b aggiungere equivalence set {a,b}
                 break;
             // Join visible and implicit attributes of the children and add an equivalence for the two attributes in the join
             case "Join":

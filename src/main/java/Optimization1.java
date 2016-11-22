@@ -55,7 +55,7 @@ public class Optimization1 {
 
         List<List<Node>> n = m.subjectTree.DFSVisit();
         for (int i = 0; i < n.size(); i++) {
-            System.out.println("Nodo:");
+            System.out.println("Nodo " + i + ":");
             for (int x = 0; x < n.get(i).size(); x++) {
                 System.out.println(n.get(i).get(x).getName());
             }
