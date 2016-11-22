@@ -189,6 +189,8 @@ public class RelationProfileTree {
         generateProfiles(node.getLeft());
         generateProfiles(node.getRight());
         this.setProfile(node);
+        //TODO check error in print on Optimization1
+        System.out.println(node.getElement());
         return;
     }
 
@@ -273,6 +275,8 @@ public class RelationProfileTree {
                 p.setImplicitPlaintext(l);
                 l = joinLists(node.getLeft().getElement().getProfile().getImplicitEncrypted(), node.getRight().getElement().getProfile().getImplicitEncrypted());
                 p.setImplicitEncrypted(l);
+                List<List<String>> ll = joinListsLists(node.getLeft().getElement().getProfile().getEquivalenceSets(), node.getRight().getElement().getProfile().getEquivalenceSets());
+                p.setEquivalenceSets(ll);
                 l = node.getElement().getAttributes();
                 p.getEquivalenceSets().add(l);
                 break;
@@ -286,6 +290,26 @@ public class RelationProfileTree {
     private List<String> joinLists(List<String> l1, List<String> l2) {
 
         List<String> list = new ArrayList<>();
+
+        if(l1 != null) {
+            list.addAll(l1);
+            if (l2 != null) {
+                for (int i = 0; i < l2.size(); i++) {
+                    if (!list.contains(l2.get(i))) {
+                        list.add(l2.get(i));
+                    }
+                }
+            }
+        } else if(l2 != null) {
+            list.addAll(l2);
+        }
+        return list;
+    }
+
+    // Support method to join two lists of lists without duplicates
+    private List<List<String>> joinListsLists(List<List<String>> l1, List<List<String>> l2) {
+
+        List<List<String>> list = new ArrayList<>();
 
         if(l1 != null) {
             list.addAll(l1);
