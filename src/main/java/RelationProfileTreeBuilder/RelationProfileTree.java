@@ -31,6 +31,8 @@ public class RelationProfileTree {
 
         // Complete the tree with the profile of each operation
         this.generateProfiles(relationTree.getRoot());
+        List<Relation> l = relationTree.orderedVisit();
+        System.out.println(l);
     }
 
     public BinaryTree<Relation> getRelationTree()
@@ -188,7 +190,7 @@ public class RelationProfileTree {
         generateProfiles(node.getRight());
         this.setProfile(node);
         //TODO check error in print on Optimization1
-        System.out.println(node.getElement());
+
     }
 
     // Set the profile of the current node considering the type of operation and its children
@@ -196,8 +198,10 @@ public class RelationProfileTree {
         // If the node has no children is a leaf
         if(node.getLeft() == null && node.getRight() == null) {
             node.getElement().setProfile(this.buildLeafProfile(node));
+            //System.out.println(node.getElement());
         } else {
             node.getElement().setProfile(this.buildOperationProfile(node));
+            //System.out.println(node.getElement());
         }
     }
 

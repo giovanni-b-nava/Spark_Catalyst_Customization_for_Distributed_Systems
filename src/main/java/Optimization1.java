@@ -11,8 +11,8 @@ import java.util.List;
 
 
 /**
- * Created by Spark on 11/11/2016.
- */
+ * Descrizione della classe
+ *  */
 public class Optimization1 {
 
     public static void main(String[] args) throws FileNotFoundException {
