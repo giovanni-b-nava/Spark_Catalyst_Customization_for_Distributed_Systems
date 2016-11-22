@@ -36,9 +36,6 @@ public class AuthorizationModel {
         return subjectTree;
     }
 
-    //TODO spostare i metodi di supporto in classi apposite
-    // GENERAZIONE INDICI
-
     // Copy the same indexes of the tree in the attributes of the node's tables
     private List<Node> setIndexNodes(List<Node> nodes, BinaryTree<Relation> profileTree) {
         List<Node> indexed = nodes;
@@ -69,8 +66,6 @@ public class AuthorizationModel {
         }
         return indexed;
     }
-
-   // SOGGETTI AUTORIZZATI
 
     // Generate the list of authorized nodes for the current operation
     private List<Node> authorizedSubjects(List<Node> nodes, BinaryNode<Relation> node) {
@@ -166,8 +161,6 @@ public class AuthorizationModel {
         }
         return false;
     }
-
-    // GENERAZIONE NODI
 
     // Recursively generate all the nodes in the subjectTree
     private void generateNodes(List<Node> nodes, BinaryNode<List<Node>> father, BinaryNode<Relation> relation) {

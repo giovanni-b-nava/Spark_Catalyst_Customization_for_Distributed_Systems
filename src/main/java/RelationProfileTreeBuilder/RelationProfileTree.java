@@ -6,11 +6,11 @@ import TreeStructure.BinaryTree;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
 
 public class RelationProfileTree {
 
@@ -18,8 +18,7 @@ public class RelationProfileTree {
     private BinaryTree<Relation> relationTree;
 
     // Builds the relationTree with the relations representing the operations
-    public RelationProfileTree(LogicalPlan plan)
-    {
+    public RelationProfileTree(LogicalPlan plan) {
 
         // Generate the root of the relationTree
         Relation e = this.createRelation(plan);
@@ -31,17 +30,11 @@ public class RelationProfileTree {
 
         // Complete the tree with the profile of each operation
         this.generateProfiles(relationTree.getRoot());
-        List<Relation> l = relationTree.orderedVisit();
-        System.out.println(l);
     }
 
-    public BinaryTree<Relation> getRelationTree()
-    {
+    public BinaryTree<Relation> getRelationTree() {
         return relationTree;
     }
-
-    //TODO suddividere i metodi di supporto in nuove classi
-    // GENERAZIONE RELAZIONI
 
     // Generate the single relation of the current level
     private Relation createRelation(LogicalPlan plan) {
@@ -154,10 +147,6 @@ public class RelationProfileTree {
         return true;
     }
 
-
-
-    // GENERAZIONE NODI
-
     // Recursively generate all the nodes in the relationTree
     private void generateChildren(LogicalPlan plan, BinaryNode<Relation> father) {
         if(plan.children().size() == 1) {
@@ -181,27 +170,21 @@ public class RelationProfileTree {
         }
     }
 
-    // GENERAZIONE PROFILI
-
     // Generate the profile for each node with a post order visit
     private void generateProfiles(BinaryNode<Relation> node) {
         if (node == null) return;
         generateProfiles(node.getLeft());
         generateProfiles(node.getRight());
         this.setProfile(node);
-        //TODO check error in print on Optimization1
-
-    }
+     }
 
     // Set the profile of the current node considering the type of operation and its children
     private void setProfile(BinaryNode<Relation> node) {
         // If the node has no children is a leaf
         if(node.getLeft() == null && node.getRight() == null) {
             node.getElement().setProfile(this.buildLeafProfile(node));
-            //System.out.println(node.getElement());
         } else {
             node.getElement().setProfile(this.buildOperationProfile(node));
-            //System.out.println(node.getElement());
         }
     }
 
