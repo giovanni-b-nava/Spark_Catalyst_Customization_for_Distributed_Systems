@@ -28,13 +28,10 @@ public class Optimization1 {
         Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>salary GROUP BY first_name");
 
         // Generate the relation tree
-        RelationProfileTree c = new RelationProfileTree();
-        c.RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
+        RelationProfileTree c = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
 
         // Generate the tree for the authorized subjects
-        AuthorizationModel m = new AuthorizationModel();
-        m.buildSubjectTree(DataBuilder.getDataBuilder().nodes, c.getRelationTree());
-
+        AuthorizationModel m = new AuthorizationModel(DataBuilder.getDataBuilder().nodes, c.getRelationTree());
 
         // produce l'albero ottimizzato numerato
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
@@ -53,7 +50,7 @@ public class Optimization1 {
         List<Relation> l = c.getRelationTree().DFSVisit();
         System.out.println(l);
 
-        List<List<Node>> n = m.subjectTree.DFSVisit();
+        List<List<Node>> n = m.getSubjectTree().DFSVisit();
         for (int i = 0; i < n.size(); i++) {
             System.out.println("Nodo " + i + ":");
             for (int x = 0; x < n.get(i).size(); x++) {

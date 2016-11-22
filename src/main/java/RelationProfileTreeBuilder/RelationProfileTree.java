@@ -18,7 +18,7 @@ public class RelationProfileTree {
     private BinaryTree<Relation> relationTree;
 
     // Builds the relationTree with the relations representing the operations
-    public void RelationProfileTree(LogicalPlan plan)
+    public RelationProfileTree(LogicalPlan plan)
     {
 
         // Generate the root of the relationTree

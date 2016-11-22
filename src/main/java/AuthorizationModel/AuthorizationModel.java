@@ -15,10 +15,10 @@ import java.util.List;
  */
 public class AuthorizationModel {
 
-    public BinaryTree<List<Node>> subjectTree;
+    private BinaryTree<List<Node>> subjectTree;
 
     // Generate the list of subjects authorized to execute each operation and put them in a tree
-    public void buildSubjectTree(List<Node> nodes, BinaryTree<Relation> profileTree) {
+    public AuthorizationModel(List<Node> nodes, BinaryTree<Relation> profileTree) {
 
         // Set identification numbers for the attributes of the nodes
         List<Node> indexed = this.setIndexNodes(nodes, profileTree);
@@ -30,6 +30,10 @@ public class AuthorizationModel {
 
         // Generate the rest of the subjectTree
         this.generateNodes(indexed, root, profileTree.getRoot());
+    }
+
+    public BinaryTree<List<Node>> getSubjectTree() {
+        return subjectTree;
     }
 
     //TODO spostare i metodi di supporto in classi apposite
