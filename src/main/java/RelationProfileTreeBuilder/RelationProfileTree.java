@@ -80,15 +80,13 @@ public class RelationProfileTree {
                 }
                 break;
             case "Filter":
-                //TODO migliorare la generazione di filter (non vedono gli operatori coinvolti)
                 int x=0;
                 while(x < plan.apply(0).constraints().toList().size()) {
                     String s;
-                    if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 1) {
-                        s = plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(0).toString();
+                    if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 2) {
+                        s = this.formatFilter(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(0).toString());
                         l.add(s);
-                    } else {
-                        s = plan.apply(0).constraints().toList().apply(x).prettyName();
+                        s = this.formatFilter(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(1).toString());
                         l.add(s);
                     }
                     x++;
@@ -106,6 +104,16 @@ public class RelationProfileTree {
                 System.out.println("default");
         }
         return l;
+    }
+
+    // Format the input string to the attribute style
+    private String formatFilter(String s) {
+        if(s.startsWith("cast")) {
+            int p = s.indexOf("(");
+            int q = s.indexOf(" ");
+            s = s.substring(p+1, q);
+        }
+        return s;
     }
 
     // Eliminate duplicates from a list
@@ -236,14 +244,24 @@ public class RelationProfileTree {
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 break;
             case "Filter":
-                //TODO modificare il profilo per filter bisogna scandire le operazioni
                 p.setVisiblePlaintext(node.getLeft().getElement().getProfile().getVisiblePlaintext());
                 p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
                 p.setImplicitPlaintext(node.getLeft().getElement().getProfile().getImplicitPlaintext());
-                //TODO a op x aggiungere a agli impliciti plaintext
+                // If one of the two attributes is numeric add the attribute not numeric to the implicit plaintext
+                if(node.getElement().getAttributes().size() == 2 && (Character.isDigit(node.getElement().getAttributes().get(0).charAt(0)) ^ Character.isDigit(node.getElement().getAttributes().get(1).charAt(0)))) {
+                    if(!Character.isDigit(node.getElement().getAttributes().get(0).charAt(0))) {
+                        p.getImplicitPlaintext().add(node.getElement().getAttributes().get(0));
+                    } else {
+                        p.getImplicitPlaintext().add(node.getElement().getAttributes().get(1));
+                    }
+                }
                 p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
-                //TODO a op b aggiungere equivalence set {a,b}
+                // If both attributes are not numeric values add the equivalence set of the two attributes
+                if(node.getElement().getAttributes().size() == 2 && (!Character.isDigit(node.getElement().getAttributes().get(0).charAt(0)) && !Character.isDigit(node.getElement().getAttributes().get(1).charAt(0)))) {
+                    List<String> l = node.getElement().getAttributes();
+                    p.getEquivalenceSets().add(l);
+                }
                 break;
             // Join visible and implicit attributes of the children and add an equivalence for the two attributes in the join
             case "Join":

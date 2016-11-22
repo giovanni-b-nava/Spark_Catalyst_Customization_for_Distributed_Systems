@@ -1,8 +1,8 @@
+import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Node;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfileTree;
-import AuthorizationModel.AuthorizationModel;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 
@@ -25,7 +25,7 @@ public class Optimization1 {
         DataBuilder.getDataBuilder().titles.createOrReplaceTempView("titles");
 
         // Query
-        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
+        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>salary GROUP BY first_name");
 
         // Generate the relation tree
         RelationProfileTree c = new RelationProfileTree();
@@ -44,8 +44,8 @@ public class Optimization1 {
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).references());
 
         // istruzioni per stampare gli operatori di ogni operazione
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(0).references());
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(0).constraints().toList());
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).expressions().toList().apply(0));
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
