@@ -3,6 +3,7 @@ package AuthorizationModel;
 import ConfigurationParser.Node;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
+import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 import TreeStructure.BinaryTree;
 
@@ -50,11 +51,11 @@ public class AuthorizationModel {
                 for (int z = 0; z < logicalRelations.size(); z++) {
                     if (nodes.get(x).getTables().get(y).getName().equals(logicalRelations.get(z).getTableName())) {
                         for (int w = 0; w < logicalRelations.get(z).getAttributes().size(); w++) {
-                            if (nodes.get(x).getTables().get(y).getPlaintext().contains(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
-                                int q = nodes.get(x).getTables().get(y).getPlaintext().indexOf(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
+                            if (nodes.get(x).getTables().get(y).getPlaintext().contains(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
+                                int q = nodes.get(x).getTables().get(y).getPlaintext().indexOf(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
                                 indexed.get(x).getTables().get(y).getPlaintext().set(q, logicalRelations.get(z).getAttributes().get(w));
-                            } else if (nodes.get(x).getTables().get(y).getEncrypted().contains(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
-                                int q = nodes.get(x).getTables().get(y).getEncrypted().indexOf(this.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
+                            } else if (nodes.get(x).getTables().get(y).getEncrypted().contains(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
+                                int q = nodes.get(x).getTables().get(y).getEncrypted().indexOf(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
                                 indexed.get(x).getTables().get(y).getEncrypted().set(q, logicalRelations.get(z).getAttributes().get(w));
                             }
                         }
@@ -65,15 +66,7 @@ public class AuthorizationModel {
         return indexed;
     }
 
-    //TODO metodo duplicato
-    // Cut the index from the attribute name
-    private String cleanAttribute(String s) {
-        CharSequence c = s.subSequence(0, s.indexOf("#"));
-        String r = c.toString();
-        return r;
-    }
-
-    // SOGGETTI AUTORIZZATI
+   // SOGGETTI AUTORIZZATI
 
     // Generate the list of authorized nodes for the current operation
     private List<Node> authorizedSubjects(List<Node> nodes, BinaryNode<Relation> node) {

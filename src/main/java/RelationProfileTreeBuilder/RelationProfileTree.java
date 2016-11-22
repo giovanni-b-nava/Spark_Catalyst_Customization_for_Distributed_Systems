@@ -1,29 +1,25 @@
 package RelationProfileTreeBuilder;
 
-
 import DataConfigBuilder.DataBuilder;
 import TreeStructure.BinaryNode;
 import TreeStructure.BinaryTree;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
-
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
 
-/**
- * Created by Spark on 13/11/2016.
- */
 public class RelationProfileTree {
 
     // Tree representing the relations in the optimized plan
-    public BinaryTree<Relation> relationTree;
+    private BinaryTree<Relation> relationTree;
 
     // Builds the relationTree with the relations representing the operations
-    public void buildTree(LogicalPlan plan) {
+    public void RelationProfileTree(LogicalPlan plan)
+    {
 
         // Generate the root of the relationTree
         Relation e = this.createRelation(plan);
@@ -31,23 +27,31 @@ public class RelationProfileTree {
         relationTree = new BinaryTree<>(root);
 
         // Generate the rest of the relationTree
-        this.generateNodes(plan.apply(0), root);
+        this.generateChildren(plan.apply(0), root);
 
         // Complete the tree with the profile of each operation
         this.generateProfiles(relationTree.getRoot());
     }
 
+    public BinaryTree<Relation> getRelationTree()
+    {
+        return relationTree;
+    }
+
     //TODO suddividere i metodi di supporto in nuove classi
     // GENERAZIONE RELAZIONI
 
-    // Generate the relation of the current level
+    // Generate the single relation of the current level
     private Relation createRelation(LogicalPlan plan) {
         String operation = plan.nodeName();
+        // Table
         if(operation.equals("LogicalRelation")) {
             List<String> e = this.collectAttributes(plan);
             String tableName = this.getTableName(e, DataBuilder.getDataBuilder().tables, DataBuilder.getDataBuilder().tableNames);
             return new Relation(operation, e, tableName);
-        } else {
+        }
+        else // Operation
+        {
             List e = this.collectAttributes(plan);
             return new Relation(operation, e);
         }
@@ -148,36 +152,30 @@ public class RelationProfileTree {
         return true;
     }
 
-    //TODO metodo duplicato
-    // Cut the index from the attribute name
-    private String cleanAttribute(String s) {
-        CharSequence c = s.subSequence(0, s.indexOf("#"));
-        String r = c.toString();
-        return r;
-    }
+
 
     // GENERAZIONE NODI
 
     // Recursively generate all the nodes in the relationTree
-    private void generateNodes(LogicalPlan plan, BinaryNode<Relation> father) {
+    private void generateChildren(LogicalPlan plan, BinaryNode<Relation> father) {
         if(plan.children().size() == 1) {
             Relation r = this.createRelation(plan.children().toList().apply(0));
             BinaryNode n = new BinaryNode(r);
             father.setLeft(n);
             n.setFather(father);
-            this.generateNodes(plan.children().toList().apply(0), n);
+            this.generateChildren(plan.children().toList().apply(0), n);
         }
         else if(plan.children().size() == 2) {
             Relation r1 = this.createRelation(plan.children().toList().apply(0));
             BinaryNode n1 = new BinaryNode(r1);
             father.setLeft(n1);
             n1.setFather(father);
-            this.generateNodes(plan.children().toList().apply(0), n1);
+            this.generateChildren(plan.children().toList().apply(0), n1);
             Relation r2 = this.createRelation(plan.children().toList().apply(1));
             BinaryNode n2 = new BinaryNode(r2);
             father.setRight(n2);
             n2.setFather(father);
-            this.generateNodes(plan.children().toList().apply(1), n2);
+            this.generateChildren(plan.children().toList().apply(1), n2);
         }
     }
 
@@ -191,21 +189,20 @@ public class RelationProfileTree {
         this.setProfile(node);
         //TODO check error in print on Optimization1
         System.out.println(node.getElement());
-        return;
     }
 
     // Set the profile of the current node considering the type of operation and its children
     private void setProfile(BinaryNode<Relation> node) {
         // If the node has no children is a leaf
         if(node.getLeft() == null && node.getRight() == null) {
-            node.getElement().setProfile(this.leafProfile(node));
+            node.getElement().setProfile(this.buildLeafProfile(node));
         } else {
-            node.getElement().setProfile(this.buildProfile(node));
+            node.getElement().setProfile(this.buildOperationProfile(node));
         }
     }
 
     // Generate the relation profile of a leaf
-    private RelationProfile leafProfile(BinaryNode<Relation> node) {
+    private RelationProfile buildLeafProfile(BinaryNode<Relation> node) {
         RelationProfile profile = new RelationProfile();
         // The leaf represent the tables
         if(node.getElement().getOperation().equals("LogicalRelation")) {
@@ -218,7 +215,7 @@ public class RelationProfileTree {
     }
 
     // Generate the specific profile for each operation
-    private RelationProfile buildProfile(BinaryNode<Relation> node) {
+    private RelationProfile buildOperationProfile(BinaryNode<Relation> node) {
 
         RelationProfile p = new RelationProfile();
 
@@ -324,5 +321,12 @@ public class RelationProfileTree {
             list.addAll(l2);
         }
         return list;
+    }
+
+    // Cut the index from the attribute name
+    public static String cleanAttribute(String s) {
+        CharSequence c = s.subSequence(0, s.indexOf("#"));
+        String r = c.toString();
+        return r;
     }
 }

@@ -29,11 +29,11 @@ public class Optimization1 {
 
         // Generate the relation tree
         RelationProfileTree c = new RelationProfileTree();
-        c.buildTree(sqlDF.queryExecution().optimizedPlan());
+        c.RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
 
         // Generate the tree for the authorized subjects
         AuthorizationModel m = new AuthorizationModel();
-        m.buildSubjectTree(DataBuilder.getDataBuilder().nodes, c.relationTree);
+        m.buildSubjectTree(DataBuilder.getDataBuilder().nodes, c.getRelationTree());
 
 
         // produce l'albero ottimizzato numerato
@@ -50,7 +50,7 @@ public class Optimization1 {
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
         // Generazione strutture dati dell'albero
-        List<Relation> l = c.relationTree.DFSVisit();
+        List<Relation> l = c.getRelationTree().DFSVisit();
         System.out.println(l);
 
         List<List<Node>> n = m.subjectTree.DFSVisit();
