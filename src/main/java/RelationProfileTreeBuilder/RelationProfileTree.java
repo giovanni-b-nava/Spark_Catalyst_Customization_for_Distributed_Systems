@@ -39,16 +39,17 @@ public class RelationProfileTree {
     // Generate the single relation of the current level
     private Relation createRelation(LogicalPlan plan) {
         String operation = plan.nodeName();
+        long sizeInByte = plan.statistics().sizeInBytes().longValue();
         // Table
         if(operation.equals("LogicalRelation")) {
             List<String> e = this.collectAttributes(plan);
             String tableName = this.getTableName(e, DataBuilder.getDataBuilder().tables, DataBuilder.getDataBuilder().tableNames);
-            return new Relation(operation, e, tableName);
+            return new Relation(operation, e, tableName, sizeInByte);
         }
         else // Operation
         {
             List e = this.collectAttributes(plan);
-            return new Relation(operation, e);
+            return new Relation(operation, e, sizeInByte);
         }
     }
 
@@ -245,8 +246,12 @@ public class RelationProfileTree {
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 // If both attributes are not numeric values add the equivalence set of the two attributes
                 if(node.getElement().getAttributes().size() == 2 && (!Character.isDigit(node.getElement().getAttributes().get(0).charAt(0)) && !Character.isDigit(node.getElement().getAttributes().get(1).charAt(0)))) {
-                    List<String> l = node.getElement().getAttributes();
-                    p.getEquivalenceSets().add(l);
+                    List<List<String>> eSet = new ArrayList<>();
+                    List<String> attributes = new ArrayList<>();
+                    attributes.addAll(node.getElement().getAttributes());
+                    eSet.addAll(p.getEquivalenceSets());
+                    eSet.add(attributes);
+                    p.setEquivalenceSets(eSet);
                 }
                 break;
             // Join visible and implicit attributes of the children and add an equivalence for the two attributes in the join

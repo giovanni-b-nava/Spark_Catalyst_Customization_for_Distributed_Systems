@@ -27,7 +27,7 @@ public class Optimization1 {
         DataBuilder.getDataBuilder().dept_manager.createOrReplaceTempView("dept_manager");
 
         // Query
-        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
+        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>salary GROUP BY first_name");
 
         // Generate the relation tree
         RelationProfileTree c = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
@@ -44,7 +44,7 @@ public class Optimization1 {
 
         // istruzioni per stampare gli operatori di ogni operazione
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).expressions().toList().apply(0));
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(8).statistics());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
