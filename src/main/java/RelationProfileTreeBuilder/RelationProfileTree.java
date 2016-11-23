@@ -177,7 +177,7 @@ public class RelationProfileTree {
         generateProfiles(node.getLeft());
         generateProfiles(node.getRight());
         this.setProfile(node);
-     }
+    }
 
     // Set the profile of the current node considering the type of operation and its children
     private void setProfile(BinaryNode<Relation> node) {
@@ -210,22 +210,38 @@ public class RelationProfileTree {
         switch (node.getElement().getOperation()) {
             // All attributes became implicit except the ones of aggregate that remain visible
             case "Aggregate":
-                p.setVisiblePlaintext(node.getElement().getAttributes());
-                //TODO question?
-                p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
+                // Check if the attributes of the project are plaintext or encrypted for the child and put them in the correct list
+                for(int i=0; i < node.getElement().getAttributes().size(); i++) {
+                    if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(i))) {
+                        p.getVisiblePlaintext().add(node.getElement().getAttributes().get(i));
+                    } else if (node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(i))) {
+                        p.getVisibleEncrypted().add(node.getElement().getAttributes().get(i));
+                    }
+                }
+                p.setImplicitPlaintext(node.getLeft().getElement().getProfile().getImplicitPlaintext());
                 for(int i = 0; i < node.getLeft().getElement().getProfile().getVisiblePlaintext().size(); i++) {
-                    if(p.getVisiblePlaintext().contains(node.getLeft().getElement().getProfile().getVisiblePlaintext().get(i))) {
+                    if(!p.getVisiblePlaintext().contains(node.getLeft().getElement().getProfile().getVisiblePlaintext().get(i))) {
                         p.getImplicitPlaintext().add(node.getLeft().getElement().getProfile().getVisiblePlaintext().get(i));
                     }
                 }
                 p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
+                for(int i = 0; i < node.getLeft().getElement().getProfile().getVisibleEncrypted().size(); i++) {
+                    if(!p.getVisibleEncrypted().contains(node.getLeft().getElement().getProfile().getVisibleEncrypted().get(i))) {
+                        p.getImplicitEncrypted().add(node.getLeft().getElement().getProfile().getVisibleEncrypted().get(i));
+                    }
+                }
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 break;
             // Select only the attributes of project as visible, the others remain the same as the child
             case "Project":
-                p.setVisiblePlaintext(node.getElement().getAttributes());
-                //TODO question?
-                p.setVisibleEncrypted(node.getElement().getAttributes());
+                // Check if the attributes of the project are plaintext or encrypted for the child and put them in the correct list
+                for(int i=0; i < node.getElement().getAttributes().size(); i++) {
+                    if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(i))) {
+                        p.getVisiblePlaintext().add(node.getElement().getAttributes().get(i));
+                    } else if (node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(i))) {
+                        p.getVisibleEncrypted().add(node.getElement().getAttributes().get(i));
+                    }
+                }
                 p.setImplicitPlaintext(node.getLeft().getElement().getProfile().getImplicitPlaintext());
                 p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
@@ -234,15 +250,27 @@ public class RelationProfileTree {
                 p.setVisiblePlaintext(node.getLeft().getElement().getProfile().getVisiblePlaintext());
                 p.setVisibleEncrypted(node.getLeft().getElement().getProfile().getVisibleEncrypted());
                 p.setImplicitPlaintext(node.getLeft().getElement().getProfile().getImplicitPlaintext());
+                p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
+                //TODO check error
                 // If one of the two attributes is numeric add the attribute not numeric to the implicit plaintext
                 if(node.getElement().getAttributes().size() == 2 && (Character.isDigit(node.getElement().getAttributes().get(0).charAt(0)) ^ Character.isDigit(node.getElement().getAttributes().get(1).charAt(0)))) {
                     if(!Character.isDigit(node.getElement().getAttributes().get(0).charAt(0))) {
                         p.getImplicitPlaintext().add(node.getElement().getAttributes().get(0));
-                    } else {
+                    }
+                    else {
                         p.getImplicitPlaintext().add(node.getElement().getAttributes().get(1));
                     }
+                } // If both attributes are not numeric add them to the implicit list
+                else if(node.getElement().getAttributes().size() == 2 && (!Character.isDigit(node.getElement().getAttributes().get(0).charAt(0)) && !Character.isDigit(node.getElement().getAttributes().get(1).charAt(0)))) {
+                    // If both are plaintext add them to implicit plaintext
+                    if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(1))) {
+                        p.getImplicitPlaintext().addAll(node.getElement().getAttributes());
+                    } // If both are encrypted add them to implicit encrypted
+                    else if (node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(1))) {
+                        p.getImplicitEncrypted().addAll(node.getElement().getAttributes());
+                    }
+                    else System.out.println("Error: Attributes with different visibility");
                 }
-                p.setImplicitEncrypted(node.getLeft().getElement().getProfile().getImplicitEncrypted());
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 // If both attributes are not numeric values add the equivalence set of the two attributes
                 if(node.getElement().getAttributes().size() == 2 && (!Character.isDigit(node.getElement().getAttributes().get(0).charAt(0)) && !Character.isDigit(node.getElement().getAttributes().get(1).charAt(0)))) {
@@ -264,6 +292,17 @@ public class RelationProfileTree {
                 p.setImplicitPlaintext(l);
                 l = joinLists(node.getLeft().getElement().getProfile().getImplicitEncrypted(), node.getRight().getElement().getProfile().getImplicitEncrypted());
                 p.setImplicitEncrypted(l);
+                // The attributes of the join condition have to be added to the implicit list
+                if(node.getElement().getAttributes().size() == 2) {
+                    // If both are plaintext add them to implicit plaintext
+                    if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(1))) {
+                        p.getImplicitPlaintext().addAll(node.getElement().getAttributes());
+                    } // If both are encrypted add them to implicit encrypted
+                    else if (node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(1))) {
+                        p.getImplicitEncrypted().addAll(node.getElement().getAttributes());
+                    }
+                    else System.out.println("Error: Attributes with different visibility");
+                }
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getProfile().getEquivalenceSets(), node.getRight().getElement().getProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);
                 l = node.getElement().getAttributes();
