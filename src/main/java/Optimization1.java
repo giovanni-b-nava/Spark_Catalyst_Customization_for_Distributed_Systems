@@ -44,7 +44,7 @@ public class Optimization1 {
 
         // istruzioni per stampare gli operatori di ogni operazione
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).expressions().toList().apply(0));
-        System.out.println(sqlDF.queryExecution().optimizedPlan().apply(8).statistics());
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(8).statistics());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
