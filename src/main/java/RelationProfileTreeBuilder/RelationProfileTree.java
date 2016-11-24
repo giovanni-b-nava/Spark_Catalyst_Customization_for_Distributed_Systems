@@ -312,6 +312,7 @@ public class RelationProfileTree {
                     attributes.addAll(node.getElement().getAttributes());
                     eSet.addAll(p.getEquivalenceSets());
                     eSet.add(attributes);
+                    eliminateDuplicateLists(eSet);
                     p.setEquivalenceSets(eSet);
                 }
                 break;
@@ -347,7 +348,11 @@ public class RelationProfileTree {
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getProfile().getEquivalenceSets(), node.getRight().getElement().getProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);
                 l = node.getElement().getAttributes();
-                p.getEquivalenceSets().add(l);
+                List<List<String>> eSet = new ArrayList<>();
+                eSet.addAll(p.getEquivalenceSets());
+                eSet.add(l);
+                eliminateDuplicateLists(eSet);
+                p.setEquivalenceSets(eSet);
                 break;
             default:
                 System.out.println("Error: unknown operation or incorrect tree");
@@ -406,6 +411,15 @@ public class RelationProfileTree {
     public static void eliminateDuplicate(List<String> l) {
         // Add elements to al, including duplicates
         Set<String> hs = new HashSet<>();
+        hs.addAll(l);
+        l.clear();
+        l.addAll(hs);
+    }
+
+    // Eliminate duplicates from a list of lists
+    public static void eliminateDuplicateLists(List<List<String>> l) {
+        // Add elements to al, including duplicates
+        Set<List<String>> hs = new HashSet<>();
         hs.addAll(l);
         l.clear();
         l.addAll(hs);
