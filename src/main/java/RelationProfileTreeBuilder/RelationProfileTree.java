@@ -207,9 +207,7 @@ public class RelationProfileTree {
                     if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(i))) {
                         List<String> newVisiblePlaintext = new ArrayList<>();
                         newVisiblePlaintext.addAll(p.getVisiblePlaintext());
-                        System.out.println("---> newVisiblePlaintext = " + newVisiblePlaintext);
                         newVisiblePlaintext.add(node.getElement().getAttributes().get(i));
-                        System.out.println("---> newVisiblePlaintext = " + newVisiblePlaintext);
                         p.setVisiblePlaintext(newVisiblePlaintext);
                     }
                     else if (node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(i))) {
@@ -283,18 +281,18 @@ public class RelationProfileTree {
                 else if(node.getElement().getAttributes().size() == 2 && (!Character.isDigit(node.getElement().getAttributes().get(0).charAt(0)) && !Character.isDigit(node.getElement().getAttributes().get(1).charAt(0)))) {
                     // If both are plaintext add them to implicit plaintext
                     if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(1))) {
-                        List<String> newVisiblePlaintext = new ArrayList<>();
-                        newVisiblePlaintext.addAll(p.getVisiblePlaintext());
-                        newVisiblePlaintext.addAll(node.getElement().getAttributes());
-                        p.setVisiblePlaintext(newVisiblePlaintext);
+                        List<String> newImplicitPlaintext = new ArrayList<>();
+                        newImplicitPlaintext.addAll(p.getImplicitPlaintext());
+                        newImplicitPlaintext.addAll(node.getElement().getAttributes());
+                        p.setImplicitPlaintext(newImplicitPlaintext);
                     } // If both are encrypted add them to implicit encrypted
                     else if (node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(1))) {
-                        List<String> newVisibleEncrypted = new ArrayList<>();
-                        newVisibleEncrypted.addAll(p.getVisibleEncrypted());
-                        newVisibleEncrypted.addAll(node.getElement().getAttributes());
-                        p.setVisibleEncrypted(newVisibleEncrypted);
+                        List<String> newImplicitEncrypted = new ArrayList<>();
+                        newImplicitEncrypted.addAll(p.getImplicitEncrypted());
+                        newImplicitEncrypted.addAll(node.getElement().getAttributes());
+                        p.setImplicitEncrypted(newImplicitEncrypted);
                     }
-                    else System.out.println("ERROR: Attributes with different visibility!");
+                    else System.out.println("Error: Filter with different visibility");
                 }
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 // If both attributes are not numeric values add the equivalence set of the two attributes
@@ -332,7 +330,7 @@ public class RelationProfileTree {
                         newImplicitEncrypted.addAll(node.getElement().getAttributes());
                         p.setImplicitEncrypted(newImplicitEncrypted);
                     }
-                    else System.out.println("ERROR: Attributes with different visibility!");
+                    else System.out.println("Error: Join with different visibility");
                 }
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getProfile().getEquivalenceSets(), node.getRight().getElement().getProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);
@@ -340,7 +338,7 @@ public class RelationProfileTree {
                 p.getEquivalenceSets().add(l);
                 break;
             default:
-                System.out.println("ERROR: unknown operation or incorrect tree!");
+                System.out.println("Error: unknown operation or incorrect tree");
         }
         return p;
     }
