@@ -64,6 +64,10 @@ public class AuthorizationModel {
                 }
             }
         }
+
+        // Update the original providers with the Spark Indexes
+        nodes = indexed;
+
         return indexed;
     }
 

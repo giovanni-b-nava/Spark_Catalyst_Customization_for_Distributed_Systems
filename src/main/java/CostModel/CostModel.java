@@ -24,9 +24,25 @@ public class CostModel
         return encryptionCost + transferCost + operationCost;
     }
 
-    private int getNumbersOfEncrypted()
+    private int getNumbersOfEncrypted(Node start, Node destination, BinaryNode<Relation> relationNode)
     {
-        return 0;
+        int counter = 0;
+        // For all the attributes in the Father ...
+        for (int j=0; j < relationNode.getFather().getElement().getAttributes().size(); j++)
+        {
+            // ... for all the tables of the destination ...
+            for (int i=0; i < destination.getTables().size(); i++)
+            {
+                // ... if an encrypted destination table contains the attribute
+                if (destination.getTables().get(i).getEncrypted().contains(relationNode.getFather().getElement().getAttributes().get(j)))
+                {
+                    counter++;
+                    break;
+                }
+            }
+        }
+
+        return counter;
     }
 
 }
