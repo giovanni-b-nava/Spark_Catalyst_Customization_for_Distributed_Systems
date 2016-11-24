@@ -328,14 +328,14 @@ public class RelationProfileTree {
                 // The attributes of the join condition have to be added to the implicit list
                 if(node.getElement().getAttributes().size() == 2) {
                     // If both are plaintext add them to implicit plaintext
-                    if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(1))) {
+                    if (p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1))) {
                         List<String> newImplicitPlaintext = new ArrayList<>();
                         newImplicitPlaintext.addAll(p.getImplicitPlaintext());
                         newImplicitPlaintext.addAll(node.getElement().getAttributes());
                         eliminateDuplicate(newImplicitPlaintext);
                         p.setImplicitPlaintext(newImplicitPlaintext);
                     } // If both are encrypted add them to implicit encrypted
-                    else if (node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(0)) && node.getLeft().getElement().getProfile().getVisibleEncrypted().contains(node.getElement().getAttributes().get(1))) {
+                    else if (p.getVisibleEncrypted().contains(node.getElement().getAttributes().get(0)) && p.getVisibleEncrypted().contains(node.getElement().getAttributes().get(1))) {
                         List<String> newImplicitEncrypted = new ArrayList<>();
                         newImplicitEncrypted.addAll(p.getImplicitEncrypted());
                         newImplicitEncrypted.addAll(node.getElement().getAttributes());
