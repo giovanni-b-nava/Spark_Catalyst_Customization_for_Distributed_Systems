@@ -31,4 +31,5 @@ public class Links {
     public void setThroughput(List<Double> throughput) {
         this.throughput = throughput;
     }
+
 }

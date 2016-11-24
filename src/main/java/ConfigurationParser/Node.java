@@ -66,4 +66,25 @@ public class Node {
     public void setTables(List<Table> tables) {
         this.tables = tables;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Node)) return false;
+
+        Node node = (Node) o;
+
+        if (name != null ? !name.equals(node.name) : node.name != null) return false;
+        if (category != null ? !category.equals(node.category) : node.category != null) return false;
+        return costs != null ? costs.equals(node.costs) : node.costs == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (category != null ? category.hashCode() : 0);
+        result = 31 * result + (costs != null ? costs.hashCode() : 0);
+        return result;
+    }
 }
