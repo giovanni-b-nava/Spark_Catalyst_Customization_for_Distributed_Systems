@@ -292,7 +292,7 @@ public class RelationProfileTree {
                         newImplicitEncrypted.addAll(node.getElement().getAttributes());
                         p.setImplicitEncrypted(newImplicitEncrypted);
                     }
-                    else System.out.println("Error: Filter with different visibility");
+                    else System.out.println("ERROR: Filter with different visibility");
                 }
                 p.setEquivalenceSets(node.getLeft().getElement().getProfile().getEquivalenceSets());
                 // If both attributes are not numeric values add the equivalence set of the two attributes
@@ -330,7 +330,7 @@ public class RelationProfileTree {
                         newImplicitEncrypted.addAll(node.getElement().getAttributes());
                         p.setImplicitEncrypted(newImplicitEncrypted);
                     }
-                    else System.out.println("Error: Join with different visibility");
+                    else System.out.println("ERROR: Join with different visibility");
                 }
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getProfile().getEquivalenceSets(), node.getRight().getElement().getProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);
