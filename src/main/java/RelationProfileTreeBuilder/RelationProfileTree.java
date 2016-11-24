@@ -61,6 +61,7 @@ public class RelationProfileTree {
         switch(plan.nodeName()) {
             case "Project":
             case "Aggregate":
+                //TODO gestire estrazione di un attributo di avg
                 int i = 0;
                 while(i < plan.expressions().toList().length()) {
                     String s = plan.expressions().apply(i).toString();
@@ -70,6 +71,7 @@ public class RelationProfileTree {
                 eliminateDuplicate(l);
                 break;
             case "Join":
+                //TODO gestire estrazione di un attributo di avg
                 int y=0;
                 while(y < plan.apply(0).constraints().toList().size()) {
                     String s;
