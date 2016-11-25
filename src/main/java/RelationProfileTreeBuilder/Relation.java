@@ -97,4 +97,27 @@ public class Relation {
                 "Table Name: " + this.tableName + "\n" +
                 this.profile.toString() + "end relation" +"\n";
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Relation)) return false;
+
+        Relation relation = (Relation) o;
+
+        if (syzeInBytes != relation.syzeInBytes) return false;
+        if (operation != null ? !operation.equals(relation.operation) : relation.operation != null) return false;
+        if (attributes != null ? !attributes.equals(relation.attributes) : relation.attributes != null) return false;
+        return tableName != null ? tableName.equals(relation.tableName) : relation.tableName == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = operation != null ? operation.hashCode() : 0;
+        result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
+        result = 31 * result + (int) (syzeInBytes ^ (syzeInBytes >>> 32));
+        result = 31 * result + (tableName != null ? tableName.hashCode() : 0);
+        return result;
+    }
 }

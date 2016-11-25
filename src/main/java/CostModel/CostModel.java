@@ -32,6 +32,8 @@ public class CostModel
         // Represent the transfer cost from children to father
         transferCost = totalBytes * (providerFrom.getCosts().getOut() + providerTo.getCosts().getIn() + (totalBytes / (findThroughput(providerFrom, providerTo) * (providerFrom.getCosts().getCpu() + providerTo.getCosts().getCpu()))));
 
+        operationCost = getOperationCost(relationNode.getElement().getSyzeInBytes(), relationNode.getElement().getOperation());
+
         return encryptionCost + transferCost + operationCost;
     }
 
@@ -64,6 +66,32 @@ public class CostModel
 
         // return the throughput
         return providerFrom.getLinks().getThroughput().get(index);
+    }
+
+    private double getOperationCost(long operationSize, String operationType)
+    {
+        double operationCost = 0;
+
+        switch (operationType)
+        {
+            case "Filter" :
+            case "Project" :
+                // 10 MBps
+                operationCost = operationSize / (10 * 10e-6);
+                break;
+            case "Aggregate" :
+                // 7 MBps
+                operationCost = operationSize / (7 * 10e-6);
+                break;
+            case "Join" :
+                // 1 MBps
+                operationCost = operationSize / (1 * 10e-6);
+                break;
+            default:
+                System.out.println("CostModel.getOperationCost: ERROR Unknown operation !");
+        }
+
+        return operationCost;
     }
 
 }

@@ -1,11 +1,12 @@
 import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Node;
+import CostModel.CostModel;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfileTree;
+import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-
 import java.io.FileNotFoundException;
 import java.util.List;
 
@@ -49,8 +50,8 @@ public class Optimization1 {
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
         // Generazione strutture dati dell'albero
-        List<Relation> l = c.getRelationTree().DFSVisit();
-        System.out.println(l);
+        List<Relation> relations = c.getRelationTree().DFSVisit();
+        System.out.println(relations);
 
         List<List<Node>> n = m.getSubjectTree().DFSVisit();
         for (int i = 0; i < n.size(); i++) {
@@ -59,5 +60,18 @@ public class Optimization1 {
                 System.out.println(n.get(i).get(x).getName());
             }
         }
+
+        // COST TEST
+        BinaryNode<Relation> target = new BinaryNode<>();
+        Relation relation = relations.get(6);
+        System.out.println("---> RELATION = " + relation);
+
+        BinaryNode<Relation> newNode = c.getRelationTree().getNode(c.getRelationTree().getRoot(), relation);
+
+        CostModel costModel = new CostModel();
+        double cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(0), DataBuilder.getDataBuilder().nodes.get(1), newNode);
+        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
+        System.out.println("---> COSTO = " + cost);
+
     }
 }
