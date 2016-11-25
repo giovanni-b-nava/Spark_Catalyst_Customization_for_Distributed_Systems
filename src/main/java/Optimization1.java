@@ -61,7 +61,7 @@ public class Optimization1 {
             }
         }
 
-        // COST TEST JOIN
+        // COST TEST of JOIN
         BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft();
 
         CostModel costModel = new CostModel();
