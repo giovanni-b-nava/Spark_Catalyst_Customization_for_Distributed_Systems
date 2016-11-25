@@ -66,7 +66,7 @@ public class Optimization1 {
         Relation relation = relations.get(6);
         System.out.println("---> RELATION = " + relation);
 
-        BinaryNode<Relation> newNode = c.getRelationTree().getNode(c.getRelationTree().getRoot(), relation);
+        BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft();
 
         CostModel costModel = new CostModel();
         double cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(0), DataBuilder.getDataBuilder().nodes.get(1), newNode);

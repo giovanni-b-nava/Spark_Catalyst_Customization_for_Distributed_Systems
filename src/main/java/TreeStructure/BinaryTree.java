@@ -130,29 +130,6 @@ public class BinaryTree<E> {
 			return trimRight(father);
 	}
 
-	// TODO REDO
-	public BinaryNode<E> getNode(BinaryNode<E> root, E element)
-	{
-		if (root == null)
-			return null;
-		if (element.equals(root.getElement()))
-			return root;
-		else
-		{
-			if (searchNode(root.getLeft(), element))
-				return root.getLeft();
-			if (searchNode(root.getRight(), element))
-				return root.getRight();
-
-			return null;
-		}
-	}
-
-	private boolean searchNode(BinaryNode<E> node, E element)
-	{
-		return node.getElement().equals(element);
-	}
-
 	public List<E> DFSVisit() {
 		List<E> output = new LinkedList<E>();
 		Stack<BinaryNode<E>> stack = new Stack<BinaryNode<E>>();
