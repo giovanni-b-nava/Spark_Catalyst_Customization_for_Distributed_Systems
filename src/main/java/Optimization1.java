@@ -61,15 +61,22 @@ public class Optimization1 {
             }
         }
 
-        // COST TEST
-        BinaryNode<Relation> target = new BinaryNode<>();
-        Relation relation = relations.get(6);
-        System.out.println("---> RELATION = " + relation);
-
-        BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft();
+        // COST TEST JOIN
+        BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft();
 
         CostModel costModel = new CostModel();
         double cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(0), DataBuilder.getDataBuilder().nodes.get(1), newNode);
+        System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(0).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(1).getName());
+        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
+        System.out.println("---> COSTO = " + cost);
+
+        cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(1), DataBuilder.getDataBuilder().nodes.get(2), newNode);
+        System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(1).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(2).getName());
+        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
+        System.out.println("---> COSTO = " + cost);
+
+        cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(2), DataBuilder.getDataBuilder().nodes.get(0), newNode);
+        System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(2).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(0).getName());
         System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
         System.out.println("---> COSTO = " + cost);
 

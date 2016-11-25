@@ -9,11 +9,11 @@ import java.util.List;
 public class Links {
 
     private List<String> name = new ArrayList<>();
-    private List<Double> throughput = new ArrayList<>();
+    private List<Double> costPerGB = new ArrayList<>();
 
     public Links(List<String> n, List<Double> t) {
         this.name = n;
-        this.throughput = t;
+        this.costPerGB = t;
     }
 
     public List<String> getName() {
@@ -24,12 +24,12 @@ public class Links {
         this.name = name;
     }
 
-    public List<Double> getThroughput() {
-        return throughput;
+    public List<Double> getCostPerGB() {
+        return costPerGB;
     }
 
-    public void setThroughput(List<Double> throughput) {
-        this.throughput = throughput;
+    public void setCostPerGB(List<Double> costPerGB) {
+        this.costPerGB = costPerGB;
     }
 
 }

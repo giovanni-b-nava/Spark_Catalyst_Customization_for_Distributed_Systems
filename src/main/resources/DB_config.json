@@ -8,7 +8,7 @@
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
-        "throughput" : [0, 0.01, 0.1]
+        "costPerGB" : [0, 0.01, 0.09]
       },
       "tables":
       [
@@ -57,7 +57,7 @@
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
-        "throughput" : [0.01, 0, 0.1]
+        "costPerGB" : [0.01, 0, 0.09]
       },
       "tables":
       [
@@ -106,7 +106,7 @@
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
-        "throughput" : [0.1, 0.1, 0]
+        "costPerGB" : [0.09, 0.09, 0]
       },
       "tables":
       [

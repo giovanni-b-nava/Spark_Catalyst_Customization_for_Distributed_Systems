@@ -4,7 +4,6 @@ import ConfigurationParser.Node;
 import RelationProfileTreeBuilder.Relation;
 import TreeStructure.BinaryNode;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -19,6 +18,9 @@ public class CostModel
         // Dimensions in Giga Bytes
         double totalGB = relationNode.getElement().getSyzeInBytes() * (10e-6);
 
+        // TODO TEST
+       // totalGB = totalGB * 1000;
+
         // Represents the single operation cost
         // [ $ ]
         double operationCost = getOperationCost(providerFrom, totalGB, relationNode.getElement().getOperation());
@@ -26,12 +28,15 @@ public class CostModel
         // Represents the proportion (encrypted attributes / total attributes)
         double encryptionPercent = getNumbersOfEncrypted(providerFrom, providerTo, relationNode) / (relationNode.getElement().getProfile().getVisiblePlaintext().size() + relationNode.getElement().getProfile().getVisibleEncrypted().size());
 
+        // TODO TEST
+        // encryptionPercent = 0.5;
+
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]
         double encryptionCost = ((totalGB * encryptionPercent) / (providerFrom.getCosts().getCpuSpeed() * providerFrom.getCosts().getEncryption())) * providerFrom.getCosts().getCpu();
 
         // Represent the transfer cost from children to father
-        double transferCost = relationNode.getElement().getSyzeInBytes() * (relationNode.getElement().getSyzeInBytes() / ((findThroughput(providerFrom, providerTo) * (providerFrom.getCosts().getCpu() + providerTo.getCosts().getCpu()))));
+        double transferCost = totalGB * findCostPerGB(providerFrom, providerTo);
 
         return (encryptionCost + transferCost + operationCost);
     }
@@ -58,13 +63,13 @@ public class CostModel
         return counter;
     }
 
-    private double findThroughput(Node providerFrom, Node providerTo)
+    private double findCostPerGB(Node providerFrom, Node providerTo)
     {
         List<String> linksName = providerFrom.getLinks().getName();
         int index = linksName.indexOf(providerTo.getName());
 
-        // return the throughput
-        return providerFrom.getLinks().getThroughput().get(index);
+        // return the right cost per GB
+        return providerFrom.getLinks().getCostPerGB().get(index);
     }
 
     private double getOperationCost(Node providerFrom, double totalGB, String operationType)
@@ -76,21 +81,21 @@ public class CostModel
             case "Filter" :
             case "Project" :
                 // 10 MBps
-                operationCost = totalGB * 1;
+                operationCost = 1;
                 break;
             case "Aggregate" :
                 // 7 MBps
-                operationCost = totalGB * 3;
+                operationCost = 0.7;
                 break;
             case "Join" :
                 // 1 MBps
-                operationCost = totalGB * 10;
+                operationCost = 0.1;
                 break;
             default:
                 System.out.println("CostModel.getOperationCost: ERROR Unknown operation !");
         }
 
-        return ( (operationCost / (providerFrom.getCosts().getCpuSpeed()) * providerFrom.getCosts().getCpu()) );
+        return ((totalGB / (providerFrom.getCosts().getCpuSpeed() * operationCost)) * providerFrom.getCosts().getCpu());
     }
 
 }
