@@ -4,11 +4,11 @@
     {
       "name" : "CL1",
       "category" : "client",
-      "costs" : { "cpu" : 0.0065, "encryption" : 1.01, "cpuSpeed" : 1},
+      "costs" : { "cpu" : 0.0000065, "encryption" : 1.01, "cpuSpeed" : 1},
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
-        "throughput" : [0, 100, 100]
+        "throughput" : [0, 0.01, 0.1]
       },
       "tables":
       [
@@ -53,11 +53,11 @@
     {
       "name" : "SS1",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.013, "encryption" : 1.01, "cpuSpeed" : 100},
+      "costs" : { "cpu" : 0.000036, "encryption" : 1.01, "cpuSpeed" : 100},
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
-        "throughput" : [100, 0, 10000]
+        "throughput" : [0.01, 0, 0.1]
       },
       "tables":
       [
@@ -102,11 +102,11 @@
     {
       "name" : "CS1",
       "category" : "computational_server",
-      "costs" : { "cpu" : 0.0026, "encryption" : 1.01, "cpuSpeed" : 500},
+      "costs" : { "cpu" : 0.00000072, "encryption" : 1.01, "cpuSpeed" : 500},
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
-        "throughput" : [100, 10000, 0]
+        "throughput" : [0.1, 0.1, 0]
       },
       "tables":
       [

@@ -16,25 +16,24 @@ public class CostModel
 
     public double computeCost(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
     {
-        double encryptedBytes = 0;
-        double plaintextBytes = 0;
-        double encryptionCost = 0;
-        double transferCost   = 0;
-        double operationCost  = 0;
+        // Dimensions in Giga Bytes
+        double totalGB = relationNode.getElement().getSyzeInBytes() * (10e-6);
+
+        // Represents the single operation cost
+        // [ $ ]
+        double operationCost = getOperationCost(providerFrom, totalGB, relationNode.getElement().getOperation());
 
         // Represents the proportion (encrypted attributes / total attributes)
-        double encryptionPercentage = getNumbersOfEncrypted(providerFrom, providerTo, relationNode) / (relationNode.getElement().getProfile().getVisiblePlaintext().size() + relationNode.getElement().getProfile().getVisibleEncrypted().size());
+        double encryptionPercent = getNumbersOfEncrypted(providerFrom, providerTo, relationNode) / (relationNode.getElement().getProfile().getVisiblePlaintext().size() + relationNode.getElement().getProfile().getVisibleEncrypted().size());
 
-        // Represents the encryption cost ( (bytes encrypted) / (encryption cost + cpu cost) )
-        // [ $/hour ]
-        encryptionCost = (relationNode.getElement().getSyzeInBytes() * encryptionPercentage) / (providerFrom.getCosts().getEncryption() * providerFrom.getCosts().getCpu());
+        // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
+        // [ $ ]
+        double encryptionCost = ((totalGB * encryptionPercent) / (providerFrom.getCosts().getCpuSpeed() * providerFrom.getCosts().getEncryption())) * providerFrom.getCosts().getCpu();
 
         // Represent the transfer cost from children to father
-        transferCost = relationNode.getElement().getSyzeInBytes() * (relationNode.getElement().getSyzeInBytes() / ((findThroughput(providerFrom, providerTo) * (providerFrom.getCosts().getCpu() + providerTo.getCosts().getCpu()))));
+        double transferCost = relationNode.getElement().getSyzeInBytes() * (relationNode.getElement().getSyzeInBytes() / ((findThroughput(providerFrom, providerTo) * (providerFrom.getCosts().getCpu() + providerTo.getCosts().getCpu()))));
 
-        operationCost = getOperationCost(relationNode.getElement().getSyzeInBytes(), relationNode.getElement().getOperation());
-
-        return (encryptionCost + transferCost + operationCost) / (10e6);
+        return (encryptionCost + transferCost + operationCost);
     }
 
     private double getNumbersOfEncrypted(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
@@ -68,7 +67,7 @@ public class CostModel
         return providerFrom.getLinks().getThroughput().get(index);
     }
 
-    private double getOperationCost(long operationSize, String operationType)
+    private double getOperationCost(Node providerFrom, double totalGB, String operationType)
     {
         double operationCost = 0;
 
@@ -77,21 +76,21 @@ public class CostModel
             case "Filter" :
             case "Project" :
                 // 10 MBps
-                operationCost = operationSize / (10 * 10e-6);
+                operationCost = totalGB * 1;
                 break;
             case "Aggregate" :
                 // 7 MBps
-                operationCost = operationSize / (7 * 10e-6);
+                operationCost = totalGB * 3;
                 break;
             case "Join" :
                 // 1 MBps
-                operationCost = operationSize / (1 * 10e-6);
+                operationCost = totalGB * 10;
                 break;
             default:
                 System.out.println("CostModel.getOperationCost: ERROR Unknown operation !");
         }
 
-        return operationCost;
+        return ( (operationCost / (providerFrom.getCosts().getCpuSpeed()) * providerFrom.getCosts().getCpu()) );
     }
 
 }
