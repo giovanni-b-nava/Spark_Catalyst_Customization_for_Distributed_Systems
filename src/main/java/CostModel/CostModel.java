@@ -4,38 +4,50 @@ import ConfigurationParser.Node;
 import RelationProfileTreeBuilder.Relation;
 import TreeStructure.BinaryNode;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Giovanni on 24/11/2016.
  */
 public class CostModel
 {
-    public int computeCost(Node start, Node destination, BinaryNode<Relation> relationNode)
+    public double computeCost(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
     {
-        int encryptedBytes;
-        int plaintextBytes;
-        int encryptionCost = 0;
-        int transferCost = 0;
-        int operationCost = 0;
+        double encryptedBytes;
+        double plaintextBytes;
+        double encryptionCost = 0;
+        double transferCost = 0;
+        double operationCost = 0;
 
-      //  int encryptionPercentage = (relation.getProfile().getImplicitEncrypted().size() + relation.getProfile().getVisibleEncrypted().size());
+        // Represents the proportion (encrypted attributes / total attributes)
+        double encryptionPercentage = getNumbersOfEncrypted(providerFrom, providerTo, relationNode) / (relationNode.getElement().getProfile().getVisiblePlaintext().size() + relationNode.getElement().getProfile().getVisibleEncrypted().size());
 
-        // TODO
+        // Represents the encryption cost ( (bytes + encryption overhead) / (encryption cost + cpu cost) )
+        encryptionCost = (relationNode.getElement().getSyzeInBytes() * 1.1 * encryptionPercentage) / (providerFrom.getCosts().getEncryption() * providerFrom.getCosts().getCpu());
+
+        // Represent the actual bytes (+ encryption) sent in the Link
+        double totalBytes = (relationNode.getElement().getSyzeInBytes() * 1.1 * encryptionPercentage) + (relationNode.getElement().getSyzeInBytes() * (1 - encryptionPercentage));
+
+        // Represent the transfer cost from children to father
+        transferCost = totalBytes * (providerFrom.getCosts().getOut() + providerTo.getCosts().getIn() + (totalBytes / (findThroughput(providerFrom, providerTo) * (providerFrom.getCosts().getCpu() + providerTo.getCosts().getCpu()))));
 
         return encryptionCost + transferCost + operationCost;
     }
 
-    private int getNumbersOfEncrypted(Node start, Node destination, BinaryNode<Relation> relationNode)
+    private double getNumbersOfEncrypted(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
     {
         int counter = 0;
         // For all the attributes in the Father ...
         for (int j=0; j < relationNode.getFather().getElement().getAttributes().size(); j++)
         {
             // ... for all the tables of the destination ...
-            for (int i=0; i < destination.getTables().size(); i++)
+            for (int i=0; i < providerTo.getTables().size(); i++)
             {
                 // ... if an encrypted destination table contains the attribute
-                if (destination.getTables().get(i).getEncrypted().contains(relationNode.getFather().getElement().getAttributes().get(j)))
+                if (providerTo.getTables().get(i).getEncrypted().contains(relationNode.getFather().getElement().getAttributes().get(j)))
                 {
+                    // count che number of the attributes to be sent encrypted
                     counter++;
                     break;
                 }
@@ -43,6 +55,15 @@ public class CostModel
         }
 
         return counter;
+    }
+
+    private double findThroughput(Node providerFrom, Node providerTo)
+    {
+        List<String> linksName = providerFrom.getLinks().getName();
+        int index = linksName.indexOf(providerTo.getName());
+
+        // return the throughput
+        return providerFrom.getLinks().getThroughput().get(index);
     }
 
 }
