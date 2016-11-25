@@ -16,20 +16,14 @@ public class CostModel
     public double computeCost(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
-        double totalGB = relationNode.getElement().getSyzeInBytes() * (10e-6);
-
-        // TODO TEST
-       // totalGB = totalGB * 1000;
+        double totalGB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
 
         // Represents the single operation cost
         // [ $ ]
         double operationCost = getOperationCost(providerFrom, totalGB, relationNode.getElement().getOperation());
 
         // Represents the proportion (encrypted attributes / total attributes)
-        double encryptionPercent = getNumbersOfEncrypted(providerFrom, providerTo, relationNode) / (relationNode.getElement().getProfile().getVisiblePlaintext().size() + relationNode.getElement().getProfile().getVisibleEncrypted().size());
-
-        // TODO TEST
-        // encryptionPercent = 0.5;
+        double encryptionPercent = getNumbersOfEncrypted(providerTo, relationNode) / (relationNode.getElement().getProfile().getVisiblePlaintext().size() + relationNode.getElement().getProfile().getVisibleEncrypted().size());
 
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]
@@ -41,7 +35,7 @@ public class CostModel
         return (encryptionCost + transferCost + operationCost);
     }
 
-    private double getNumbersOfEncrypted(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
+    private double getNumbersOfEncrypted(Node providerTo, BinaryNode<Relation> relationNode)
     {
         int counter = 0;
         // For all the attributes in the Father ...
