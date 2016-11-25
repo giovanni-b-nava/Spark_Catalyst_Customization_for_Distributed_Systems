@@ -12,29 +12,29 @@ import java.util.List;
  */
 public class CostModel
 {
+
+
     public double computeCost(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
     {
-        double encryptedBytes;
-        double plaintextBytes;
+        double encryptedBytes = 0;
+        double plaintextBytes = 0;
         double encryptionCost = 0;
-        double transferCost = 0;
-        double operationCost = 0;
+        double transferCost   = 0;
+        double operationCost  = 0;
 
         // Represents the proportion (encrypted attributes / total attributes)
         double encryptionPercentage = getNumbersOfEncrypted(providerFrom, providerTo, relationNode) / (relationNode.getElement().getProfile().getVisiblePlaintext().size() + relationNode.getElement().getProfile().getVisibleEncrypted().size());
 
-        // Represents the encryption cost ( (bytes + encryption overhead) / (encryption cost + cpu cost) )
-        encryptionCost = (relationNode.getElement().getSyzeInBytes() * 1.1 * encryptionPercentage) / (providerFrom.getCosts().getEncryption() * providerFrom.getCosts().getCpu());
-
-        // Represent the actual bytes (+ encryption) sent in the Link
-        double totalBytes = (relationNode.getElement().getSyzeInBytes() * 1.1 * encryptionPercentage) + (relationNode.getElement().getSyzeInBytes() * (1 - encryptionPercentage));
+        // Represents the encryption cost ( (bytes encrypted) / (encryption cost + cpu cost) )
+        // [ $/hour ]
+        encryptionCost = (relationNode.getElement().getSyzeInBytes() * encryptionPercentage) / (providerFrom.getCosts().getEncryption() * providerFrom.getCosts().getCpu());
 
         // Represent the transfer cost from children to father
-        transferCost = totalBytes * (providerFrom.getCosts().getOut() + providerTo.getCosts().getIn() + (totalBytes / (findThroughput(providerFrom, providerTo) * (providerFrom.getCosts().getCpu() + providerTo.getCosts().getCpu()))));
+        transferCost = relationNode.getElement().getSyzeInBytes() * (relationNode.getElement().getSyzeInBytes() / ((findThroughput(providerFrom, providerTo) * (providerFrom.getCosts().getCpu() + providerTo.getCosts().getCpu()))));
 
         operationCost = getOperationCost(relationNode.getElement().getSyzeInBytes(), relationNode.getElement().getOperation());
 
-        return encryptionCost + transferCost + operationCost;
+        return (encryptionCost + transferCost + operationCost) / (10e6);
     }
 
     private double getNumbersOfEncrypted(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)

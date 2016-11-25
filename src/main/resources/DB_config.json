@@ -4,7 +4,7 @@
     {
       "name" : "CL1",
       "category" : "client",
-      "costs" : { "cpu" : 0.0006, "in" : 0.0, "out" : 0.0, "encryption" : 500},
+      "costs" : { "cpu" : 0.0065, "encryption" : 1.01, "cpuSpeed" : 1},
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
@@ -53,7 +53,7 @@
     {
       "name" : "SS1",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.0002, "in" : 0.00001, "out" : 0.00001, "encryption" : 500},
+      "costs" : { "cpu" : 0.013, "encryption" : 1.01, "cpuSpeed" : 100},
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
@@ -102,7 +102,7 @@
     {
       "name" : "CS1",
       "category" : "computational_server",
-      "costs" : { "cpu" : 0.00006, "in" : 0.00001, "out" : 0.00001, "encryption" : 500},
+      "costs" : { "cpu" : 0.0026, "encryption" : 1.01, "cpuSpeed" : 500},
       "links" :
       {
         "name" : ["CL1", "SS1", "CS1"],
