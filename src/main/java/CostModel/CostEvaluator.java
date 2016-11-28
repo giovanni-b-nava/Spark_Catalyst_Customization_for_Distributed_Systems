@@ -9,7 +9,7 @@ import java.util.List;
 /**
  * Created by Giovanni on 24/11/2016.
  */
-public class CostModel
+public class CostEvaluator
 {
 
 
@@ -74,19 +74,16 @@ public class CostModel
         {
             case "Filter" :
             case "Project" :
-                // 10 MBps
                 operationCost = 1;
                 break;
             case "Aggregate" :
-                // 7 MBps
                 operationCost = 0.7;
                 break;
             case "Join" :
-                // 1 MBps
                 operationCost = 0.1;
                 break;
             default:
-                System.out.println("CostModel.getOperationCost: ERROR Unknown operation !");
+                System.out.println("CostEvaluator.getOperationCost: ERROR Unknown operation !");
         }
 
         return ((totalGB / (providerFrom.getCosts().getCpuSpeed() * operationCost)) * providerFrom.getCosts().getCpu());
