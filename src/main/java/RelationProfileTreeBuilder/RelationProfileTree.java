@@ -204,7 +204,7 @@ public class RelationProfileTree {
         switch (node.getElement().getOperation()) {
             // All attributes became implicit except the ones of aggregate that remain visible
             case "Aggregate":
-                // Check if the attributes of the project are plaintext or encrypted for the child and put them in the correct list
+                // Check if the attributes of the aggregate are plaintext or encrypted for the child and put them in the correct list
                 for(int i=0; i < node.getElement().getAttributes().size(); i++) {
                     if (node.getLeft().getElement().getProfile().getVisiblePlaintext().contains(node.getElement().getAttributes().get(i))) {
                         List<String> newVisiblePlaintext = new ArrayList<>();

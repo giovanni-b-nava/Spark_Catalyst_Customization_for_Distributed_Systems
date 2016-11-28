@@ -20,7 +20,7 @@ public class Configurator {
         List<Node> list = new ArrayList<>();
         Gson g = new Gson();
 
-        // Read and parse the file
+        // Read and parse the json file
         JsonReader reader = new JsonReader(new FileReader(jsonFile));
         JsonElement jelement = new JsonParser().parse(reader);
 
