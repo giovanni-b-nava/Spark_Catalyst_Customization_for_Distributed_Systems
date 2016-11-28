@@ -9,18 +9,18 @@ import java.util.HashMap;
 /**
  * Created by Giovanni on 24/11/2016.
  */
-public class SubplanMap
+public class SubplansMap
 {
     private HashMap<Integer, Integer> subplanMap;
 
-    public SubplanMap()
+    public SubplansMap()
     {
         subplanMap = new HashMap<>();
     }
 
-    public void addSubplan(Node node, Relation relation, int cost)
+    public void addSubplan(Node provider, Relation relation, int cost)
     {
-        int hashCode = node.hashCode() + relation.hashCode();
+        int hashCode = provider.hashCode() + relation.hashCode();
         if (subplanMap.containsKey(hashCode) && subplanMap.get(hashCode) > cost)
             subplanMap.put(hashCode, cost);
     }
