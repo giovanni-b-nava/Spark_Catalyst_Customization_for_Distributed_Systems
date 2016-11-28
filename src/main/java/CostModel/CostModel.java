@@ -12,7 +12,8 @@ import TreeStructure.BinaryNode;
 public class CostModel
 {
 
-    private RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
+    // TODO private
+    public RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
     {
         RelationProfile fatherProfile = relationNode.getFather().getElement().getProfile();
         RelationProfile currentProfile = relationNode.getElement().getProfile();
@@ -55,6 +56,7 @@ public class CostModel
                     updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                     updatedProfile.getVisibleEncrypted().add(currentAttribute);
                 }
+                // TODO check error
                 else if (!currentProfile.getVisiblePlaintext().contains(currentAttribute))
                     System.out.println("CostModel.UpdateRelationProfile: ERROR invalid attribute (visibility#2)");
             }

@@ -1,13 +1,16 @@
 import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Node;
 import CostModel.CostEvaluator;
+import CostModel.CostModel;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
+import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -79,6 +82,24 @@ public class Optimization1 {
         System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(2).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(0).getName());
         System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
         System.out.println("---> COSTO = " + cost);
+
+        // updateRelationProfile TEST
+        newNode = newNode.getLeft().getLeft();
+        BinaryNode<Relation> tempNode = newNode;
+        System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
+
+        List<String> tList = new ArrayList<>();
+        tList.addAll(tempNode.getElement().getProfile().getVisiblePlaintext());
+
+        tempNode.getElement().getProfile().setVisibleEncrypted(tList);
+        tempNode.getElement().getProfile().getVisiblePlaintext().clear();
+        System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
+
+        CostModel costModel = new CostModel();
+        RelationProfile updatedProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().nodes.get(2), tempNode);
+
+        System.out.println("******************************************");
+        System.out.println("---> UPDATED PROFILE:\n" + updatedProfile.toString());
 
     }
 }
