@@ -149,7 +149,7 @@ public class AuthorizationModel {
     }
 
     // Check if the current attribute has the right visibility
-    private boolean checkVisibility(Node node, String attribute, String visibility) {
+    public static boolean checkVisibility(Node node, String attribute, String visibility) {
         for(int x = 0; x < node.getTables().size(); x++) {
             if(visibility.equals("Plaintext")) {
                 if(node.getTables().get(x).getPlaintext().contains(attribute)) {
