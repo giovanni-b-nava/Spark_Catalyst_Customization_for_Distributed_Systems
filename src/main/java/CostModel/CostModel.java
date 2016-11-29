@@ -30,7 +30,8 @@ public class CostModel
 
                 RelationProfile updatedProfile = updateRelationProfile(providerTo, relationNode);
                 relationNode.getFather().getElement().setRelationProfile(updatedProfile);
-                // double relationCost =
+                double relationCost = computeCost(providerFrom, providerTo, relationNode);
+                relationNode.getElement().getSubplansMap().addSubplan(providerFrom, relationNode.getElement(), relationCost);
 
             }
         }
@@ -136,6 +137,7 @@ public class CostModel
     // ************************************************************************
     // Cost Computation
 
+    // TODO private
     public double computeCost(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
