@@ -12,8 +12,7 @@ import TreeStructure.BinaryNode;
 public class CostModel
 {
 
-    // TODO private
-    public RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
+    private RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
     {
         RelationProfile fatherProfile = relationNode.getFather().getElement().getProfile();
         RelationProfile currentProfile = relationNode.getElement().getProfile();
@@ -107,10 +106,5 @@ public class CostModel
 
         return updatedProfile;
     }
-
-
-
-
-
 
 }

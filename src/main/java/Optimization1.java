@@ -83,26 +83,5 @@ public class Optimization1 {
         System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
         System.out.println("---> COSTO = " + cost);
 
-        // updateRelationProfile TEST
-        newNode = newNode.getLeft().getLeft();
-        //BinaryNode<Relation> tempNode = newNode;
-       // System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
-
-        List<String> tList = new ArrayList<>();
-//        tList.addAll(tempNode.getElement().getProfile().getVisiblePlaintext());
-//
-//        tempNode.getElement().getProfile().setVisibleEncrypted(tList);
-//        tempNode.getElement().getProfile().getVisiblePlaintext().clear();
-//        System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
-
-        CostModel costModel = new CostModel();
-        RelationProfile updatedProfile = null;
-        updatedProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().nodes.get(2), newNode);
-
-
-
-        System.out.println("******************************************");
-        System.out.println("---> UPDATED PROFILE:\n" + updatedProfile.toString());
-
     }
 }
