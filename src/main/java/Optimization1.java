@@ -85,7 +85,11 @@ public class Optimization1
 
 
         // TEST generateSubplans
-        // costModel.generateSubplans(DataBuilder.getDataBuilder().nodes.get(2), newNode);
+        costModel.generateSubplans(newNode, DataBuilder.getDataBuilder().nodes);
+
+        // Generazione strutture dati dell'albero
+        relations = c.getRelationTree().DFSVisit();
+        System.out.println(relations);
 
     }
 }

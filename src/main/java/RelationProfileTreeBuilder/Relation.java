@@ -106,25 +106,13 @@ public class Relation {
         this.subplansMap = subplansMap;
     }
 
-//    public String toString() {
-//        return "Operation: " + this.operation + "\n" +
-//                "Attributes: " + this.attributes.toString() + "\n" +
-//                "Syze in Byte: " + this.syzeInBytes + "\n" +
-//                "Table Name: " + this.tableName + "\n" +
-//                this.relationProfile.toString() + "end relation" +"\n";
-//    }
-
-
-    @Override
     public String toString() {
-        return "Relation{" +
-                "operation='" + operation + '\'' +
-                ", attributes=" + attributes +
-                ", syzeInBytes=" + syzeInBytes +
-                ", relationProfile=" + relationProfile +
-                ", tableName='" + tableName + '\'' +
-                ", subplansMap=" + subplansMap +
-                '}';
+        return "Operation: " + this.operation + "\n" +
+                "Attributes: " + this.attributes.toString() + "\n" +
+                "Syze in Byte: " + this.syzeInBytes + "\n" +
+                "Table Name: " + this.tableName + "\n" +
+                this.relationProfile.toString() +
+                "subPlansMap: " + subplansMap + "\n";
     }
 
     @Override

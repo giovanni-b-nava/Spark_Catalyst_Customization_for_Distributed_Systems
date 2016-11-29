@@ -32,8 +32,6 @@ public class SubplansMap
 
     @Override
     public String toString() {
-        return "SubplansMap{" +
-                "subplanMap=" + subplanMap +
-                '}';
+        return subplanMap.toString();
     }
 }
