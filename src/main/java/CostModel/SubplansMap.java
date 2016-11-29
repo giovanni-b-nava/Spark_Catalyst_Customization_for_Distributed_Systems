@@ -21,8 +21,14 @@ public class SubplansMap
     public void addSubplan(Node provider, Relation relation, double cost)
     {
         int hashCode = provider.hashCode() + relation.hashCode();
-        if (subplanMap.containsKey(hashCode) && subplanMap.get(hashCode) > cost)
+        if (subplanMap.containsKey(hashCode))
+        {
+            if (subplanMap.get(hashCode) > cost)
+                subplanMap.put(hashCode, cost);
+        }
+        else
             subplanMap.put(hashCode, cost);
+
     }
 
     public HashMap<Integer, Double> getSubplanMap()

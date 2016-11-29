@@ -65,7 +65,7 @@ public class Optimization1
         }
 
         // COST TEST of JOIN
-        BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft();
+        BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
 
         CostModel costModel = new CostModel();
 //        double cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(0), DataBuilder.getDataBuilder().nodes.get(1), newNode);
