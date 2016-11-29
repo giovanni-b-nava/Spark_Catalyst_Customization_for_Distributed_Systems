@@ -14,6 +14,7 @@ import java.util.List;
 public class CostModel
 {
 
+
     public void generateSubplans(BinaryNode<Relation> relationNode, List<Node> nodes)
     {
         Node providerTo;
@@ -21,22 +22,26 @@ public class CostModel
 
         // TODO fare controllo per gestire il caso della LogicalRelation
 
+        // For all the from providers...
         for (int i=0; i < nodes.size(); i++)
         {
             providerFrom = nodes.get(i);
+            // For all the to providers...
             for (int j=0; j < nodes.size(); j++)
             {
                 providerTo = nodes.get(j);
 
+                // Update the relation profile of the father
                 RelationProfile updatedProfile = updateRelationProfile(providerTo, relationNode);
                 relationNode.getFather().getElement().setRelationProfile(updatedProfile);
+                // Compute the cost
                 double relationCost = computeCost(providerFrom, providerTo, relationNode);
+                // Add the subplan(hashcode, cost) to the relation
                 relationNode.getElement().getSubplansMap().addSubplan(providerFrom, relationNode.getElement(), relationCost);
 
             }
         }
     }
-
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
     private RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
