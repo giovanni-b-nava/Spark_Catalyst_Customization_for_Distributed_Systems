@@ -79,10 +79,9 @@ public class AuthorizationModel {
                 if (this.isAuthorized(nodes.get(i), node.getElement().getProfile())) {
                     n.add(nodes.get(i));
                 }
-            } else {
-                if(nodes.get(i).getCategory().equals("storage_server")) {
-                    n.add(nodes.get(i));
-                }
+            }
+            else if(nodes.get(i).getCategory().equals("storage_server")) {
+                n.add(nodes.get(i));
             }
         }
         return n;
