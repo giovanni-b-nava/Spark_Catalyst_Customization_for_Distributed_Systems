@@ -85,18 +85,21 @@ public class Optimization1 {
 
         // updateRelationProfile TEST
         newNode = newNode.getLeft().getLeft();
-        BinaryNode<Relation> tempNode = newNode;
-        System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
+        //BinaryNode<Relation> tempNode = newNode;
+       // System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
 
         List<String> tList = new ArrayList<>();
-        tList.addAll(tempNode.getElement().getProfile().getVisiblePlaintext());
-
-        tempNode.getElement().getProfile().setVisibleEncrypted(tList);
-        tempNode.getElement().getProfile().getVisiblePlaintext().clear();
-        System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
+//        tList.addAll(tempNode.getElement().getProfile().getVisiblePlaintext());
+//
+//        tempNode.getElement().getProfile().setVisibleEncrypted(tList);
+//        tempNode.getElement().getProfile().getVisiblePlaintext().clear();
+//        System.out.println("tempNode :\n" + tempNode.getElement().getProfile().toString());
 
         CostModel costModel = new CostModel();
-        RelationProfile updatedProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().nodes.get(2), tempNode);
+        RelationProfile updatedProfile = null;
+        updatedProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().nodes.get(2), newNode);
+
+
 
         System.out.println("******************************************");
         System.out.println("---> UPDATED PROFILE:\n" + updatedProfile.toString());

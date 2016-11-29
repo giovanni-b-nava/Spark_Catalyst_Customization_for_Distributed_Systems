@@ -6,7 +6,8 @@ import java.util.List;
 /**
  * Created by Spark on 17/11/2016.
  */
-public class RelationProfile {
+public class RelationProfile implements Cloneable
+{
 
     // Attributes visible in plaintext
     private List<String> visiblePlaintext;
@@ -27,12 +28,24 @@ public class RelationProfile {
         this.equivalenceSets = new ArrayList<>();
     }
 
+
     public RelationProfile(List<String> vp, List<String> ve, List<String> ip, List<String> ie, List<List<String>> es) {
         this.visiblePlaintext = vp;
         this.visibleEncrypted = ve;
         this.implicitPlaintext = ip;
         this.implicitEncrypted = ie;
         this.equivalenceSets = es;
+    }
+
+    public RelationProfile(RelationProfile profile)
+    {
+        this();
+
+        this.visiblePlaintext.addAll(profile.getVisiblePlaintext());
+        this.visibleEncrypted.addAll(profile.getVisibleEncrypted());
+        this.implicitPlaintext.addAll(profile.getImplicitPlaintext());
+        this.implicitEncrypted.addAll(profile.getImplicitEncrypted());
+        this.equivalenceSets.addAll(profile.getEquivalenceSets());
     }
 
     public List<String> getVisiblePlaintext() {
@@ -82,4 +95,5 @@ public class RelationProfile {
                 "Implicit Encrypted: " + this.implicitEncrypted.toString() + "\n" +
                 "Equivalence Sets: " + this.equivalenceSets.toString() + "\n";
     }
+
 }
