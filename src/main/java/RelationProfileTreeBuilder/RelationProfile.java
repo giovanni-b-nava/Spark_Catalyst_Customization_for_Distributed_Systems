@@ -37,6 +37,7 @@ public class RelationProfile implements Cloneable
         this.equivalenceSets = es;
     }
 
+    // Create a NEW copy of a RelationProfile
     public RelationProfile(RelationProfile profile)
     {
         this();

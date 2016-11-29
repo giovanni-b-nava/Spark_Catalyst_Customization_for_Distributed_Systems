@@ -12,6 +12,7 @@ import TreeStructure.BinaryNode;
 public class CostModel
 {
 
+    // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
     private RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
     {
         RelationProfile fatherProfile = relationNode.getFather().getElement().getProfile();
