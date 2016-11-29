@@ -1,5 +1,7 @@
 package RelationProfileTreeBuilder;
 
+import CostModel.SubplansMap;
+
 import java.util.List;
 
 /**
@@ -13,41 +15,47 @@ public class Relation {
     private List<String> attributes;
     // Size in byte of the data in the operation
     private long syzeInBytes;
-    // Relation profile of the relation
-    private RelationProfile profile;
+    // Relation relationProfile of the relation
+    private RelationProfile relationProfile;
     // Name of the table (only for LogicalRelations)
     private String tableName;
+    // Map of subplan costs
+    private SubplansMap subplansMap;
 
     public Relation(String o, List<String> a, long s) {
         this.operation = o;
         this.attributes = a;
         this.syzeInBytes = s;
-        this.profile = null;
+        this.relationProfile = null;
         this.tableName = "Not a table";
+        this.subplansMap = new SubplansMap();
     }
 
     public Relation(String o, List<String> a, RelationProfile p, long s) {
         this.operation = o;
         this.attributes = a;
         this.syzeInBytes = s;
-        this.profile = p;
+        this.relationProfile = p;
         this.tableName = "Not a table";
+        this.subplansMap = new SubplansMap();
     }
 
     public Relation(String o, List<String> a, RelationProfile p, String t, long s) {
         this.operation = o;
         this.attributes = a;
         this.syzeInBytes = s;
-        this.profile = p;
+        this.relationProfile = p;
         this.tableName = t;
+        this.subplansMap = new SubplansMap();
     }
 
     public Relation(String o, List<String> a, String t, long s) {
         this.operation = o;
         this.attributes = a;
         this.syzeInBytes = s;
-        this.profile = null;
+        this.relationProfile = null;
         this.tableName = t;
+        this.subplansMap = new SubplansMap();
     }
 
     public String getOperation() {
@@ -74,12 +82,12 @@ public class Relation {
         this.syzeInBytes = syzeInBytes;
     }
 
-    public RelationProfile getProfile() {
-        return profile;
+    public RelationProfile getRelationProfile() {
+        return relationProfile;
     }
 
-    public void setProfile(RelationProfile profile) {
-        this.profile = profile;
+    public void setRelationProfile(RelationProfile relationProfile) {
+        this.relationProfile = relationProfile;
     }
 
     public String getTableName() {
@@ -90,12 +98,20 @@ public class Relation {
         this.tableName = tableName;
     }
 
+    public SubplansMap getSubplansMap() {
+        return subplansMap;
+    }
+
+    public void setSubplansMap(SubplansMap subplansMap) {
+        this.subplansMap = subplansMap;
+    }
+
     public String toString() {
         return "Operation: " + this.operation + "\n" +
                 "Attributes: " + this.attributes.toString() + "\n" +
                 "Syze in Byte: " + this.syzeInBytes + "\n" +
                 "Table Name: " + this.tableName + "\n" +
-                this.profile.toString() + "end relation" +"\n";
+                this.relationProfile.toString() + "end relation" +"\n";
     }
 
     @Override

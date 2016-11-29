@@ -4,6 +4,7 @@ import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Node;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
+import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 
 /**
@@ -12,11 +13,17 @@ import TreeStructure.BinaryNode;
 public class CostModel
 {
 
+    public void generateSubplans(RelationProfileTree relationProfileTree)
+    {
+
+    }
+
+
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
     private RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
     {
-        RelationProfile fatherProfile = relationNode.getFather().getElement().getProfile();
-        RelationProfile currentProfile = relationNode.getElement().getProfile();
+        RelationProfile fatherProfile = relationNode.getFather().getElement().getRelationProfile();
+        RelationProfile currentProfile = relationNode.getElement().getRelationProfile();
 
         RelationProfile updatedProfile = new RelationProfile(fatherProfile);
 

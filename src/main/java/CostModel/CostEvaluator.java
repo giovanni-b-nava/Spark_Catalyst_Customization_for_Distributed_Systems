@@ -23,7 +23,7 @@ public class CostEvaluator
         double operationCost = getOperationCost(providerFrom, totalGB, relationNode.getElement().getOperation());
 
         // Represents the proportion (encrypted attributes / total attributes)
-        double encryptionPercent = getNumbersOfEncrypted(providerTo, relationNode) / (relationNode.getFather().getElement().getProfile().getVisiblePlaintext().size() + relationNode.getFather().getElement().getProfile().getVisibleEncrypted().size());
+        double encryptionPercent = getNumbersOfEncrypted(providerTo, relationNode) / (relationNode.getFather().getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getFather().getElement().getRelationProfile().getVisibleEncrypted().size());
 
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]

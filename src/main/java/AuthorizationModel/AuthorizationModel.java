@@ -76,7 +76,7 @@ public class AuthorizationModel {
         List<Node> n = new ArrayList<>();
         for(int i=0; i < nodes.size(); i++) {
             if(!node.getElement().getOperation().equals("LogicalRelation")) {
-                if (this.isAuthorized(nodes.get(i), node.getElement().getProfile())) {
+                if (this.isAuthorized(nodes.get(i), node.getElement().getRelationProfile())) {
                     n.add(nodes.get(i));
                 }
             }

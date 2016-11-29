@@ -3,9 +3,6 @@ package RelationProfileTreeBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Spark on 17/11/2016.
- */
 public class RelationProfile
 {
 
