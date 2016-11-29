@@ -16,9 +16,11 @@ import java.util.List;
 /**
  * Descrizione della classe
  *  */
-public class Optimization1 {
+public class Optimization1
+{
 
-    public static void main(String[] args) throws FileNotFoundException {
+    public static void main(String[] args) throws FileNotFoundException
+    {
 
         DataBuilder.getDataBuilder().buildData();
 

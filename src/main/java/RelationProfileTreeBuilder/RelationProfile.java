@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Spark on 17/11/2016.
  */
-public class RelationProfile implements Cloneable
+public class RelationProfile
 {
 
     // Attributes visible in plaintext
