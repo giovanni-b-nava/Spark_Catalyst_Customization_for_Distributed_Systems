@@ -1,16 +1,14 @@
 import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Node;
-import CostModel.CostEvaluator;
 import CostModel.CostModel;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
-import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
+
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -69,18 +67,18 @@ public class Optimization1
         // COST TEST of JOIN
         BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft();
 
-        CostEvaluator costEvaluator = new CostEvaluator();
-        double cost = costEvaluator.computeCost(DataBuilder.getDataBuilder().nodes.get(0), DataBuilder.getDataBuilder().nodes.get(1), newNode);
+        CostModel costModel = new CostModel();
+        double cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(0), DataBuilder.getDataBuilder().nodes.get(1), newNode);
         System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(0).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(1).getName());
         System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
         System.out.println("---> COSTO = " + cost);
 
-        cost = costEvaluator.computeCost(DataBuilder.getDataBuilder().nodes.get(1), DataBuilder.getDataBuilder().nodes.get(2), newNode);
+        cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(1), DataBuilder.getDataBuilder().nodes.get(2), newNode);
         System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(1).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(2).getName());
         System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
         System.out.println("---> COSTO = " + cost);
 
-        cost = costEvaluator.computeCost(DataBuilder.getDataBuilder().nodes.get(2), DataBuilder.getDataBuilder().nodes.get(0), newNode);
+        cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(2), DataBuilder.getDataBuilder().nodes.get(0), newNode);
         System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(2).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(0).getName());
         System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
         System.out.println("---> COSTO = " + cost);
