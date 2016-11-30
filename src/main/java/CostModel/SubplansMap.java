@@ -1,8 +1,7 @@
 package CostModel;
 
-import ConfigurationParser.Node;
+import ConfigurationParser.Provider;
 import RelationProfileTreeBuilder.Relation;
-import spire.math.algebraic.Sub;
 
 import java.util.HashMap;
 
@@ -18,7 +17,7 @@ public class SubplansMap
         subplanMap = new HashMap<>();
     }
 
-    public void addSubplan(Node provider, Relation relation, double cost)
+    public void addSubplan(Provider provider, Relation relation, double cost)
     {
         int hashCode = provider.hashCode() + relation.hashCode();
         if (subplanMap.containsKey(hashCode))

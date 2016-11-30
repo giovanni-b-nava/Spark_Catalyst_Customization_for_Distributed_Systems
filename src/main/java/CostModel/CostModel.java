@@ -1,7 +1,7 @@
 package CostModel;
 
 import AuthorizationModel.AuthorizationModel;
-import ConfigurationParser.Node;
+import ConfigurationParser.Provider;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
 import TreeStructure.BinaryNode;
@@ -15,21 +15,21 @@ public class CostModel
 {
 
 
-    public void generateSubplans(BinaryNode<Relation> relationNode, List<Node> nodes)
+    public void generateSubplans(BinaryNode<Relation> relationNode, List<Provider> providers)
     {
-        Node providerTo;
-        Node providerFrom;
+        Provider providerTo;
+        Provider providerFrom;
 
         // TODO fare controllo per gestire il caso della LogicalRelation
 
         // For all the from providers...
-        for (int i=0; i < nodes.size(); i++)
+        for (int i = 0; i < providers.size(); i++)
         {
-            providerFrom = nodes.get(i);
+            providerFrom = providers.get(i);
             // For all the to providers...
-            for (int j=0; j < nodes.size(); j++)
+            for (int j = 0; j < providers.size(); j++)
             {
-                providerTo = nodes.get(j);
+                providerTo = providers.get(j);
 
                 // Update the relation profile of the father
                 RelationProfile updatedProfile = updateRelationProfile(providerTo, relationNode);
@@ -44,7 +44,7 @@ public class CostModel
     }
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
-    private RelationProfile updateRelationProfile(Node providerTo, BinaryNode<Relation> relationNode)
+    private RelationProfile updateRelationProfile(Provider providerTo, BinaryNode<Relation> relationNode)
     {
         RelationProfile fatherProfile = relationNode.getFather().getElement().getRelationProfile();
         RelationProfile currentProfile = relationNode.getElement().getRelationProfile();
@@ -143,7 +143,7 @@ public class CostModel
     // Cost Computation
 
     // TODO private
-    public double computeCost(Node providerFrom, Node providerTo, BinaryNode<Relation> relationNode)
+    public double computeCost(Provider providerFrom, Provider providerTo, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
         double totalGB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
@@ -165,7 +165,7 @@ public class CostModel
         return (encryptionCost + transferCost + operationCost);
     }
 
-    private double getNumbersOfEncrypted(Node providerTo, BinaryNode<Relation> relationNode)
+    private double getNumbersOfEncrypted(Provider providerTo, BinaryNode<Relation> relationNode)
     {
         int counter = 0;
         // For all the attributes in the Father ...
@@ -187,7 +187,7 @@ public class CostModel
         return counter;
     }
 
-    private double findCostPerGB(Node providerFrom, Node providerTo)
+    private double findCostPerGB(Provider providerFrom, Provider providerTo)
     {
         List<String> linksName = providerFrom.getLinks().getName();
         int index = linksName.indexOf(providerTo.getName());
@@ -196,7 +196,7 @@ public class CostModel
         return providerFrom.getLinks().getCostPerGB().get(index);
     }
 
-    private double getOperationCost(Node providerFrom, double totalGB, String operationType)
+    private double getOperationCost(Provider providerFrom, double totalGB, String operationType)
     {
         double operationCost = 0;
 

@@ -1,5 +1,5 @@
 import AuthorizationModel.AuthorizationModel;
-import ConfigurationParser.Node;
+import ConfigurationParser.Provider;
 import CostModel.CostModel;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
@@ -56,7 +56,7 @@ public class Optimization1
         List<Relation> relations = c.getRelationTree().DFSVisit();
         System.out.println(relations);
 
-        List<List<Node>> n = m.getSubjectTree().DFSVisit();
+        List<List<Provider>> n = m.getSubjectTree().DFSVisit();
         for (int i = 0; i < n.size(); i++) {
             System.out.println("Nodo " + i + ":");
             for (int x = 0; x < n.get(i).size(); x++) {

@@ -1,7 +1,7 @@
 package DataConfigBuilder;
 
 import ConfigurationParser.Configurator;
-import ConfigurationParser.Node;
+import ConfigurationParser.Provider;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
 import org.apache.spark.sql.SparkSession;
@@ -30,7 +30,7 @@ public class DataBuilder {
     public List<Dataset<Row>> tables = new ArrayList<>();
     public List<String> tableNames = new ArrayList<>();
     // System providers
-    public List<Node> providers;
+    public List<Provider> providers;
     // Map of the dimension of the tables
     public Map<String, Long> tuples = new HashMap<>();
 

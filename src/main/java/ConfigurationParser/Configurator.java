@@ -14,10 +14,10 @@ import java.util.List;
 public class Configurator {
 
     // Returns the list of providers with all the data taken from the configuration file .json
-    public List<Node> parse(String jsonFile) throws FileNotFoundException {
+    public List<Provider> parse(String jsonFile) throws FileNotFoundException {
 
         // Support objects
-        List<Node> list = new ArrayList<>();
+        List<Provider> list = new ArrayList<>();
         Gson g = new Gson();
 
         // Read and parse the json file
@@ -26,11 +26,11 @@ public class Configurator {
 
         // Read and add the providers to the list
         JsonObject jobject = jelement.getAsJsonObject();
-        JsonArray nodes = jobject.getAsJsonArray("providers");
+        JsonArray providers = jobject.getAsJsonArray("providers");
         int i = 0;
-        while(i < nodes.size()) {
-            JsonObject node = nodes.get(i).getAsJsonObject();
-            Node n = g.fromJson(node, Node.class);
+        while(i < providers.size()) {
+            JsonObject provider = providers.get(i).getAsJsonObject();
+            Provider n = g.fromJson(provider, Provider.class);
             list.add(n);
             i++;
         }

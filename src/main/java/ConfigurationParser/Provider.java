@@ -6,7 +6,7 @@ import java.util.List;
 /**
  * Created by Spark on 09/11/2016.
  */
-public class Node {
+public class Provider {
 
     // Name of the node
     private String name;
@@ -19,7 +19,7 @@ public class Node {
     // List of tables with plaintext and encrypted attributes
     private List<Table> tables = new ArrayList<>();
 
-    public Node(String n, String c, Costs co, Links l, List<Table> t) {
+    public Provider(String n, String c, Costs co, Links l, List<Table> t) {
         this.name = n;
         this.category = c;
         this.costs = co;
@@ -70,13 +70,13 @@ public class Node {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Node)) return false;
+        if (!(o instanceof Provider)) return false;
 
-        Node node = (Node) o;
+        Provider provider = (Provider) o;
 
-        if (name != null ? !name.equals(node.name) : node.name != null) return false;
-        if (category != null ? !category.equals(node.category) : node.category != null) return false;
-        return costs != null ? costs.equals(node.costs) : node.costs == null;
+        if (name != null ? !name.equals(provider.name) : provider.name != null) return false;
+        if (category != null ? !category.equals(provider.category) : provider.category != null) return false;
+        return costs != null ? costs.equals(provider.costs) : provider.costs == null;
 
     }
 
