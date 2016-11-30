@@ -37,7 +37,7 @@ public class Optimization1
         RelationProfileTree c = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
 
         // Generate the tree for the authorized subjects
-        AuthorizationModel m = new AuthorizationModel(DataBuilder.getDataBuilder().nodes, c.getRelationTree());
+        AuthorizationModel m = new AuthorizationModel(DataBuilder.getDataBuilder().providers, c.getRelationTree());
 
         // produce l'albero ottimizzato numerato
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
@@ -68,24 +68,35 @@ public class Optimization1
         BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
 
         CostModel costModel = new CostModel();
-//        double cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(0), DataBuilder.getDataBuilder().nodes.get(1), newNode);
-//        System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(0).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(1).getName());
+//        double cost = costModel.computeCost(DataBuilder.getDataBuilder().providers.get(0), DataBuilder.getDataBuilder().providers.get(1), newNode);
+//        System.out.println("---> Da " + DataBuilder.getDataBuilder().providers.get(0).getName() + " a " + DataBuilder.getDataBuilder().providers.get(1).getName());
 //        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
 //        System.out.println("---> COSTO = " + cost);
 //
-//        cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(1), DataBuilder.getDataBuilder().nodes.get(2), newNode);
-//        System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(1).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(2).getName());
+//        cost = costModel.computeCost(DataBuilder.getDataBuilder().providers.get(1), DataBuilder.getDataBuilder().providers.get(2), newNode);
+//        System.out.println("---> Da " + DataBuilder.getDataBuilder().providers.get(1).getName() + " a " + DataBuilder.getDataBuilder().providers.get(2).getName());
 //        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
 //        System.out.println("---> COSTO = " + cost);
 //
-//        cost = costModel.computeCost(DataBuilder.getDataBuilder().nodes.get(2), DataBuilder.getDataBuilder().nodes.get(0), newNode);
-//        System.out.println("---> Da " + DataBuilder.getDataBuilder().nodes.get(2).getName() + " a " + DataBuilder.getDataBuilder().nodes.get(0).getName());
+//        cost = costModel.computeCost(DataBuilder.getDataBuilder().providers.get(2), DataBuilder.getDataBuilder().providers.get(0), newNode);
+//        System.out.println("---> Da " + DataBuilder.getDataBuilder().providers.get(2).getName() + " a " + DataBuilder.getDataBuilder().providers.get(0).getName());
 //        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
 //        System.out.println("---> COSTO = " + cost);
 
 
         // TEST generateSubplans
-        costModel.generateSubplans(newNode, DataBuilder.getDataBuilder().nodes);
+        // costModel.generateSubplans(newNode, DataBuilder.getDataBuilder().providers);
+
+        // Generazione strutture dati dell'albero
+        // relations = c.getRelationTree().DFSVisit();
+        // System.out.println(relations);
+
+        // JOIN TEST
+        BinaryNode<Relation> joinNode = c.getRelationTree().getRoot().getLeft().getLeft();
+        BinaryNode<Relation> leftProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft();
+        BinaryNode<Relation> rightProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getRight();
+
+        costModel.generateSubplans(leftProjectionNode, DataBuilder.getDataBuilder().providers);
 
         // Generazione strutture dati dell'albero
         relations = c.getRelationTree().DFSVisit();

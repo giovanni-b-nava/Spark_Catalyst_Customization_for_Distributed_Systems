@@ -20,7 +20,7 @@ public class AuthorizationModel {
     // Generate the list of subjects authorized to execute each operation and put them in a tree
     public AuthorizationModel(List<Node> nodes, BinaryTree<Relation> profileTree) {
 
-        // Set identification numbers for the attributes of the nodes
+        // Set identification numbers for the attributes of the providers
         List<Node> indexed = this.setIndexNodes(nodes, profileTree);
 
         // Generate the root of the subjectTree
@@ -71,7 +71,7 @@ public class AuthorizationModel {
         return indexed;
     }
 
-    // Generate the list of authorized nodes for the current operation
+    // Generate the list of authorized providers for the current operation
     private List<Node> authorizedSubjects(List<Node> nodes, BinaryNode<Relation> node) {
         List<Node> n = new ArrayList<>();
         for(int i=0; i < nodes.size(); i++) {
@@ -169,7 +169,7 @@ public class AuthorizationModel {
         return false;
     }
 
-    // Recursively generate all the nodes in the subjectTree
+    // Recursively generate all the providers in the subjectTree
     private void generateNodes(List<Node> nodes, BinaryNode<List<Node>> father, BinaryNode<Relation> relation) {
         if(relation.getLeft() != null && relation.getRight() == null) {
             List<Node> l = this.authorizedSubjects(nodes, relation.getLeft());

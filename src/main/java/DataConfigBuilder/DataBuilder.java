@@ -29,8 +29,8 @@ public class DataBuilder {
     // List of tables (correspondent list of table names)
     public List<Dataset<Row>> tables = new ArrayList<>();
     public List<String> tableNames = new ArrayList<>();
-    // System nodes
-    public List<Node> nodes;
+    // System providers
+    public List<Node> providers;
     // Map of the dimension of the tables
     public Map<String, Long> tuples = new HashMap<>();
 
@@ -88,6 +88,6 @@ public class DataBuilder {
 
         // Generate configuration data
         Configurator conf = new Configurator();
-        nodes = conf.parse("src/main/resources/DB_config.json");
+        providers = conf.parse("src/main/resources/DB_config.json");
     }
 }

@@ -14,7 +14,7 @@ public class Node {
     private String category;
     // Costs attached to the node
     private Costs costs;
-    // Connections between the nodes (two ordered lists: one with the names of the nodes and one with the throughput values)
+    // Connections between the providers (two ordered lists: one with the names of the providers and one with the throughput values)
     private Links links;
     // List of tables with plaintext and encrypted attributes
     private List<Table> tables = new ArrayList<>();

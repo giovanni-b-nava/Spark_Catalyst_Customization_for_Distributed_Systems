@@ -34,7 +34,7 @@ public class CostModel
                 // Update the relation profile of the father
                 RelationProfile updatedProfile = updateRelationProfile(providerTo, relationNode);
                 relationNode.getFather().getElement().setRelationProfile(updatedProfile);
-                // Compute the cost
+                // Compute the relation cost
                 double relationCost = computeCost(providerFrom, providerTo, relationNode);
                 // Add the subplan(hashcode, cost) to the relation
                 relationNode.getElement().getSubplansMap().addSubplan(providerFrom, relationNode.getElement(), relationCost);

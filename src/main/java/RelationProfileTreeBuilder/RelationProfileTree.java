@@ -142,7 +142,7 @@ public class RelationProfileTree {
         return true;
     }
 
-    // Recursively generate all the nodes in the relationTree
+    // Recursively generate all the providers in the relationTree
     private void generateChildren(LogicalPlan plan, BinaryNode<Relation> father) {
         if(plan.children().size() == 1) {
             Relation r = this.createRelation(plan.children().toList().apply(0));

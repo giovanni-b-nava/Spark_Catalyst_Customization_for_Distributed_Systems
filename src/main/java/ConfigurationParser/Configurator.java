@@ -13,7 +13,7 @@ import java.util.List;
  */
 public class Configurator {
 
-    // Returns the list of nodes with all the data taken from the configuration file .json
+    // Returns the list of providers with all the data taken from the configuration file .json
     public List<Node> parse(String jsonFile) throws FileNotFoundException {
 
         // Support objects
@@ -24,9 +24,9 @@ public class Configurator {
         JsonReader reader = new JsonReader(new FileReader(jsonFile));
         JsonElement jelement = new JsonParser().parse(reader);
 
-        // Read and add the nodes to the list
+        // Read and add the providers to the list
         JsonObject jobject = jelement.getAsJsonObject();
-        JsonArray nodes = jobject.getAsJsonArray("nodes");
+        JsonArray nodes = jobject.getAsJsonArray("providers");
         int i = 0;
         while(i < nodes.size()) {
             JsonObject node = nodes.get(i).getAsJsonObject();
