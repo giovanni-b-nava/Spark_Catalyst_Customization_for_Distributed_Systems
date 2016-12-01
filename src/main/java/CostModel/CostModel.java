@@ -60,6 +60,23 @@ public class CostModel
         else if (leftChildProfile != null && rightChildProfile != null)
         {
             update2Child(currentProfile, leftChildProfile, rightChildProfile, updatedProfile, currentProvider);
+
+            // Check if the attributes of the Join have the same visibility
+            String firstAttribute = relationNode.getElement().getAttributes().get(0);
+            String secondAttribute = relationNode.getElement().getAttributes().get(1);
+            // Assumption: if one of the two attributes is in plaintext the decrypt the other
+            if(updatedProfile.getVisiblePlaintext().contains(firstAttribute) && !updatedProfile.getVisiblePlaintext().contains(secondAttribute)) {
+                // Update the relation profile moving the second attribute from the visible encrypted
+                // to the visible plaintext
+                updatedProfile.getVisiblePlaintext().remove(secondAttribute);
+                updatedProfile.getVisibleEncrypted().add(secondAttribute);
+            }
+            else if(!updatedProfile.getVisiblePlaintext().contains(firstAttribute) && updatedProfile.getVisiblePlaintext().contains(secondAttribute)) {
+                // Update the relation profile moving the first attribute from the visible encrypted
+                // to the visible plaintext
+                updatedProfile.getVisiblePlaintext().remove(firstAttribute);
+                updatedProfile.getVisibleEncrypted().add(firstAttribute);
+            }
         }
         // else: for a Logical Relation don't do anything
 
@@ -269,7 +286,6 @@ public class CostModel
                 }
             }
         }
-        //TODO controllo se attributi hanno la stessa visibilità
     }
 
     // ************************************************************************
