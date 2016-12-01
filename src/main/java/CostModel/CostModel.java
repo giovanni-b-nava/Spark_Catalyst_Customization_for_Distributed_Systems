@@ -14,29 +14,19 @@ import java.util.List;
 public class CostModel
 {
 
-    // TODO check utility... :(
+    // TODO Ricorsione...
     public void generateOptimalPlans(BinaryNode<Relation> root, List<Provider> providers)
     {
         Provider providerTo;
         Provider providerFrom;
 
-        // For all the from providers...
+        // For all the providers...
         for (int i = 0; i < providers.size(); i++)
         {
-            providerFrom = providers.get(i);
-            // For all the to providers...
-            for (int j = 0; j < providers.size(); j++)
-            {
-                providerTo = providers.get(j);
-
-                // Update the relation profile of the father
-                RelationProfile updatedProfile = updateRelationProfile(providerTo, root);
-                root.getFather().getElement().setRelationProfile(updatedProfile);
-                // Compute the relation cost
-                double relationCost = computeCost(providerFrom, providerTo, root);
 
 
-            }
+
+
         }
     }
 
