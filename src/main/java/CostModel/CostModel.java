@@ -142,48 +142,26 @@ public class CostModel
     // Cost Computation
 
     // TODO private
-    public double computeCost(Provider providerFrom, Provider providerTo, BinaryNode<Relation> relationNode)
+    public double computeCost(Provider operationProvider, Provider childProvider, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
         double totalGB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
 
         // Represents the single operation cost
         // [ $ ]
-        double operationCost = getOperationCost(providerFrom, totalGB, relationNode.getElement().getOperation());
+        double operationCost = getOperationCost(operationProvider, totalGB, relationNode.getElement().getOperation());
 
         // Represents the proportion (encrypted attributes / total attributes)
-        double encryptionPercent = getNumbersOfEncrypted(providerTo, relationNode) / (relationNode.getFather().getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getFather().getElement().getRelationProfile().getVisibleEncrypted().size());
+        double encryptionPercent = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
 
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]
-        double encryptionCost = ((totalGB * encryptionPercent) / (providerFrom.getCosts().getCpuSpeed() * providerFrom.getCosts().getEncryption())) * providerFrom.getCosts().getCpu();
+        double encryptionCost = ((totalGB * encryptionPercent) / (operationProvider.getCosts().getCpuSpeed() * operationProvider.getCosts().getEncryption())) * operationProvider.getCosts().getCpu();
 
         // Represent the transfer cost from children to father
-        double transferCost = totalGB * findCostPerGB(providerFrom, providerTo);
+        double transferCost = totalGB * findCostPerGB(operationProvider, childProvider);
 
         return (encryptionCost + transferCost + operationCost);
-    }
-
-    private double getNumbersOfEncrypted(Provider operationProvider, BinaryNode<Relation> relationNode)
-    {
-        int counter = 0;
-        // For all the attributes in the Father ...
-        for (int j=0; j < relationNode.getFather().getElement().getAttributes().size(); j++)
-        {
-            // ... for all the tables of the destination ...
-            for (int i=0; i < operationProvider.getTables().size(); i++)
-            {
-                // ... if an encrypted destination table contains the attribute
-                if (operationProvider.getTables().get(i).getEncrypted().contains(relationNode.getFather().getElement().getAttributes().get(j)))
-                {
-                    // count che number of the attributes to be sent encrypted
-                    counter++;
-                    break;
-                }
-            }
-        }
-
-        return counter;
     }
 
     private double findCostPerGB(Provider operationProvider, Provider childProvider)
