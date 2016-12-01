@@ -30,7 +30,7 @@ public class CostModel
         // Base case: root = Logical Relation
         if (root.getLeft() == null && root.getRight() == null)
         {
-            PlansMap plansMap = new PlansMap();
+            PlansMap leavesMap = new PlansMap();
             Plan plan = new Plan();
 
             // 1. Set the BinaryNode<Relation>
@@ -42,11 +42,47 @@ public class CostModel
             double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
             plan.setCost(cost);
 
-            plansMap.addPlan(plan);
-            return plansMap;
+            leavesMap.addPlan(plan);
+            return leavesMap;
         }
 
-        return null;
+        PlansMap leftPlansMap = generateOptimalPlans(root.getLeft());
+        PlansMap rightPlansMap = generateOptimalPlans(root.getRight());
+
+        PlansMap plansMap = new PlansMap();
+
+        if (root.getRight() == null)
+        {
+            // For all the providers...
+            for (int i=0; i<providers.size(); i++)
+            {
+                // For all the left plans...
+                for (int j=0; j<leftPlansMap.getPlansMap().size(); j++)
+                {
+                    // TODO
+                }
+            }
+        }
+        // There is a right child
+        else
+        {
+            // For all the providers...
+            for (int i=0; i<providers.size(); i++)
+            {
+                // For all the left plans...
+                for (int j=0; j<leftPlansMap.getPlansMap().size(); j++)
+                {
+                    // For all the right plans...
+                    for (int k=0; k<rightPlansMap.getPlansMap().size(); k++)
+                    {
+                        // TODO
+                    }
+                }
+            }
+        }
+
+
+        return plansMap;
     }
 
     // Find the Provider which matches category
