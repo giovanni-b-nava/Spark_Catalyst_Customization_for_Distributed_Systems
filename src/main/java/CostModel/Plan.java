@@ -50,18 +50,27 @@ public class Plan
         assignedProviders.add(provider);
     }
 
-    //    public void addSubplan(Provider provider, Relation relation, double cost)
-//    {
-//        int hashCode = provider.hashCode() + relation.hashCode();
-//        if (subplanMap.containsKey(hashCode))
-//        {
-//            if (subplanMap.get(hashCode) > cost)
-//                subplanMap.put(hashCode, cost);
-//        }
-//        else
-//            subplanMap.put(hashCode, cost);
-//
-//    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Plan)) return false;
 
+        Plan plan = (Plan) o;
 
+        if (Double.compare(plan.cost, cost) != 0) return false;
+        if (relation != null ? !relation.equals(plan.relation) : plan.relation != null) return false;
+        return assignedProviders != null ? assignedProviders.equals(plan.assignedProviders) : plan.assignedProviders == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = relation != null ? relation.hashCode() : 0;
+        temp = Double.doubleToLongBits(cost);
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + (assignedProviders != null ? assignedProviders.hashCode() : 0);
+        return result;
+    }
 }

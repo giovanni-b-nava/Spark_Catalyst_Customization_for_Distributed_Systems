@@ -10,27 +10,27 @@ import java.util.HashMap;
  */
 public class SubplansMap
 {
-    private HashMap<Integer, Double> subplanMap;
+    private HashMap<Integer, Plan> subplanMap;
 
     public SubplansMap()
     {
         subplanMap = new HashMap<>();
     }
 
-    public void addSubplan(Provider provider, Relation relation, double cost)
+    public void addSubplan(Plan plan)
     {
-        int hashCode = provider.hashCode() + relation.hashCode();
+        int hashCode = plan.hashCode();
         if (subplanMap.containsKey(hashCode))
         {
-            if (subplanMap.get(hashCode) > cost)
-                subplanMap.put(hashCode, cost);
+            if (subplanMap.get(hashCode).getCost() > plan.getCost())
+                subplanMap.put(hashCode, plan);
         }
         else
-            subplanMap.put(hashCode, cost);
+            subplanMap.put(hashCode, plan);
 
     }
 
-    public HashMap<Integer, Double> getSubplanMap()
+    public HashMap<Integer, Plan> getSubplanMap()
     {
         return subplanMap;
     }
