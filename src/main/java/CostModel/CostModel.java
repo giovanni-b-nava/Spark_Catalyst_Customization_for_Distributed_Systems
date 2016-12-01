@@ -59,7 +59,7 @@ public class CostModel
         // Join
         else if (leftChildProfile != null && rightChildProfile != null)
         {
-            update2Child(currentProfile, leftChildProfile, rightChildProfile, updatedProfile, currentProvider);
+            update2Children(currentProfile, leftChildProfile, rightChildProfile, updatedProfile, currentProvider);
 
             // Check if the attributes of the Join have the same visibility
             String firstAttribute = relationNode.getElement().getAttributes().get(0);
@@ -173,7 +173,7 @@ public class CostModel
     }
 
     // Update the profile with encryption and decryption (if needed) for the operation Join
-    private void update2Child(RelationProfile currentProfile, RelationProfile leftChildProfile, RelationProfile rightChildProfile, RelationProfile updatedProfile, Provider currentProvider) {
+    private void update2Children(RelationProfile currentProfile, RelationProfile leftChildProfile, RelationProfile rightChildProfile, RelationProfile updatedProfile, Provider currentProvider) {
 
         // For all the currentProfile's visible plaintext attributes ...
         for (int i = 0; i < currentProfile.getVisiblePlaintext().size(); i++) {
