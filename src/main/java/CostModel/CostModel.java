@@ -14,7 +14,7 @@ import java.util.List;
 public class CostModel
 {
 
-
+    // TODO check utility... :(
     public void generateSubplans(BinaryNode<Relation> relationNode, List<Provider> providers)
     {
         Provider providerTo;
@@ -43,20 +43,36 @@ public class CostModel
     }
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
-    private RelationProfile updateRelationProfile(Provider providerTo, BinaryNode<Relation> relationNode)
+    private RelationProfile updateRelationProfile(Provider childProvider, BinaryNode<Relation> relationNode)
     {
-        RelationProfile fatherProfile = relationNode.getFather().getElement().getRelationProfile();
         RelationProfile currentProfile = relationNode.getElement().getRelationProfile();
+        RelationProfile leftChildProfile = relationNode.getLeft().getElement().getRelationProfile();
+        RelationProfile rightChildProfile = relationNode.getRight().getElement().getRelationProfile();
 
-        RelationProfile updatedProfile = new RelationProfile(fatherProfile);
+        RelationProfile updatedProfile = new RelationProfile(currentProfile);
+
+        if (leftChildProfile != null && rightChildProfile == null)
+        {
+            // Filter, Project, Aggregate
+        }
+        else if (leftChildProfile != null && rightChildProfile != null)
+        {
+            // Join
+        }
+        else
+        {
+            // Logical Relation
+        }
+
+
 
         // For all the father's visible plaintext attributes ...
-        for (int i=0; i < fatherProfile.getVisiblePlaintext().size(); i++)
+        for (int i=0; i < leftChildProfile.getVisiblePlaintext().size(); i++)
         {
-            String currentAttribute = fatherProfile.getVisiblePlaintext().get(i);
+            String currentAttribute = leftChildProfile.getVisiblePlaintext().get(i);
 
             // If the current attribute visibility is Plaintext for provider to ...
-            if (AuthorizationModel.checkVisibility(providerTo, currentAttribute,"Plaintext"))
+            if (AuthorizationModel.checkVisibility(childProvider, currentAttribute,"Plaintext"))
             {
                 // If current profile doesn't contain in the visible plaintext the current attribute...
                 if (!currentProfile.getVisiblePlaintext().contains(currentAttribute))
@@ -73,7 +89,7 @@ public class CostModel
                         System.out.println("CostModel.UpdateRelationProfile: ERROR the attribute is not visible (visibility#1)");
                 }
             }
-            // The current attribute visibility is Encrypted for providerTo
+            // The current attribute visibility is Encrypted for childProvider
             else
             {
                 // If current profile doesn't contain in the visible encrypted the current attribute...
@@ -93,12 +109,12 @@ public class CostModel
         }
 
         // For all the father's visible encrypted attributes ...
-        for (int i=0; i < fatherProfile.getVisibleEncrypted().size(); i++)
+        for (int i=0; i < leftChildProfile.getVisibleEncrypted().size(); i++)
         {
-            String currentAttribute = fatherProfile.getVisibleEncrypted().get(i);
+            String currentAttribute = leftChildProfile.getVisibleEncrypted().get(i);
 
             // If the current attribute visibility is Encrypted for provider to ...
-            if (AuthorizationModel.checkVisibility(providerTo, currentAttribute,"Encrypted"))
+            if (AuthorizationModel.checkVisibility(childProvider, currentAttribute,"Encrypted"))
             {
                 // If current profile doesn't contain in the visible encrypted the current attribute...
                 if (!currentProfile.getVisibleEncrypted().contains(currentAttribute))
@@ -141,7 +157,7 @@ public class CostModel
     // ************************************************************************
     // Cost Computation
 
-    // TODO private
+    // TODO private (public only for Testing)
     public double computeCost(Provider operationProvider, Provider childProvider, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
