@@ -19,6 +19,10 @@ public class Provider {
     // List of tables with plaintext and encrypted attributes
     private List<Table> tables = new ArrayList<>();
 
+    public Provider()
+    {
+    }
+
     public Provider(String n, String c, Costs co, Links l, List<Table> t) {
         this.name = n;
         this.category = c;

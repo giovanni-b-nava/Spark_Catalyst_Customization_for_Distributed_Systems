@@ -4,6 +4,7 @@ import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Provider;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
+import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 
 import java.util.List;
@@ -14,8 +15,17 @@ import java.util.List;
 public class CostModel
 {
 
+    private RelationProfileTree tree;
+    private List<Provider> providers;
+
+    public CostModel(List<Provider> providers, RelationProfileTree tree)
+    {
+        this.tree = tree;
+        this.providers = providers;
+    }
+
     // TODO Ricorsione...
-    public PlansMap generateOptimalPlans(BinaryNode<Relation> root, List<Provider> providers)
+    public PlansMap generateOptimalPlans(BinaryNode<Relation> root)
     {
         // Base case: root = Logical Relation
         if (root.getLeft() == null && root.getRight() == null)
@@ -23,8 +33,14 @@ public class CostModel
             PlansMap plansMap = new PlansMap();
             Plan plan = new Plan();
 
+            // 1. Set the BinaryNode<Relation>
             plan.setRelation(root);
 
+            // 2. NO REQUIRE to updateRelationProfile
+
+            // 3. Compute and assign Cost
+            double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
+            plan.setCost(cost);
 
             plansMap.addPlan(plan);
             return plansMap;
@@ -32,6 +48,23 @@ public class CostModel
 
         return null;
     }
+
+    // Find the Provider which matches category
+    private Provider findProvider(String category)
+    {
+        Provider provider = new Provider();
+
+        for (int i=0; i<providers.size(); i++)
+        {
+            if (providers.get(i).getCategory().equals(category))
+            {
+                provider = providers.get(i);
+            }
+        }
+
+        return provider;
+    }
+
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
     private RelationProfile updateRelationProfile(Provider currentProvider, BinaryNode<Relation> relationNode)
