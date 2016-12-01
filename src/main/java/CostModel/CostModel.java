@@ -51,21 +51,27 @@ public class CostModel
 
         RelationProfile updatedProfile = new RelationProfile(currentProfile);
 
+        // Filter, Project, Aggregate
         if (leftChildProfile != null && rightChildProfile == null)
         {
-            // Filter, Project, Aggregate
+
         }
+        // Join
         else if (leftChildProfile != null && rightChildProfile != null)
         {
-            // Join
+
         }
+        // Logical Relation
         else
         {
-            // Logical Relation
+
         }
 
+        return updatedProfile;
+    }
 
-
+    private void update1Child(RelationProfile currentProfile, RelationProfile leftChildProfile, Provider childProvider)
+    {
         // For all the father's visible plaintext attributes ...
         for (int i=0; i < leftChildProfile.getVisiblePlaintext().size(); i++)
         {
