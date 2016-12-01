@@ -3,6 +3,7 @@ import ConfigurationParser.Provider;
 import CostModel.CostModel;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
+import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;
@@ -96,11 +97,10 @@ public class Optimization1
         BinaryNode<Relation> leftProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft();
         BinaryNode<Relation> rightProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getRight();
 
-        costModel.generateOptimalPlan(leftProjectionNode, DataBuilder.getDataBuilder().providers);
+        //RelationProfile newRelationProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().providers.get(2), joinNode);
 
-        // Generazione strutture dati dell'albero
-        relations = c.getRelationTree().DFSVisit();
-        System.out.println(relations);
+        //System.out.println("newRelationProfile.toString():\n" + newRelationProfile.toString());
 
     }
+
 }
