@@ -36,8 +36,7 @@ public class CostModel
                 relationNode.getFather().getElement().setRelationProfile(updatedProfile);
                 // Compute the relation cost
                 double relationCost = computeCost(providerFrom, providerTo, relationNode);
-                // Add the subplan(hashcode, cost) to the relation
-                relationNode.getElement().getPlan().addSubplan(providerFrom, relationNode.getElement(), relationCost);
+
 
             }
         }
@@ -165,17 +164,17 @@ public class CostModel
         return (encryptionCost + transferCost + operationCost);
     }
 
-    private double getNumbersOfEncrypted(Provider providerTo, BinaryNode<Relation> relationNode)
+    private double getNumbersOfEncrypted(Provider operationProvider, BinaryNode<Relation> relationNode)
     {
         int counter = 0;
         // For all the attributes in the Father ...
         for (int j=0; j < relationNode.getFather().getElement().getAttributes().size(); j++)
         {
             // ... for all the tables of the destination ...
-            for (int i=0; i < providerTo.getTables().size(); i++)
+            for (int i=0; i < operationProvider.getTables().size(); i++)
             {
                 // ... if an encrypted destination table contains the attribute
-                if (providerTo.getTables().get(i).getEncrypted().contains(relationNode.getFather().getElement().getAttributes().get(j)))
+                if (operationProvider.getTables().get(i).getEncrypted().contains(relationNode.getFather().getElement().getAttributes().get(j)))
                 {
                     // count che number of the attributes to be sent encrypted
                     counter++;
@@ -187,16 +186,16 @@ public class CostModel
         return counter;
     }
 
-    private double findCostPerGB(Provider providerFrom, Provider providerTo)
+    private double findCostPerGB(Provider operationProvider, Provider childProvider)
     {
-        List<String> linksName = providerFrom.getLinks().getName();
-        int index = linksName.indexOf(providerTo.getName());
+        List<String> linksName = operationProvider.getLinks().getName();
+        int index = linksName.indexOf(childProvider.getName());
 
         // return the right cost per GB
-        return providerFrom.getLinks().getCostPerGB().get(index);
+        return operationProvider.getLinks().getCostPerGB().get(index);
     }
 
-    private double getOperationCost(Provider providerFrom, double totalGB, String operationType)
+    private double getOperationCost(Provider operationProvider, double totalGB, String operationType)
     {
         double operationCost = 0;
 
@@ -216,7 +215,7 @@ public class CostModel
                 System.out.println("CostEvaluator.getOperationCost: ERROR Unknown operation !");
         }
 
-        return ((totalGB / (providerFrom.getCosts().getCpuSpeed() * operationCost)) * providerFrom.getCosts().getCpu());
+        return ((totalGB / (operationProvider.getCosts().getCpuSpeed() * operationCost)) * operationProvider.getCosts().getCpu());
     }
 
 }

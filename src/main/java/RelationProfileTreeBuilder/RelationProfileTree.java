@@ -174,7 +174,7 @@ public class RelationProfileTree {
     }
 
     // Set the profile of the current node considering the type of operation and its children
-    private void setProfile(BinaryNode<Relation> node) {
+    public void setProfile(BinaryNode<Relation> node) {
         // If the node has no children is a leaf
         if(node.getLeft() == null && node.getRight() == null) {
             node.getElement().setRelationProfile(this.buildLeafProfile(node));
