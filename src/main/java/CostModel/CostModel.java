@@ -15,7 +15,7 @@ public class CostModel
 {
 
     // TODO check utility... :(
-    public void generateSubplans(BinaryNode<Relation> relationNode, List<Provider> providers)
+    public void generateOptimalPlan(BinaryNode<Relation> root, List<Provider> providers)
     {
         Provider providerTo;
         Provider providerFrom;
@@ -32,10 +32,10 @@ public class CostModel
                 providerTo = providers.get(j);
 
                 // Update the relation profile of the father
-                RelationProfile updatedProfile = updateRelationProfile(providerTo, relationNode);
-                relationNode.getFather().getElement().setRelationProfile(updatedProfile);
+                RelationProfile updatedProfile = updateRelationProfile(providerTo, root);
+                root.getFather().getElement().setRelationProfile(updatedProfile);
                 // Compute the relation cost
-                double relationCost = computeCost(providerFrom, providerTo, relationNode);
+                double relationCost = computeCost(providerFrom, providerTo, root);
 
 
             }

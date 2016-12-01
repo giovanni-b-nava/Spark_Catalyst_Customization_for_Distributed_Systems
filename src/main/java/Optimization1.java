@@ -96,7 +96,7 @@ public class Optimization1
         BinaryNode<Relation> leftProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft();
         BinaryNode<Relation> rightProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getRight();
 
-        costModel.generateSubplans(leftProjectionNode, DataBuilder.getDataBuilder().providers);
+        costModel.generateOptimalPlan(leftProjectionNode, DataBuilder.getDataBuilder().providers);
 
         // Generazione strutture dati dell'albero
         relations = c.getRelationTree().DFSVisit();
