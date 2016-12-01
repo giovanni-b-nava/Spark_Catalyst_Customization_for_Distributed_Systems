@@ -24,7 +24,6 @@ public class CostModel
         this.providers = providers;
     }
 
-    // TODO Ricorsione...
     public PlansMap generateOptimalPlans(BinaryNode<Relation> root)
     {
         // Base case: root = Logical Relation
@@ -60,6 +59,10 @@ public class CostModel
                 for (int j=0; j<leftPlansMap.getPlansMap().size(); j++)
                 {
                     // TODO
+                    // 1. Generate Relation Profile
+                    int index = findIndexIntoMap(plansMap, j);
+                    RelationProfile leftChildProfile;
+
                 }
             }
         }
@@ -101,6 +104,13 @@ public class CostModel
         return provider;
     }
 
+    // Find the index of the current element of PlansMap
+    private int findIndexIntoMap(PlansMap plansMap, int i)
+    {
+        Object[] keys = plansMap.getPlansMap().keySet().toArray();
+        int index = (int) keys[i];
+        return index;
+    }
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
     private RelationProfile updateRelationProfile(Provider currentProvider, BinaryNode<Relation> relationNode)
