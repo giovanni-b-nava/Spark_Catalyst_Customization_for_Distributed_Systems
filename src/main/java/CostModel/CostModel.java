@@ -15,19 +15,22 @@ public class CostModel
 {
 
     // TODO Ricorsione...
-    public void generateOptimalPlans(BinaryNode<Relation> root, List<Provider> providers)
+    public PlansMap generateOptimalPlans(BinaryNode<Relation> root, List<Provider> providers)
     {
-        Provider providerTo;
-        Provider providerFrom;
-
-        // For all the providers...
-        for (int i = 0; i < providers.size(); i++)
+        // Base case: root = Logical Relation
+        if (root.getLeft() == null && root.getRight() == null)
         {
+            PlansMap plansMap = new PlansMap();
+            Plan plan = new Plan();
+
+            plan.setRelation(root);
 
 
-
-
+            plansMap.addPlan(plan);
+            return plansMap;
         }
+
+        return null;
     }
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
