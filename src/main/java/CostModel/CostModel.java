@@ -43,7 +43,7 @@ public class CostModel
     }
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
-    private RelationProfile updateRelationProfile(Provider childProvider, BinaryNode<Relation> relationNode)
+    private RelationProfile updateRelationProfile(Provider currentProvider, BinaryNode<Relation> relationNode)
     {
         RelationProfile currentProfile = relationNode.getElement().getRelationProfile();
         RelationProfile leftChildProfile = relationNode.getLeft().getElement().getRelationProfile();
@@ -54,37 +54,34 @@ public class CostModel
         // Filter, Project, Aggregate
         if (leftChildProfile != null && rightChildProfile == null)
         {
-
+            update1Child(currentProfile, leftChildProfile, updatedProfile, currentProvider);
         }
         // Join
         else if (leftChildProfile != null && rightChildProfile != null)
         {
-
+            update2Child(currentProfile, leftChildProfile, rightChildProfile, updatedProfile, currentProvider);
         }
-        // Logical Relation
-        else
-        {
-
-        }
+        // else: for a Logical Relation don't do anything
 
         return updatedProfile;
     }
 
-    private void update1Child(RelationProfile currentProfile, RelationProfile leftChildProfile, Provider childProvider)
+    // Update the profile with encryption and decryption (if needed) for the operations Filter, Project, Aggregate
+    private void update1Child(RelationProfile currentProfile, RelationProfile leftChildProfile, RelationProfile updatedProfile, Provider currentProvider)
     {
-        // For all the father's visible plaintext attributes ...
-        for (int i=0; i < leftChildProfile.getVisiblePlaintext().size(); i++)
+        // For all the currentProfile's visible plaintext attributes ...
+        for (int i=0; i < currentProfile.getVisiblePlaintext().size(); i++)
         {
-            String currentAttribute = leftChildProfile.getVisiblePlaintext().get(i);
+            String currentAttribute = currentProfile.getVisiblePlaintext().get(i);
 
-            // If the current attribute visibility is Plaintext for provider to ...
-            if (AuthorizationModel.checkVisibility(childProvider, currentAttribute,"Plaintext"))
+            // If the current attribute visibility is Plaintext for the current provider...
+            if (AuthorizationModel.checkVisibility(currentProvider, currentAttribute,"Plaintext"))
             {
-                // If current profile doesn't contain in the visible plaintext the current attribute...
-                if (!currentProfile.getVisiblePlaintext().contains(currentAttribute))
+                // If the child profile doesn't contain in the visible plaintext the current attribute...
+                if (!leftChildProfile.getVisiblePlaintext().contains(currentAttribute))
                 {
-                    // If current profile contains in the visibile encrypted the current attribute
-                    if (currentProfile.getVisibleEncrypted().contains(currentAttribute))
+                    // If the child profile contains in the visible encrypted the current attribute
+                    if (leftChildProfile.getVisibleEncrypted().contains(currentAttribute))
                     {
                         // Update the relation profile moving the attribute from the visible plaintext
                         // to the visible encrypted
@@ -95,14 +92,14 @@ public class CostModel
                         System.out.println("CostModel.UpdateRelationProfile: ERROR the attribute is not visible (visibility#1)");
                 }
             }
-            // The current attribute visibility is Encrypted for childProvider
+            // The current attribute visibility is Encrypted for currentProvider
             else
             {
-                // If current profile doesn't contain in the visible encrypted the current attribute...
-                if (!currentProfile.getVisibleEncrypted().contains(currentAttribute))
+                // If the child profile doesn't contain in the visible encrypted the current attribute...
+                if (!leftChildProfile.getVisibleEncrypted().contains(currentAttribute))
                 {
-                    // If current profile contains in the visible plaintext the current attribute
-                    if (currentProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                    // If the child profile contains in the visible plaintext the current attribute
+                    if (leftChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
                         // Update the relation profile moving the attribute from the visible plaintext
                         // to the visible encrypted
                         updatedProfile.getVisiblePlaintext().remove(currentAttribute);
@@ -114,19 +111,19 @@ public class CostModel
             }
         }
 
-        // For all the father's visible encrypted attributes ...
-        for (int i=0; i < leftChildProfile.getVisibleEncrypted().size(); i++)
+        // For all the currentProfile's visible encrypted attributes ...
+        for (int i=0; i < currentProfile.getVisibleEncrypted().size(); i++)
         {
-            String currentAttribute = leftChildProfile.getVisibleEncrypted().get(i);
+            String currentAttribute = currentProfile.getVisibleEncrypted().get(i);
 
-            // If the current attribute visibility is Encrypted for provider to ...
-            if (AuthorizationModel.checkVisibility(childProvider, currentAttribute,"Encrypted"))
+            // If the current attribute visibility is Encrypted for the current provider ...
+            if (AuthorizationModel.checkVisibility(currentProvider, currentAttribute, "Encrypted"))
             {
-                // If current profile doesn't contain in the visible encrypted the current attribute...
-                if (!currentProfile.getVisibleEncrypted().contains(currentAttribute))
+                // If the child profile doesn't contain in the visible encrypted the current attribute...
+                if (!leftChildProfile.getVisibleEncrypted().contains(currentAttribute))
                 {
-                    // If current profile contains in the visible plaintext the current attribute
-                    if (currentProfile.getVisiblePlaintext().contains(currentAttribute))
+                    // If the child profile contains in the visible plaintext the current attribute
+                    if (leftChildProfile.getVisiblePlaintext().contains(currentAttribute))
                     {
                         // Update the relation profile moving the attribute from the visible encrypted
                         // to the visible plaintext
@@ -137,14 +134,14 @@ public class CostModel
                         System.out.println("CostModel.UpdateRelationProfile: ERROR invalid attribute (visibility#3)");
                 }
             }
-            // The current attribute visibility is Plaintext for provider to
+            // The current attribute visibility is Plaintext for the current provider
             else
             {
-                // If current profile doesn't contain in the visible encrypted the current attribute...
-                if (!currentProfile.getVisibleEncrypted().contains(currentAttribute))
+                // If the child profile doesn't contain in the visible encrypted the current attribute...
+                if (!leftChildProfile.getVisibleEncrypted().contains(currentAttribute))
                 {
-                    // If current profile contains in the visible encrypted the current attribute
-                    if (currentProfile.getVisibleEncrypted().contains(currentAttribute))
+                    // If the child profile contains in the visible encrypted the current attribute
+                    if (leftChildProfile.getVisibleEncrypted().contains(currentAttribute))
                     {
                         // Update the relation profile moving the attribute from the visible encrypted
                         // to the visible plaintext
@@ -156,8 +153,123 @@ public class CostModel
                 }
             }
         }
+    }
 
-        return updatedProfile;
+    // Update the profile with encryption and decryption (if needed) for the operation Join
+    private void update2Child(RelationProfile currentProfile, RelationProfile leftChildProfile, RelationProfile rightChildProfile, RelationProfile updatedProfile, Provider currentProvider) {
+
+        // For all the currentProfile's visible plaintext attributes ...
+        for (int i = 0; i < currentProfile.getVisiblePlaintext().size(); i++) {
+            String currentAttribute = currentProfile.getVisiblePlaintext().get(i);
+
+            // If the current attribute visibility is Plaintext for the current provider...
+            if (AuthorizationModel.checkVisibility(currentProvider, currentAttribute, "Plaintext")) {
+                // If the left child profile doesn't contain in the visible plaintext the current attribute...
+                if (!leftChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                    // If the left child profile contains in the visible encrypted the current attribute
+                    if (leftChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                        // Update the relation profile moving the attribute from the visible plaintext
+                        // to the visible encrypted
+                        updatedProfile.getVisiblePlaintext().remove(currentAttribute);
+                        updatedProfile.getVisibleEncrypted().add(currentAttribute);
+                    } else {
+                        // If the right child profile doesn't contain in the visible plaintext the current attribute...
+                        if (!rightChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                            // If the right child profile contains in the visible encrypted the current attribute
+                            if (rightChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                                // Update the relation profile moving the attribute from the visible plaintext
+                                // to the visible encrypted
+                                updatedProfile.getVisiblePlaintext().remove(currentAttribute);
+                                updatedProfile.getVisibleEncrypted().add(currentAttribute);
+                            }
+                        } else
+                            System.out.println("CostModel.UpdateRelationProfile: ERROR the attribute is not visible (visibility#1)");
+                    }
+                }
+            }
+            // The current attribute visibility is Encrypted for currentProvider
+            else {
+                // If the left child profile doesn't contain in the visible encrypted the current attribute...
+                if (!leftChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                    // If the left child profile contains in the visible plaintext the current attribute
+                    if (leftChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                        // Update the relation profile moving the attribute from the visible plaintext
+                        // to the visible encrypted
+                        updatedProfile.getVisiblePlaintext().remove(currentAttribute);
+                        updatedProfile.getVisibleEncrypted().add(currentAttribute);
+                    } else {
+                        // If the right child profile doesn't contain in the visible encrypted the current attribute...
+                        if (!rightChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                            // If the right child profile contains in the visible plaintext the current attribute
+                            if (rightChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                                // Update the relation profile moving the attribute from the visible plaintext
+                                // to the visible encrypted
+                                updatedProfile.getVisiblePlaintext().remove(currentAttribute);
+                                updatedProfile.getVisibleEncrypted().add(currentAttribute);
+                            } else
+                                System.out.println("CostModel.UpdateRelationProfile: ERROR the attribute is not visible (visibility#2)");
+                        }
+                    }
+                }
+            }
+        }
+
+        // For all the currentProfile's visible encrypted attributes ...
+        for (int i = 0; i < currentProfile.getVisibleEncrypted().size(); i++) {
+            String currentAttribute = currentProfile.getVisibleEncrypted().get(i);
+
+            // If the current attribute visibility is Encrypted for the current provider ...
+            if (AuthorizationModel.checkVisibility(currentProvider, currentAttribute, "Encrypted")) {
+                // If the left child profile doesn't contain in the visible encrypted the current attribute...
+                if (!leftChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                    // If the left child profile contains in the visible plaintext the current attribute
+                    if (leftChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                        // Update the relation profile moving the attribute from the visible encrypted
+                        // to the visible plaintext
+                        updatedProfile.getVisibleEncrypted().remove(currentAttribute);
+                        updatedProfile.getVisiblePlaintext().add(currentAttribute);
+                    } else {
+                        // If the right child profile doesn't contain in the visible encrypted the current attribute...
+                        if (!rightChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                            // If the right child profile contains in the visible plaintext the current attribute
+                            if (rightChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                                // Update the relation profile moving the attribute from the visible encrypted
+                                // to the visible plaintext
+                                updatedProfile.getVisibleEncrypted().remove(currentAttribute);
+                                updatedProfile.getVisiblePlaintext().add(currentAttribute);
+                            } else
+                                System.out.println("CostModel.UpdateRelationProfile: ERROR invalid attribute (visibility#3)");
+                        }
+                    }
+                }
+                // The current attribute visibility is Plaintext for the current provider
+                else {
+                    // If the left child profile doesn't contain in the visible encrypted the current attribute...
+                    if (!leftChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                        // If the left child profile contains in the visible encrypted the current attribute
+                        if (leftChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                            // Update the relation profile moving the attribute from the visible encrypted
+                            // to the visible plaintext
+                            updatedProfile.getVisibleEncrypted().remove(currentAttribute);
+                            updatedProfile.getVisiblePlaintext().add(currentAttribute);
+                        } else {
+                            // If the right child profile doesn't contain in the visible encrypted the current attribute...
+                            if (!rightChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                                // If the right child profile contains in the visible encrypted the current attribute
+                                if (rightChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                                    // Update the relation profile moving the attribute from the visible encrypted
+                                    // to the visible plaintext
+                                    updatedProfile.getVisibleEncrypted().remove(currentAttribute);
+                                    updatedProfile.getVisiblePlaintext().add(currentAttribute);
+                                } else
+                                    System.out.println("CostModel.UpdateRelationProfile: ERROR invalid attribute (visibility#4)");
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        //TODO controllo se attributi hanno la stessa visibilità
     }
 
     // ************************************************************************
