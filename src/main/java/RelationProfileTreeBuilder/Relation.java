@@ -1,6 +1,6 @@
 package RelationProfileTreeBuilder;
 
-import CostModel.SubplansMap;
+import CostModel.Plan;
 
 import java.util.List;
 
@@ -20,7 +20,7 @@ public class Relation {
     // Name of the table (only for LogicalRelations)
     private String tableName;
     // Map of subplan costs
-    private SubplansMap subplansMap;
+    private Plan plan;
 
     public Relation(String o, List<String> a, long s) {
         this.operation = o;
@@ -28,7 +28,7 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = null;
         this.tableName = "Not a table";
-        this.subplansMap = new SubplansMap();
+        this.plan = new Plan();
     }
 
     public Relation(String o, List<String> a, RelationProfile p, long s) {
@@ -37,7 +37,7 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = p;
         this.tableName = "Not a table";
-        this.subplansMap = new SubplansMap();
+        this.plan = new Plan();
     }
 
     public Relation(String o, List<String> a, RelationProfile p, String t, long s) {
@@ -46,7 +46,7 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = p;
         this.tableName = t;
-        this.subplansMap = new SubplansMap();
+        this.plan = new Plan();
     }
 
     public Relation(String o, List<String> a, String t, long s) {
@@ -55,7 +55,7 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = null;
         this.tableName = t;
-        this.subplansMap = new SubplansMap();
+        this.plan = new Plan();
     }
 
     public String getOperation() {
@@ -98,12 +98,12 @@ public class Relation {
         this.tableName = tableName;
     }
 
-    public SubplansMap getSubplansMap() {
-        return subplansMap;
+    public Plan getPlan() {
+        return plan;
     }
 
-    public void setSubplansMap(SubplansMap subplansMap) {
-        this.subplansMap = subplansMap;
+    public void setPlan(Plan plan) {
+        this.plan = plan;
     }
 
     public String toString() {
@@ -112,7 +112,7 @@ public class Relation {
                 "Syze in Byte: " + this.syzeInBytes + "\n" +
                 "Table Name: " + this.tableName + "\n" +
                 this.relationProfile.toString() +
-                "subPlansMap: " + subplansMap + "\n";
+                "subPlansMap: " + plan + "\n";
     }
 
     @Override

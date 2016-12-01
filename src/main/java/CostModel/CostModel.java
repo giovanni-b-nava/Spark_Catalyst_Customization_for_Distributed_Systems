@@ -37,7 +37,7 @@ public class CostModel
                 // Compute the relation cost
                 double relationCost = computeCost(providerFrom, providerTo, relationNode);
                 // Add the subplan(hashcode, cost) to the relation
-                relationNode.getElement().getSubplansMap().addSubplan(providerFrom, relationNode.getElement(), relationCost);
+                relationNode.getElement().getPlan().addSubplan(providerFrom, relationNode.getElement(), relationCost);
 
             }
         }
