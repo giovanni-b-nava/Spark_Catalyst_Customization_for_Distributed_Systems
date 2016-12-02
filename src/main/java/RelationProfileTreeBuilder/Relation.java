@@ -1,7 +1,5 @@
 package RelationProfileTreeBuilder;
 
-import CostModel.Plan;
-
 import java.util.List;
 
 /**
@@ -14,7 +12,7 @@ public class Relation {
     // Attributes involved in the operation
     private List<String> attributes;
     // Size in byte of the data in the operation
-    private long syzeInBytes;
+    private long sizeInBytes;
     // Relation relationProfile of the relation
     private RelationProfile relationProfile;
     // Name of the table (only for LogicalRelations)
@@ -23,7 +21,7 @@ public class Relation {
     public Relation(String o, List<String> a, long s) {
         this.operation = o;
         this.attributes = a;
-        this.syzeInBytes = s;
+        this.sizeInBytes = s;
         this.relationProfile = null;
         this.tableName = "Not a table";
     }
@@ -31,7 +29,7 @@ public class Relation {
     public Relation(String o, List<String> a, RelationProfile p, long s) {
         this.operation = o;
         this.attributes = a;
-        this.syzeInBytes = s;
+        this.sizeInBytes = s;
         this.relationProfile = p;
         this.tableName = "Not a table";
     }
@@ -39,7 +37,7 @@ public class Relation {
     public Relation(String o, List<String> a, RelationProfile p, String t, long s) {
         this.operation = o;
         this.attributes = a;
-        this.syzeInBytes = s;
+        this.sizeInBytes = s;
         this.relationProfile = p;
         this.tableName = t;
     }
@@ -47,7 +45,7 @@ public class Relation {
     public Relation(String o, List<String> a, String t, long s) {
         this.operation = o;
         this.attributes = a;
-        this.syzeInBytes = s;
+        this.sizeInBytes = s;
         this.relationProfile = null;
         this.tableName = t;
     }
@@ -68,12 +66,12 @@ public class Relation {
         this.attributes = attributes;
     }
 
-    public long getSyzeInBytes() {
-        return syzeInBytes;
+    public long getSizeInBytes() {
+        return sizeInBytes;
     }
 
-    public void setSyzeInBytes(long syzeInBytes) {
-        this.syzeInBytes = syzeInBytes;
+    public void setSizeInBytes(long sizeInBytes) {
+        this.sizeInBytes = sizeInBytes;
     }
 
     public RelationProfile getRelationProfile() {
@@ -95,7 +93,7 @@ public class Relation {
     public String toString() {
         return "Operation: " + this.operation + "\n" +
                 "Attributes: " + this.attributes.toString() + "\n" +
-                "Syze in Byte: " + this.syzeInBytes + "\n" +
+                "Size in Byte: " + this.sizeInBytes + "\n" +
                 "Table Name: " + this.tableName + "\n" +
                 this.relationProfile.toString() + "\n";
     }
@@ -107,7 +105,7 @@ public class Relation {
 
         Relation relation = (Relation) o;
 
-        if (syzeInBytes != relation.syzeInBytes) return false;
+        if (sizeInBytes != relation.sizeInBytes) return false;
         if (operation != null ? !operation.equals(relation.operation) : relation.operation != null) return false;
         if (attributes != null ? !attributes.equals(relation.attributes) : relation.attributes != null) return false;
         return tableName != null ? tableName.equals(relation.tableName) : relation.tableName == null;
@@ -118,7 +116,7 @@ public class Relation {
     public int hashCode() {
         int result = operation != null ? operation.hashCode() : 0;
         result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
-        result = 31 * result + (int) (syzeInBytes ^ (syzeInBytes >>> 32));
+        result = 31 * result + (int) (sizeInBytes ^ (sizeInBytes >>> 32));
         result = 31 * result + (tableName != null ? tableName.hashCode() : 0);
         return result;
     }

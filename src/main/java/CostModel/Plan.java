@@ -82,7 +82,7 @@ public class Plan implements Comparable
         return "Plan{\n" +
                 "relation=" + relation.getElement().toString() +
                 ", cost=" + cost +
-                "\n, assignedProviders=" + assignedProviders.toString() +
+                "\n, assignedProviders=\n" + assignedProviders.toString() +
                 "\n}";
     }
 

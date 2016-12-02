@@ -454,14 +454,17 @@ public class CostModel
     private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
-        double GB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
+        double GB = relationNode.getElement().getSizeInBytes() * Math.pow(10, -9);
         double leftGB = 0;
         double rightGB = 0;
 
+        // TODO GB TUNING
+        GB = GB * Math.pow(10, 0);
+
         if (relationNode.getLeft() != null)
-            leftGB = relationNode.getLeft().getElement().getSyzeInBytes() * Math.pow(10, -9);
+            leftGB = relationNode.getLeft().getElement().getSizeInBytes() * Math.pow(10, -9);
         if (relationNode.getRight() != null)
-            rightGB = relationNode.getRight().getElement().getSyzeInBytes() * Math.pow(10, -9);
+            rightGB = relationNode.getRight().getElement().getSizeInBytes() * Math.pow(10, -9);
 
         // Represents the single operation cost
         // [ $ ]
