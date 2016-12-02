@@ -40,7 +40,7 @@ public class CostModel
             // 2. NO REQUIRE to updateRelationProfile
 
             // 3. Compute and assign Cost
-            double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
+            double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), null, root);
             newPlan.setCost(cost);
             newPlan.getAssignedProviders().add(findProvider("storage_server"));
 
@@ -85,7 +85,7 @@ public class CostModel
                     // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                     Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
-                    double cost = computeCost(providers.get(i), childProvider, rootCopy) + leftChildPlan.getCost();
+                    double cost = computeCost(providers.get(i), childProvider, null, rootCopy) + leftChildPlan.getCost();
 
                     // 3. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
@@ -134,8 +134,10 @@ public class CostModel
 
                         // 2. COMPUTE THE COST
                         int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
-                        Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
-                        double cost = computeCost(providers.get(i), childProvider, rootCopy) + leftChildPlan.getCost() + rightChildPlan.getCost();
+                        int rightChildProviderIndex = rightChildPlan.getAssignedProviders().size() - 1;
+                        Provider leftChildProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
+                        Provider rightChildProvider = rightChildPlan.getAssignedProviders().get(rightChildProviderIndex);
+                        double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy) + leftChildPlan.getCost() + rightChildPlan.getCost();
 
                         // 3. CREATE A NEW PLAN
                         Plan newPlan = new Plan();
@@ -450,7 +452,7 @@ public class CostModel
     // ************************************************************************
     // COST COMPUTATION
 
-    private double computeCost(Provider operationProvider, Provider childProvider, BinaryNode<Relation> relationNode)
+    private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
         double totalGB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
@@ -472,7 +474,7 @@ public class CostModel
         double encryptionCost = ((totalGB * encryptionPercent) / (operationProvider.getCosts().getCpuSpeed() * operationProvider.getCosts().getEncryption())) * operationProvider.getCosts().getCpu();
 
         // Represent the transfer cost from children to father
-        double transferCost = totalGB * findCostPerGB(operationProvider, childProvider);
+        double transferCost = totalGB * findCostPerGB(operationProvider, leftChildProvider);
 
         return (encryptionCost + transferCost + operationCost);
     }
