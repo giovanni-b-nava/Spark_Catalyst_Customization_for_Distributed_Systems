@@ -42,6 +42,7 @@ public class CostModel
             // 3. Compute and assign Cost
             double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
             newPlan.setCost(cost);
+            newPlan.getAssignedProviders().add(findProvider("storage_server"));
 
             leafMap.addPlan(newPlan);
             return leafMap;
@@ -136,7 +137,7 @@ public class CostModel
         Iterator iterator = keySet.iterator();
         Plan value = new Plan();
 
-        for (int j=0; j < i; j++)
+        for (int j=0; j <= i; j++)
         {
             if (iterator.hasNext())
             {
@@ -406,10 +407,9 @@ public class CostModel
     }
 
     // ************************************************************************
-    // Cost Computation
+    // COST COMPUTATION
 
-    // TODO private (public only for Testing)
-    public double computeCost(Provider operationProvider, Provider childProvider, BinaryNode<Relation> relationNode)
+    private double computeCost(Provider operationProvider, Provider childProvider, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
         double totalGB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
