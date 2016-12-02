@@ -81,7 +81,7 @@ public class Plan implements Comparable
     public String toString() {
         return "Plan{\n" +
                 "relation=" + relation.getElement().toString() +
-                "\n, cost=" + cost +
+                ", cost=" + cost +
                 "\n, assignedProviders=" + assignedProviders.toString() +
                 "\n}";
     }

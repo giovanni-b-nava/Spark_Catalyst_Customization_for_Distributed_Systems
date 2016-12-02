@@ -94,9 +94,9 @@ public class Provider {
 
     @Override
     public String toString() {
-        return "Provider{" +
+        return "{" +
                 "name='" + name + '\'' +
                 ", category='" + category + '\'' +
-                '}';
+                "}\n";
     }
 }

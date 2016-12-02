@@ -96,7 +96,8 @@ public class CostModel
                     Plan newPlan = new Plan();
                     newPlan.setRelation(rootCopy);
                     newPlan.setCost(cost);
-                    newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
+                    //newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
+                    newPlan.getAssignedProviders().addAll(leftChildPlan.getAssignedProviders());
                     newPlan.getAssignedProviders().add(providers.get(i));
 
                     // 4. ADD THE NEW PLAN TO PLANSMAP
@@ -139,7 +140,9 @@ public class CostModel
                         Plan newPlan = new Plan();
                         newPlan.setRelation(rootCopy);
                         newPlan.setCost(cost);
-                        newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
+                        //newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
+                        newPlan.getAssignedProviders().addAll(leftChildPlan.getAssignedProviders());
+                        //newPlan.getAssignedProviders().addAll(rightChildPlan.getAssignedProviders());
                         newPlan.getAssignedProviders().addAll(rightChildPlan.getAssignedProviders());
                         newPlan.getAssignedProviders().add(providers.get(i));
 
