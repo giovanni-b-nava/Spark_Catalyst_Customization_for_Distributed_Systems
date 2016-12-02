@@ -29,20 +29,20 @@ public class CostModel
         // Base case: root = Logical Relation
         if (root.getLeft() == null && root.getRight() == null)
         {
-            PlansMap leavesMap = new PlansMap();
-            Plan plan = new Plan();
+            PlansMap leafMap = new PlansMap();
+            Plan newPlan = new Plan();
 
             // 1. Set the BinaryNode<Relation>
-            plan.setRelation(root);
+            newPlan.setRelation(root);
 
             // 2. NO REQUIRE to updateRelationProfile
 
             // 3. Compute and assign Cost
             double cost = 10; //computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
-            plan.setCost(cost);
+            newPlan.setCost(cost);
 
-            leavesMap.addPlan(plan);
-            return leavesMap;
+            leafMap.addPlan(newPlan);
+            return leafMap;
         }
 
         PlansMap leftPlansMap = generateOptimalPlans(root.getLeft());
