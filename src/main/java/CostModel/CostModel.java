@@ -69,9 +69,13 @@ public class CostModel
                     BinaryNode<Relation> leftChildRelation = leftChildPlan.getRelation();
                     BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
 
+                    System.out.println("root.RelationProfile  = " + root.getElement().getRelationProfile());
+
                     rootCopy.setLeft(leftChildRelation);
                     tree.setProfile(rootCopy);
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
+
+                    System.out.println("rootCopy.RelationProfile  = " + rootCopy.getElement().getRelationProfile());
 
                     System.out.println("provider  = " + i + " plan = " + j + "\n");
                     System.out.println("Plan:");
