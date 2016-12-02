@@ -58,10 +58,11 @@ public class CostModel
                 // For all the left plans...
                 for (int j=0; j<leftPlansMap.getPlansMap().size(); j++)
                 {
-                    // 1. Generate a new Relation Profile
-                    int index = findIndexIntoMap(leftPlansMap, j);
-                    BinaryNode<Relation> leftChild = leftPlansMap.getPlansMap().get(index).getRelation();
+                    // 1. GENERATE A NEW RELATION PROFILE
+                    int leftChildPlanIndex = findIndexIntoMap(leftPlansMap, j);
+                    BinaryNode<Relation> leftChild = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getRelation();
                     BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
+
                     rootCopy.setLeft(leftChild);
                     tree.setProfile(rootCopy);
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
@@ -69,7 +70,17 @@ public class CostModel
                     System.out.println("i = " + i + " j = " + j + "\n");
                     System.out.println(rootCopy.getElement().getRelationProfile());
 
-                    // 2. Compute che cost
+                    // 2. COMPUTE THE COST
+                    int leftChildProviderIndex = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().size() - 1;
+                    Provider childProvider = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().get(leftChildPlanIndex);
+                    double cost = computeCost(providers.get(i), childProvider, rootCopy);
+
+                    // 3. CREATE A NEW PLAN
+                    Plan plan = new Plan();
+                    plan.setRelation(rootCopy);
+                    plan.setCost(cost);
+                    plan.setAssignedProviders(leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders());
+                    plan.getAssignedProviders().add(childProvider);
 
                 }
             }

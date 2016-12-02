@@ -16,7 +16,7 @@ public class Plan
 
     private BinaryNode<Relation> relation;
     private double cost;
-    private List<String> assignedProviders;
+    private List<Provider> assignedProviders;
 
     public Plan()
     {
@@ -41,11 +41,15 @@ public class Plan
         this.cost = cost;
     }
 
-    public List<String> getAssignedProviders() {
+    public List<Provider> getAssignedProviders() {
         return assignedProviders;
     }
 
-    public void AddAssignedProviders(String provider)
+    public void setAssignedProviders(List<Provider> assignedProviders) {
+        this.assignedProviders = assignedProviders;
+    }
+
+    public void AddAssignedProviders(Provider provider)
     {
         assignedProviders.add(provider);
     }
