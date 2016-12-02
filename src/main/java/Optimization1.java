@@ -42,10 +42,6 @@ public class Optimization1
 
         // produce l'albero ottimizzato numerato
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
-        // produce l'albero delle varie fasi di ottimizzazione
-        //System.out.println(sqlDF.queryExecution());
-        // produce la lista degli attributi coinvolti nell'operazione
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).references());
 
         // istruzioni per stampare gli operatori di ogni operazione
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).expressions().toList().apply(0));
@@ -56,14 +52,6 @@ public class Optimization1
         // Generazione strutture dati dell'albero
         List<Relation> relations = tree.getRelationTree().DFSVisit();
         System.out.println(relations);
-
-        List<List<Provider>> n = m.getSubjectTree().DFSVisit();
-        for (int i = 0; i < n.size(); i++) {
-            System.out.println("Nodo " + i + ":");
-            for (int x = 0; x < n.get(i).size(); x++) {
-                System.out.println(n.get(i).get(x).getName());
-            }
-        }
 
         // COST TEST of JOIN
         BinaryNode<Relation> newNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
@@ -85,21 +73,19 @@ public class Optimization1
 //        System.out.println("---> COSTO = " + cost);
 
 
-        // TEST generateSubplans
-        // costModel.generateSubplans(newNode, DataBuilder.getDataBuilder().providers);
-
-        // Generazione strutture dati dell'albero
-        // relations = c.getRelationTree().DFSVisit();
-        // System.out.println(relations);
-
         // JOIN TEST
-        BinaryNode<Relation> joinNode = tree.getRelationTree().getRoot().getLeft().getLeft();
-        BinaryNode<Relation> leftProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft();
-        BinaryNode<Relation> rightProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getRight();
+//        BinaryNode<Relation> joinNode = tree.getRelationTree().getRoot().getLeft().getLeft();
+//        BinaryNode<Relation> leftProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft();
+//        BinaryNode<Relation> rightProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getRight();
 
         //RelationProfile newRelationProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().providers.get(2), joinNode);
 
         //System.out.println("newRelationProfile.toString():\n" + newRelationProfile.toString());
+
+
+        costModel.generateOptimalPlans(tree.getRelationTree().getRoot());
+
+
 
     }
 

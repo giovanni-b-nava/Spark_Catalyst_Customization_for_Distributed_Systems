@@ -38,7 +38,7 @@ public class CostModel
             // 2. NO REQUIRE to updateRelationProfile
 
             // 3. Compute and assign Cost
-            double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
+            double cost = 10; //computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
             plan.setCost(cost);
 
             leavesMap.addPlan(plan);
@@ -73,15 +73,17 @@ public class CostModel
                     // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().size() - 1;
                     Provider childProvider = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().get(leftChildPlanIndex);
-                    double cost = computeCost(providers.get(i), childProvider, rootCopy);
+                    double cost = 10;//computeCost(providers.get(i), childProvider, rootCopy);
 
                     // 3. CREATE A NEW PLAN
-                    Plan plan = new Plan();
-                    plan.setRelation(rootCopy);
-                    plan.setCost(cost);
-                    plan.setAssignedProviders(leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders());
-                    plan.getAssignedProviders().add(childProvider);
+                    Plan newPlan = new Plan();
+                    newPlan.setRelation(rootCopy);
+                    newPlan.setCost(cost);
+                    newPlan.setAssignedProviders(leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders());
+                    newPlan.getAssignedProviders().add(childProvider);
 
+                    // 4. ADD THE NEW PLAN TO PLANSMAP
+                    plansMap.addPlan(newPlan);
                 }
             }
         }
