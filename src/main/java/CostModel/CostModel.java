@@ -69,18 +69,9 @@ public class CostModel
                     BinaryNode<Relation> leftChildRelation = leftChildPlan.getRelation();
                     BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
 
-                    // TODO Testing
-                    System.out.println("root.RelationProfile: \n" + root.getElement().getRelationProfile());
-                    System.out.println("rootCopy.RelationProfile: \n" + rootCopy.getElement().getRelationProfile());
-
                     rootCopy.setLeft(leftChildRelation);
                     tree.setProfile(rootCopy);
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
-
-                    // TODO Testing
-                    System.out.println("provider  = " + i + " plan = " + j + "\n");
-                    System.out.println("Plan:");
-                    System.out.println(rootCopy.getElement().getRelationProfile());
 
                     // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
@@ -118,19 +109,10 @@ public class CostModel
                         BinaryNode<Relation> rightChildRelation = rightChildPlan.getRelation();
                         BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
 
-                        // TODO Testing
-                        System.out.println("root.RelationProfile: \n" + root.getElement().getRelationProfile());
-                        System.out.println("rootCopy.RelationProfile: \n" + rootCopy.getElement().getRelationProfile());
-
                         rootCopy.setLeft(leftChildRelation);
                         rootCopy.setRight(rightChildRelation);
                         tree.setProfile(rootCopy);
                         rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
-
-                        // TODO Testing
-                        System.out.println("provider  = " + i + " plan = " + j + "\n");
-                        System.out.println("Plan:");
-                        System.out.println(rootCopy.getElement().getRelationProfile());
 
                         // 2. COMPUTE THE COST
                         int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
@@ -471,26 +453,35 @@ public class CostModel
         // Represents the proportion (encrypted attributes / total attributes) of the children
         double encryptionPercentLeft = 0;
         double encryptionPercentRight = 0;
+        double encryptionCostLeft = 0;
+        double encryptionCostRight = 0;
 
-        if (relationNode.getLeft() != null) {
+        if (relationNode.getLeft() != null)
+        {
             if ((relationNode.getLeft().getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getLeft().getElement().getRelationProfile().getVisibleEncrypted().size() == 0))
+            {
                 encryptionPercentLeft = 0;
+            }
             else
+            {
                 encryptionPercentLeft = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
+            }
+            // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
+            // [ $ ]
+            encryptionCostLeft = ((leftGB * encryptionPercentLeft) / (leftChildProvider.getCosts().getCpuSpeed() * leftChildProvider.getCosts().getEncryption())) * leftChildProvider.getCosts().getCpu();
         }
 
-        if (relationNode.getRight() != null) {
-            if ((relationNode.getRight().getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getRight().getElement().getRelationProfile().getVisibleEncrypted().size() == 0))
+        if (relationNode.getRight() != null)
+        {
+            if ((relationNode.getRight().getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getRight().getElement().getRelationProfile().getVisibleEncrypted().size() == 0)) {
                 encryptionPercentRight = 0;
+            }
             else
+            {
                 encryptionPercentRight = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
+            }
+            encryptionCostRight = ((rightGB * encryptionPercentRight) / (rightChildProvider.getCosts().getCpuSpeed() * rightChildProvider.getCosts().getEncryption())) * rightChildProvider.getCosts().getCpu();
         }
-
-        // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
-        // [ $ ]
-        double encryptionCostLeft = ((leftGB * encryptionPercentLeft) / (leftChildProvider.getCosts().getCpuSpeed() * leftChildProvider.getCosts().getEncryption())) * leftChildProvider.getCosts().getCpu();
-        double encryptionCostRight = ((rightGB * encryptionPercentRight) / (rightChildProvider.getCosts().getCpuSpeed() * rightChildProvider.getCosts().getEncryption())) * rightChildProvider.getCosts().getCpu();
-
 
         // Represent the transfer cost from children to father
         double transferCostLeft = 0;
