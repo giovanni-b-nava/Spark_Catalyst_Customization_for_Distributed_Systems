@@ -73,7 +73,8 @@ public class CostModel
                     tree.setProfile(rootCopy);
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
 
-                    System.out.println("i = " + i + " j = " + j + "\n");
+                    System.out.println("provider  = " + i + " plan = " + j + "\n");
+                    System.out.println("Plan:");
                     System.out.println(rootCopy.getElement().getRelationProfile());
 
                     // 2. COMPUTE THE COST
