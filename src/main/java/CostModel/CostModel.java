@@ -58,10 +58,18 @@ public class CostModel
                 // For all the left plans...
                 for (int j=0; j<leftPlansMap.getPlansMap().size(); j++)
                 {
-                    // TODO
-                    // 1. Generate Relation Profile
-                    int index = findIndexIntoMap(plansMap, j);
-                    RelationProfile leftChildProfile;
+                    // 1. Generate a new Relation Profile
+                    int index = findIndexIntoMap(leftPlansMap, j);
+                    BinaryNode<Relation> leftChild = leftPlansMap.getPlansMap().get(index).getRelation();
+                    BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
+                    rootCopy.setLeft(leftChild);
+                    tree.setProfile(rootCopy);
+                    rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
+
+                    System.out.println("i = " + i + " j = " + j + "\n");
+                    System.out.println(rootCopy.getElement().getRelationProfile());
+
+                    // 2. Compute che cost
 
                 }
             }

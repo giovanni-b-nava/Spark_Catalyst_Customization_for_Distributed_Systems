@@ -35,10 +35,10 @@ public class Optimization1
         Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
 
         // Generate the relation tree
-        RelationProfileTree c = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
+        RelationProfileTree tree = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
 
         // Generate the tree for the authorized subjects
-        AuthorizationModel m = new AuthorizationModel(DataBuilder.getDataBuilder().providers, c.getRelationTree());
+        AuthorizationModel m = new AuthorizationModel(DataBuilder.getDataBuilder().providers, tree.getRelationTree());
 
         // produce l'albero ottimizzato numerato
         System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
@@ -54,7 +54,7 @@ public class Optimization1
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
         // Generazione strutture dati dell'albero
-        List<Relation> relations = c.getRelationTree().DFSVisit();
+        List<Relation> relations = tree.getRelationTree().DFSVisit();
         System.out.println(relations);
 
         List<List<Provider>> n = m.getSubjectTree().DFSVisit();
@@ -66,9 +66,9 @@ public class Optimization1
         }
 
         // COST TEST of JOIN
-        BinaryNode<Relation> newNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
+        BinaryNode<Relation> newNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
 
-        CostModel costModel = new CostModel();
+        CostModel costModel = new CostModel(DataBuilder.getDataBuilder().providers, tree);
 //        double cost = costModel.computeCost(DataBuilder.getDataBuilder().providers.get(0), DataBuilder.getDataBuilder().providers.get(1), newNode);
 //        System.out.println("---> Da " + DataBuilder.getDataBuilder().providers.get(0).getName() + " a " + DataBuilder.getDataBuilder().providers.get(1).getName());
 //        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
@@ -93,9 +93,9 @@ public class Optimization1
         // System.out.println(relations);
 
         // JOIN TEST
-        BinaryNode<Relation> joinNode = c.getRelationTree().getRoot().getLeft().getLeft();
-        BinaryNode<Relation> leftProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getLeft();
-        BinaryNode<Relation> rightProjectionNode = c.getRelationTree().getRoot().getLeft().getLeft().getRight();
+        BinaryNode<Relation> joinNode = tree.getRelationTree().getRoot().getLeft().getLeft();
+        BinaryNode<Relation> leftProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft();
+        BinaryNode<Relation> rightProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getRight();
 
         //RelationProfile newRelationProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().providers.get(2), joinNode);
 
