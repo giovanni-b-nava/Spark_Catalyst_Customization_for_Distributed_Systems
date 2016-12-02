@@ -455,11 +455,18 @@ public class CostModel
     private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode)
     {
         // Dimensions in Giga Bytes
-        double totalGB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
+        double GB = relationNode.getElement().getSyzeInBytes() * Math.pow(10, -9);
+        double leftGB = 0;
+        double rightGB = 0;
+
+        if (relationNode.getLeft() != null)
+            leftGB = relationNode.getLeft().getElement().getSyzeInBytes() * Math.pow(10, -9);
+        if (relationNode.getRight() != null)
+            rightGB = relationNode.getRight().getElement().getSyzeInBytes() * Math.pow(10, -9);
 
         // Represents the single operation cost
         // [ $ ]
-        double operationCost = getOperationCost(operationProvider, totalGB, relationNode.getElement().getOperation());
+        double operationCost = getOperationCost(operationProvider, GB, relationNode.getElement().getOperation());
 
         // Represents the proportion (encrypted attributes / total attributes)
         double encryptionPercent;
@@ -471,10 +478,14 @@ public class CostModel
 
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]
-        double encryptionCost = ((totalGB * encryptionPercent) / (operationProvider.getCosts().getCpuSpeed() * operationProvider.getCosts().getEncryption())) * operationProvider.getCosts().getCpu();
+        double encryptionCost = ((GB * encryptionPercent) / (operationProvider.getCosts().getCpuSpeed() * operationProvider.getCosts().getEncryption())) * operationProvider.getCosts().getCpu();
 
         // Represent the transfer cost from children to father
-        double transferCost = totalGB * findCostPerGB(operationProvider, leftChildProvider);
+        double transferCost;
+        if (rightChildProvider == null)
+            transferCost = GB * findCostPerGB(operationProvider, leftChildProvider);
+        else
+            transferCost = GB * findCostPerGB(operationProvider, leftChildProvider);
 
         return (encryptionCost + transferCost + operationCost);
     }
