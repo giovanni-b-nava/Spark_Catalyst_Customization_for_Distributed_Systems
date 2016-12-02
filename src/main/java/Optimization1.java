@@ -1,5 +1,7 @@
 import AuthorizationModel.AuthorizationModel;
 import CostModel.CostModel;
+import CostModel.PlansMap;
+import CostModel.Plan;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfileTree;
@@ -80,10 +82,10 @@ public class Optimization1
 
         //System.out.println("newRelationProfile.toString():\n" + newRelationProfile.toString());
 
-
-        costModel.generateOptimalPlans(tree.getRelationTree().getRoot());
-
-
+        PlansMap plansMap = costModel.generatePlans(tree.getRelationTree().getRoot());
+        Plan optimalPlan = costModel.getOptimalPlan(plansMap);
+        System.out.println("-----> OPTIMAL PLAN:");
+        System.out.println(optimalPlan.toString());
 
     }
 

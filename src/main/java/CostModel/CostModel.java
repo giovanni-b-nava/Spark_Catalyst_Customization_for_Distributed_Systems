@@ -7,9 +7,7 @@ import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Giovanni on 28/11/2016.
@@ -26,7 +24,23 @@ public class CostModel
         this.providers = providers;
     }
 
-    public PlansMap generateOptimalPlans(BinaryNode<Relation> root)
+    public Plan getOptimalPlan(PlansMap plansMap)
+    {
+        List<Plan> plans = new ArrayList<>();
+
+        for (int i=0; i<plansMap.getPlansMap().size(); i++)
+        {
+            Plan plan = findPlanIntoMap(plansMap, i);
+            plans.add(plan);
+        }
+
+        Collections.sort(plans);
+
+        return plans.get(0);
+    }
+
+
+    public PlansMap generatePlans(BinaryNode<Relation> root)
     {
         // Base case: root = Logical Relation
         if (root.getLeft() == null && root.getRight() == null)
@@ -48,11 +62,11 @@ public class CostModel
             return leafMap;
         }
 
-        PlansMap leftPlansMap = generateOptimalPlans(root.getLeft());
+        PlansMap leftPlansMap = generatePlans(root.getLeft());
         PlansMap rightPlansMap = null;
 
         if (root.getRight() != null)
-            rightPlansMap = generateOptimalPlans(root.getRight());
+            rightPlansMap = generatePlans(root.getRight());
 
         PlansMap plansMap = new PlansMap();
 

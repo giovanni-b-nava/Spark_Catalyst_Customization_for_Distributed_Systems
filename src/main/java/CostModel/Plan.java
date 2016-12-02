@@ -5,13 +5,12 @@ import RelationProfileTreeBuilder.Relation;
 import TreeStructure.BinaryNode;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by Giovanni on 24/11/2016.
  */
-public class Plan
+public class Plan implements Comparable
 {
 
     private BinaryNode<Relation> relation;
@@ -76,5 +75,32 @@ public class Plan
         result = 31 * result + (int) (temp ^ (temp >>> 32));
         result = 31 * result + (assignedProviders != null ? assignedProviders.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Plan{\n" +
+                "relation=" + relation.getElement().toString() +
+                "\n, cost=" + cost +
+                "\n, assignedProviders=" + assignedProviders +
+                "\n}";
+    }
+
+    @Override
+    public int compareTo(Object o)
+    {
+        if (o instanceof Plan)
+        {
+            if (this.getCost() > ((Plan) o).getCost())
+                return 1;
+            else
+            {
+                if (this.getCost() == ((Plan) o).getCost())
+                    return 0;
+                else
+                    return -1;
+            }
+        }
+        return 0;
     }
 }
