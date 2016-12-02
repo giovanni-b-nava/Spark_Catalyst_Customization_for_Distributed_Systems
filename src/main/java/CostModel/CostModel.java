@@ -7,7 +7,9 @@ import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 
+import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 /**
  * Created by Giovanni on 28/11/2016.
@@ -62,11 +64,11 @@ public class CostModel
                 for (int j=0; j<leftPlansMap.getPlansMap().size(); j++)
                 {
                     // 1. GENERATE A NEW RELATION PROFILE
-                    int leftChildPlanIndex = findIndexIntoMap(leftPlansMap, j);
-                    BinaryNode<Relation> leftChild = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getRelation();
+                    Plan leftChildPlan = findPlanIntoMap(leftPlansMap, j);
+                    BinaryNode<Relation> leftChildRelation = leftChildPlan.getRelation();
                     BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
 
-                    rootCopy.setLeft(leftChild);
+                    rootCopy.setLeft(leftChildRelation);
                     tree.setProfile(rootCopy);
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
 
@@ -74,15 +76,15 @@ public class CostModel
                     System.out.println(rootCopy.getElement().getRelationProfile());
 
                     // 2. COMPUTE THE COST
-                    int leftChildProviderIndex = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().size() - 1;
-                    Provider childProvider = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().get(leftChildPlanIndex);
+                    int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
+                    Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
                     double cost = computeCost(providers.get(i), childProvider, rootCopy);
 
                     // 3. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
                     newPlan.setRelation(rootCopy);
                     newPlan.setCost(cost);
-                    newPlan.setAssignedProviders(leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders());
+                    newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
                     newPlan.getAssignedProviders().add(childProvider);
 
                     // 4. ADD THE NEW PLAN TO PLANSMAP
@@ -108,7 +110,6 @@ public class CostModel
             }
         }
 
-
         return plansMap;
     }
 
@@ -128,12 +129,23 @@ public class CostModel
         return provider;
     }
 
-    // Find the index of the current element of PlansMap
-    private int findIndexIntoMap(PlansMap plansMap, int i)
+    // Find the plan of the current element of PlansMap
+    private Plan findPlanIntoMap(PlansMap plansMap, int i)
     {
-        Object[] keys = plansMap.getPlansMap().keySet().toArray();
-        int index = (int) keys[i];
-        return index;
+        Set keySet = plansMap.getPlansMap().keySet();
+        Iterator iterator = keySet.iterator();
+        Plan value = new Plan();
+
+        for (int j=0; j < i; j++)
+        {
+            if (iterator.hasNext())
+            {
+                Object key = iterator.next();
+                value = plansMap.getPlansMap().get(key);
+            }
+        }
+
+        return value;
     }
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
