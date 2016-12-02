@@ -69,6 +69,7 @@ public class CostModel
                     BinaryNode<Relation> leftChildRelation = leftChildPlan.getRelation();
                     BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
 
+                    // TODO Testing
                     System.out.println("root.RelationProfile: \n" + root.getElement().getRelationProfile());
                     System.out.println("rootCopy.RelationProfile: \n" + rootCopy.getElement().getRelationProfile());
 
@@ -76,8 +77,7 @@ public class CostModel
                     tree.setProfile(rootCopy);
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
 
-
-
+                    // TODO Testing
                     System.out.println("provider  = " + i + " plan = " + j + "\n");
                     System.out.println("Plan:");
                     System.out.println(rootCopy.getElement().getRelationProfile());
@@ -85,7 +85,7 @@ public class CostModel
                     // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                     Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
-                    double cost = computeCost(providers.get(i), childProvider, rootCopy);
+                    double cost = computeCost(providers.get(i), childProvider, rootCopy) + leftChildPlan.getCost();
 
                     // 3. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
