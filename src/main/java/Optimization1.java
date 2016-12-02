@@ -1,9 +1,7 @@
 import AuthorizationModel.AuthorizationModel;
-import ConfigurationParser.Provider;
 import CostModel.CostModel;
 import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
-import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;

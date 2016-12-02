@@ -468,17 +468,27 @@ public class CostModel
         // [ $ ]
         double operationCost = getOperationCost(operationProvider, GB, relationNode.getElement().getOperation());
 
-        // Represents the proportion (encrypted attributes / total attributes)
-        double encryptionPercent;
+        // Represents the proportion (encrypted attributes / total attributes) of the children
+        double encryptionPercentLeft = 0;
+        double encryptionPercentRight = 0;
 
-        if ((relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() == 0))
-            encryptionPercent = 0;
-        else
-            encryptionPercent = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
+        if (relationNode.getLeft() != null) {
+            if ((relationNode.getLeft().getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getLeft().getElement().getRelationProfile().getVisibleEncrypted().size() == 0))
+                encryptionPercentLeft = 0;
+            else
+                encryptionPercentLeft = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
+        }
+
+        if (relationNode.getRight() != null) {
+            if ((relationNode.getRight().getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getRight().getElement().getRelationProfile().getVisibleEncrypted().size() == 0))
+                encryptionPercentRight = 0;
+            else
+                encryptionPercentRight = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
+        }
 
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]
-        double encryptionCost = ((GB * encryptionPercent) / (operationProvider.getCosts().getCpuSpeed() * operationProvider.getCosts().getEncryption())) * operationProvider.getCosts().getCpu();
+        double encryptionCost = ((GB * encryptionPercentLeft) / (operationProvider.getCosts().getCpuSpeed() * operationProvider.getCosts().getEncryption())) * operationProvider.getCosts().getCpu();
 
         // Represent the transfer cost from children to father
         double transferCost;
