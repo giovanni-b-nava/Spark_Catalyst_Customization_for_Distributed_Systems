@@ -488,16 +488,20 @@ public class CostModel
 
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]
-        double encryptionCost = ((GB * encryptionPercentLeft) / (operationProvider.getCosts().getCpuSpeed() * operationProvider.getCosts().getEncryption())) * operationProvider.getCosts().getCpu();
+        double encryptionCostLeft = ((leftGB * encryptionPercentLeft) / (leftChildProvider.getCosts().getCpuSpeed() * leftChildProvider.getCosts().getEncryption())) * leftChildProvider.getCosts().getCpu();
+        double encryptionCostRight = ((rightGB * encryptionPercentRight) / (rightChildProvider.getCosts().getCpuSpeed() * rightChildProvider.getCosts().getEncryption())) * rightChildProvider.getCosts().getCpu();
+
 
         // Represent the transfer cost from children to father
-        double transferCost;
-        if (rightChildProvider == null)
-            transferCost = GB * findCostPerGB(operationProvider, leftChildProvider);
-        else
-            transferCost = GB * findCostPerGB(operationProvider, leftChildProvider);
+        double transferCostLeft = 0;
+        double transferCostRight = 0;
 
-        return (encryptionCost + transferCost + operationCost);
+        if (leftChildProvider != null)
+            transferCostLeft = leftGB * findCostPerGB(operationProvider, leftChildProvider);
+        if (rightChildProvider != null)
+            transferCostRight = rightGB * findCostPerGB(operationProvider, rightChildProvider);
+
+        return (encryptionCostLeft + encryptionCostRight + transferCostLeft + transferCostRight + operationCost);
     }
 
     private double findCostPerGB(Provider operationProvider, Provider childProvider)
