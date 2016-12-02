@@ -38,7 +38,7 @@ public class CostModel
             // 2. NO REQUIRE to updateRelationProfile
 
             // 3. Compute and assign Cost
-            double cost = 10; //computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
+            double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), root);
             newPlan.setCost(cost);
 
             leafMap.addPlan(newPlan);
@@ -46,7 +46,10 @@ public class CostModel
         }
 
         PlansMap leftPlansMap = generateOptimalPlans(root.getLeft());
-        PlansMap rightPlansMap = generateOptimalPlans(root.getRight());
+        PlansMap rightPlansMap = null;
+
+        if (root.getRight() != null)
+            rightPlansMap = generateOptimalPlans(root.getRight());
 
         PlansMap plansMap = new PlansMap();
 
@@ -73,7 +76,7 @@ public class CostModel
                     // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().size() - 1;
                     Provider childProvider = leftPlansMap.getPlansMap().get(leftChildPlanIndex).getAssignedProviders().get(leftChildPlanIndex);
-                    double cost = 10;//computeCost(providers.get(i), childProvider, rootCopy);
+                    double cost = computeCost(providers.get(i), childProvider, rootCopy);
 
                     // 3. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
@@ -404,7 +407,12 @@ public class CostModel
         double operationCost = getOperationCost(operationProvider, totalGB, relationNode.getElement().getOperation());
 
         // Represents the proportion (encrypted attributes / total attributes)
-        double encryptionPercent = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
+        double encryptionPercent;
+
+        if ((relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() == 0))
+            encryptionPercent = 0;
+        else
+            encryptionPercent = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
 
         // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
         // [ $ ]
@@ -431,6 +439,7 @@ public class CostModel
 
         switch (operationType)
         {
+            case "LogicalRelation" :
             case "Filter" :
             case "Project" :
                 operationCost = 1;
@@ -442,7 +451,8 @@ public class CostModel
                 operationCost = 0.1;
                 break;
             default:
-                System.out.println("CostEvaluator.getOperationCost: ERROR Unknown operation !");
+                operationCost = 1;
+                System.out.println("CostModel.getOperationCost: ERROR Unknown operation!");
         }
 
         return ((totalGB / (operationProvider.getCosts().getCpuSpeed() * operationCost)) * operationProvider.getCosts().getCpu());

@@ -41,7 +41,7 @@ public class Optimization1
         AuthorizationModel m = new AuthorizationModel(DataBuilder.getDataBuilder().providers, tree.getRelationTree());
 
         // produce l'albero ottimizzato numerato
-        System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
+        //System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
 
         // istruzioni per stampare gli operatori di ogni operazione
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).expressions().toList().apply(0));
@@ -51,7 +51,7 @@ public class Optimization1
 
         // Generazione strutture dati dell'albero
         List<Relation> relations = tree.getRelationTree().DFSVisit();
-        System.out.println(relations);
+        //System.out.println(relations);
 
         // COST TEST of JOIN
         BinaryNode<Relation> newNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
