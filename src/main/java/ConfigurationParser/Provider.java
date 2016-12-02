@@ -91,4 +91,12 @@ public class Provider {
         result = 31 * result + (costs != null ? costs.hashCode() : 0);
         return result;
     }
+
+    @Override
+    public String toString() {
+        return "Provider{" +
+                "name='" + name + '\'' +
+                ", category='" + category + '\'' +
+                '}';
+    }
 }

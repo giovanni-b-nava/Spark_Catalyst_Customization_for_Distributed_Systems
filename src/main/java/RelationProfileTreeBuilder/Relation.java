@@ -19,8 +19,6 @@ public class Relation {
     private RelationProfile relationProfile;
     // Name of the table (only for LogicalRelations)
     private String tableName;
-    // Map of subplan costs
-    private Plan plan;
 
     public Relation(String o, List<String> a, long s) {
         this.operation = o;
@@ -28,7 +26,6 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = null;
         this.tableName = "Not a table";
-        this.plan = new Plan();
     }
 
     public Relation(String o, List<String> a, RelationProfile p, long s) {
@@ -37,7 +34,6 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = p;
         this.tableName = "Not a table";
-        this.plan = new Plan();
     }
 
     public Relation(String o, List<String> a, RelationProfile p, String t, long s) {
@@ -46,7 +42,6 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = p;
         this.tableName = t;
-        this.plan = new Plan();
     }
 
     public Relation(String o, List<String> a, String t, long s) {
@@ -55,7 +50,6 @@ public class Relation {
         this.syzeInBytes = s;
         this.relationProfile = null;
         this.tableName = t;
-        this.plan = new Plan();
     }
 
     public String getOperation() {
@@ -98,21 +92,12 @@ public class Relation {
         this.tableName = tableName;
     }
 
-    public Plan getPlan() {
-        return plan;
-    }
-
-    public void setPlan(Plan plan) {
-        this.plan = plan;
-    }
-
     public String toString() {
         return "Operation: " + this.operation + "\n" +
                 "Attributes: " + this.attributes.toString() + "\n" +
                 "Syze in Byte: " + this.syzeInBytes + "\n" +
                 "Table Name: " + this.tableName + "\n" +
-                this.relationProfile.toString() +
-                "subPlansMap: " + plan + "\n";
+                this.relationProfile.toString() + "\n";
     }
 
     @Override
