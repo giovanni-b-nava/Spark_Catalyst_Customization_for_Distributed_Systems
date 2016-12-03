@@ -108,6 +108,8 @@ public class Relation {
         if (sizeInBytes != relation.sizeInBytes) return false;
         if (operation != null ? !operation.equals(relation.operation) : relation.operation != null) return false;
         if (attributes != null ? !attributes.equals(relation.attributes) : relation.attributes != null) return false;
+        if (relationProfile != null ? !relationProfile.equals(relation.relationProfile) : relation.relationProfile != null)
+            return false;
         return tableName != null ? tableName.equals(relation.tableName) : relation.tableName == null;
 
     }
@@ -117,6 +119,7 @@ public class Relation {
         int result = operation != null ? operation.hashCode() : 0;
         result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
         result = 31 * result + (int) (sizeInBytes ^ (sizeInBytes >>> 32));
+        result = 31 * result + (relationProfile != null ? relationProfile.hashCode() : 0);
         result = 31 * result + (tableName != null ? tableName.hashCode() : 0);
         return result;
     }

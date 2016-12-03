@@ -94,4 +94,32 @@ public class RelationProfile
                 "Equivalence Sets: " + this.equivalenceSets.toString() + "\n";
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof RelationProfile)) return false;
+
+        RelationProfile that = (RelationProfile) o;
+
+        if (visiblePlaintext != null ? !visiblePlaintext.equals(that.visiblePlaintext) : that.visiblePlaintext != null)
+            return false;
+        if (visibleEncrypted != null ? !visibleEncrypted.equals(that.visibleEncrypted) : that.visibleEncrypted != null)
+            return false;
+        if (implicitPlaintext != null ? !implicitPlaintext.equals(that.implicitPlaintext) : that.implicitPlaintext != null)
+            return false;
+        if (implicitEncrypted != null ? !implicitEncrypted.equals(that.implicitEncrypted) : that.implicitEncrypted != null)
+            return false;
+        return equivalenceSets != null ? equivalenceSets.equals(that.equivalenceSets) : that.equivalenceSets == null;
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result = visiblePlaintext != null ? visiblePlaintext.hashCode() : 0;
+        result = 31 * result + (visibleEncrypted != null ? visibleEncrypted.hashCode() : 0);
+        result = 31 * result + (implicitPlaintext != null ? implicitPlaintext.hashCode() : 0);
+        result = 31 * result + (implicitEncrypted != null ? implicitEncrypted.hashCode() : 0);
+        result = 31 * result + (equivalenceSets != null ? equivalenceSets.hashCode() : 0);
+        return result;
+    }
 }

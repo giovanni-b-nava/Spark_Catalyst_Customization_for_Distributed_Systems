@@ -461,7 +461,7 @@ public class CostModel
         double rightGB = 0;
 
         // TODO GB TUNING
-        GB = GB * Math.pow(10, 6);
+        GB = GB * Math.pow(10, 0);
         if(relationNode.getElement().getOperation().equals("LogicalRelation")) {
             System.out.println(GB);
         }
