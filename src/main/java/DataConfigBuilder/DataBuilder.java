@@ -8,9 +8,7 @@ import org.apache.spark.sql.SparkSession;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by Spark on 14/11/2016.
@@ -31,8 +29,6 @@ public class DataBuilder {
     public List<String> tableNames = new ArrayList<>();
     // System providers
     public List<Provider> providers;
-    // Map of the dimension of the tables
-    public Map<String, Long> tuples = new HashMap<>();
 
     // Builder is a singleton
     private static DataBuilder builder = null;
@@ -77,14 +73,6 @@ public class DataBuilder {
         tableNames.add("dept_emp");
         tables.add(dept_manager);
         tableNames.add("dept_manager");
-
-        // Fill the tables dimension
-        tuples.put("employees", employees.count());
-        tuples.put("salaries", salaries.count());
-        tuples.put("departments", departments.count());
-        tuples.put("titles", titles.count());
-        tuples.put("dept_emp", dept_emp.count());
-        tuples.put("dept_manager", dept_manager.count());
 
         // Generate configuration data
         Configurator conf = new Configurator();

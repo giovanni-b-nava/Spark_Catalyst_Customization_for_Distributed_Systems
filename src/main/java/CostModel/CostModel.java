@@ -24,22 +24,24 @@ public class CostModel
         this.providers = providers;
     }
 
+    // Returns the plan with the lower cost
     public Plan getOptimalPlan(PlansMap plansMap)
     {
         List<Plan> plans = new ArrayList<>();
-
+        // Put all the plans in a list
         for (int i=0; i<plansMap.getPlansMap().size(); i++)
         {
             Plan plan = findPlanIntoMap(plansMap, i);
             plans.add(plan);
         }
-
+        // Order the list
         Collections.sort(plans);
+        System.out.println(plans.size());
 
         return plans.get(0);
     }
 
-
+    // Recursively generate all the plan that come from the combinations of providers and operations and put them into a map
     public PlansMap generatePlans(BinaryNode<Relation> root)
     {
         // Base case: root = Logical Relation
@@ -459,7 +461,10 @@ public class CostModel
         double rightGB = 0;
 
         // TODO GB TUNING
-        GB = GB * Math.pow(10, 0);
+        GB = GB * Math.pow(10, 6);
+        if(relationNode.getElement().getOperation().equals("LogicalRelation")) {
+            System.out.println(GB);
+        }
 
         if (relationNode.getLeft() != null)
             leftGB = relationNode.getLeft().getElement().getSizeInBytes() * Math.pow(10, -9);
