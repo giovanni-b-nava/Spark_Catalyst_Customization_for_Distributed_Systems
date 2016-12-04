@@ -24,7 +24,7 @@ public class CostModel
         this.providers = providers;
     }
 
-    // Returns the plan with the lower cost
+    // Returns the plan with the lowest cost
     public Plan getOptimalPlan(PlansMap plansMap)
     {
         List<Plan> plans = new ArrayList<>();
@@ -41,7 +41,7 @@ public class CostModel
         return plans.get(0);
     }
 
-    // Recursively generate all the plan that come from the combinations of providers and operations and put them into a map
+    // Recursively generate all the plans that come from the combination of providers and operations and put them into a map
     public PlansMap generatePlans(BinaryNode<Relation> root)
     {
         // Base case: root = Logical Relation
@@ -98,7 +98,6 @@ public class CostModel
                     Plan newPlan = new Plan();
                     newPlan.setRelation(rootCopy);
                     newPlan.setCost(cost);
-                    //newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
                     newPlan.getAssignedProviders().addAll(leftChildPlan.getAssignedProviders());
                     newPlan.getAssignedProviders().add(providers.get(i));
 
@@ -142,9 +141,7 @@ public class CostModel
                         Plan newPlan = new Plan();
                         newPlan.setRelation(rootCopy);
                         newPlan.setCost(cost);
-                        //newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
                         newPlan.getAssignedProviders().addAll(leftChildPlan.getAssignedProviders());
-                        //newPlan.getAssignedProviders().addAll(rightChildPlan.getAssignedProviders());
                         newPlan.getAssignedProviders().addAll(rightChildPlan.getAssignedProviders());
                         newPlan.getAssignedProviders().add(providers.get(i));
 
