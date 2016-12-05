@@ -212,18 +212,18 @@ public class CostModel
             // Check if the attributes of the Join have the same visibility
             String firstAttribute = relationNode.getElement().getAttributes().get(0);
             String secondAttribute = relationNode.getElement().getAttributes().get(1);
-            // ASSUMPTION: if one of the two attributes is in plaintext then decrypt the other
+            // ASSUMPTION: if one of the two attributes is in plaintext then encrypt the other
             if(updatedProfile.getVisiblePlaintext().contains(firstAttribute) && !updatedProfile.getVisiblePlaintext().contains(secondAttribute)) {
                 // Update the relation profile (current) moving the second attribute from the visible encrypted
                 // to the visible plaintext
-                updatedProfile.getVisiblePlaintext().remove(secondAttribute);
-                updatedProfile.getVisibleEncrypted().add(secondAttribute);
+                updatedProfile.getVisiblePlaintext().remove(firstAttribute);
+                updatedProfile.getVisibleEncrypted().add(firstAttribute);
             }
             else if(!updatedProfile.getVisiblePlaintext().contains(firstAttribute) && updatedProfile.getVisiblePlaintext().contains(secondAttribute)) {
                 // Update the relation profile (current) moving the first attribute from the visible encrypted
                 // to the visible plaintext
-                updatedProfile.getVisiblePlaintext().remove(firstAttribute);
-                updatedProfile.getVisibleEncrypted().add(firstAttribute);
+                updatedProfile.getVisiblePlaintext().remove(secondAttribute);
+                updatedProfile.getVisibleEncrypted().add(secondAttribute);
             }
         }
         // else: for a Logical Relation don't do anything
