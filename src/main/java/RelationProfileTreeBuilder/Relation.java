@@ -118,7 +118,6 @@ public class Relation {
     public int hashCode() {
         int result = operation != null ? operation.hashCode() : 0;
         result = 31 * result + (attributes != null ? attributes.hashCode() : 0);
-        result = 31 * result + (int) (sizeInBytes ^ (sizeInBytes >>> 32));
         result = 31 * result + (relationProfile != null ? relationProfile.hashCode() : 0);
         result = 31 * result + (tableName != null ? tableName.hashCode() : 0);
         return result;

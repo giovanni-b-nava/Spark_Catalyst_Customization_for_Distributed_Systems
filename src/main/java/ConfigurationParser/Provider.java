@@ -87,8 +87,6 @@ public class Provider {
     @Override
     public int hashCode() {
         int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (category != null ? category.hashCode() : 0);
-        result = 31 * result + (costs != null ? costs.hashCode() : 0);
         return result;
     }
 

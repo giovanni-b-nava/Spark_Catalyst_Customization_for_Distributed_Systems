@@ -16,9 +16,11 @@ public class PlansMap
 
     public void addPlan(Plan plan)
     {
-        int hashCodeRelation = plan.getRelation().hashCode();
-        int hashCodeProvider = plan.getAssignedProviders().get(plan.getAssignedProviders().size()-1).hashCode();
-        int hashCode = hashCodeRelation + hashCodeProvider;
+        int hashRelation = plan.getRelation().hashCode();
+        int hashProvider = plan.getAssignedProviders().get(plan.getAssignedProviders().size()-1).hashCode();
+        // Master hash code (combining hashRelation and hashProvider)
+        int hashCode = 1013 * (hashRelation) ^ 1009 * (hashProvider);
+
         if (plansMap.containsKey(hashCode))
         {
             if (plansMap.get(hashCode).getCost() > plan.getCost())
