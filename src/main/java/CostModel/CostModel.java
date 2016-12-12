@@ -36,7 +36,8 @@ public class CostModel
         }
         // Order the list
         Collections.sort(plans);
-        System.out.println(plans.size());
+
+        System.out.println("Number of plans = " + plans.size());
 
         return plans.get(0);
     }
@@ -459,8 +460,9 @@ public class CostModel
 
         // TODO GB TUNING
         GB = GB * Math.pow(10, 0);
-        if(relationNode.getElement().getOperation().equals("LogicalRelation")) {
-            System.out.println(GB);
+        if(relationNode.getElement().getOperation().equals("LogicalRelation"))
+        {
+            System.out.println("Table GB = " + GB);
         }
 
         if (relationNode.getLeft() != null)
