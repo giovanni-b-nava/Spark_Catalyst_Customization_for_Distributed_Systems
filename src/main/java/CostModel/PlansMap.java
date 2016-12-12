@@ -16,7 +16,7 @@ public class PlansMap
 
     public void addPlan(Plan plan)
     {
-        int hashRelation = plan.getRelation().hashCode();
+        int hashRelation = plan.getRelation().getElement().hashCode();
         int hashProvider = plan.getAssignedProviders().get(plan.getAssignedProviders().size()-1).hashCode();
         // Master hash code (combining hashRelation and hashProvider)
         int hashCode = 1013 * (hashRelation) ^ 1009 * (hashProvider);
