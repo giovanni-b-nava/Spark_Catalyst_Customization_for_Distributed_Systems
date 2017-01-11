@@ -10,15 +10,14 @@ import TreeStructure.BinaryTree;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Spark on 17/11/2016.
- */
-public class AuthorizationModel {
+public class AuthorizationModel
+{
 
     private BinaryTree<List<Provider>> subjectTree;
 
     // Generate the list of subjects authorized to execute each operation and put them in a tree
-    public AuthorizationModel(List<Provider> providers, BinaryTree<Relation> profileTree) {
+    public AuthorizationModel(List<Provider> providers, BinaryTree<Relation> profileTree)
+    {
 
         // Set identification numbers for the attributes of the providers
         List<Provider> indexed = this.setIndexNodes(providers, profileTree);
@@ -37,7 +36,8 @@ public class AuthorizationModel {
     }
 
     // Copy the same indexes of the tree in the attributes of the node's tables
-    private List<Provider> setIndexNodes(List<Provider> providers, BinaryTree<Relation> profileTree) {
+    private List<Provider> setIndexNodes(List<Provider> providers, BinaryTree<Relation> profileTree)
+    {
         List<Provider> indexed = providers;
         // Create the list of logical relations
         List<Relation> logicalRelations = new ArrayList<>();
@@ -72,15 +72,19 @@ public class AuthorizationModel {
     }
 
     // Generate the list of authorized providers for the current operation
-    private List<Provider> authorizedSubjects(List<Provider> providers, BinaryNode<Relation> node) {
+    private List<Provider> authorizedSubjects(List<Provider> providers, BinaryNode<Relation> node)
+    {
         List<Provider> n = new ArrayList<>();
-        for(int i = 0; i < providers.size(); i++) {
-            if(!node.getElement().getOperation().equals("LogicalRelation")) {
+        for(int i = 0; i < providers.size(); i++)
+        {
+            if(!node.getElement().getOperation().equals("LogicalRelation"))
+            {
                 if (this.isAuthorized(providers.get(i), node.getElement().getRelationProfile())) {
                     n.add(providers.get(i));
                 }
             }
-            else if(providers.get(i).getCategory().equals("storage_server")) {
+            else if(providers.get(i).getCategory().equals("storage_server"))
+            {
                 n.add(providers.get(i));
             }
         }
@@ -88,56 +92,84 @@ public class AuthorizationModel {
     }
 
     // Return true if the provider is authorized to execute the operation
-    private boolean isAuthorized(Provider provider, RelationProfile profile) {
+    private boolean isAuthorized(Provider provider, RelationProfile profile)
+    {
 
         boolean authorized = false;
 
         // Check if provider is authorized for visible plaintext
-        if(profile.getVisiblePlaintext() != null) {
-            for (int i = 0; i < profile.getVisiblePlaintext().size(); i++) {
+        if(profile.getVisiblePlaintext() != null)
+        {
+            for (int i = 0; i < profile.getVisiblePlaintext().size(); i++)
+            {
                 authorized = this.checkVisibility(provider, profile.getVisiblePlaintext().get(i), "Plaintext");
                 if(!authorized)
                     return false;
             }
-        } else authorized = true;
+        }
+        else
+            authorized = true;
 
         // Check if provider is authorized for implicit plaintext
-        if(authorized) {
-            if(profile.getImplicitPlaintext() != null) {
-                for (int i = 0; i < profile.getImplicitPlaintext().size(); i++) {
+        if(authorized)
+        {
+            if(profile.getImplicitPlaintext() != null)
+            {
+                for (int i = 0; i < profile.getImplicitPlaintext().size(); i++)
+                {
                     authorized = this.checkVisibility(provider, profile.getImplicitPlaintext().get(i), "Plaintext");
                     if(!authorized)
                         return false;
                 }
-            } else authorized = true;
-        } else return false;
+            }
+            else
+                authorized = true;
+        }
+        else
+            return false;
 
         // Check if provider is authorized for visible encrypted
-        if(authorized) {
-            if(profile.getVisibleEncrypted() != null) {
-                for (int i = 0; i < profile.getVisibleEncrypted().size(); i++) {
+        if(authorized)
+        {
+            if(profile.getVisibleEncrypted() != null)
+            {
+                for (int i = 0; i < profile.getVisibleEncrypted().size(); i++)
+                {
                     authorized = this.checkVisibility(provider, profile.getVisibleEncrypted().get(i), "Encrypted");
                     if(!authorized)
                         return false;
                 }
-            } else authorized = true;
-        } else return false;
+            }
+            else
+                authorized = true;
+        }
+        else
+            return false;
 
         // Check if provider is authorized for implicit encrypted
-        if(authorized) {
-            if(profile.getImplicitEncrypted() != null) {
-                for (int i = 0; i < profile.getImplicitEncrypted().size(); i++) {
+        if(authorized)
+        {
+            if(profile.getImplicitEncrypted() != null)
+            {
+                for (int i = 0; i < profile.getImplicitEncrypted().size(); i++)
+                {
                     authorized = this.checkVisibility(provider, profile.getImplicitEncrypted().get(i), "Encrypted");
                     if(!authorized)
                         return false;
                 }
-            } else authorized = true;
-        } else return false;
+            }
+            else
+                authorized = true;
+        } else
+            return false;
 
         // Check if the equivalence lists have the same visibility
-        if(authorized) {
-            if(profile.getEquivalenceSets() != null) {
-                for(int i = 0; i < profile.getEquivalenceSets().size(); i++) {
+        if(authorized)
+        {
+            if(profile.getEquivalenceSets() != null)
+            {
+                for(int i = 0; i < profile.getEquivalenceSets().size(); i++)
+                {
                     boolean plain1 = this.checkVisibility(provider, profile.getEquivalenceSets().get(i).get(0), "Plaintext");
                     boolean plain2 = this.checkVisibility(provider, profile.getEquivalenceSets().get(i).get(1), "Plaintext");
                     boolean enc1 = this.checkVisibility(provider, profile.getEquivalenceSets().get(i).get(0), "Encrypted");
@@ -145,40 +177,54 @@ public class AuthorizationModel {
                     if(!(plain1 && plain2) && !(enc1 && enc2))
                         return false;
                 }
-            } else authorized = true;
-        } else return false;
+            }
+            else
+                authorized = true;
+        }
+        else
+            return false;
 
         return authorized;
     }
 
     // Check if the current attribute has the right visibility
-    public static boolean checkVisibility(Provider provider, String attribute, String visibility) {
-        for(int x = 0; x < provider.getTables().size(); x++) {
-            if(visibility.equals("Plaintext")) {
-                if(provider.getTables().get(x).getPlaintext().contains(attribute)) {
+    public static boolean checkVisibility(Provider provider, String attribute, String visibility)
+    {
+        for(int x = 0; x < provider.getTables().size(); x++)
+        {
+            if(visibility.equals("Plaintext"))
+            {
+                if(provider.getTables().get(x).getPlaintext().contains(attribute))
+                {
                     return true;
                 }
             }
-            else if(visibility.equals("Encrypted")) {
-                if (provider.getTables().get(x).getPlaintext().contains(attribute) || provider.getTables().get(x).getEncrypted().contains(attribute)) {
+            else if(visibility.equals("Encrypted"))
+            {
+                if (provider.getTables().get(x).getPlaintext().contains(attribute) || provider.getTables().get(x).getEncrypted().contains(attribute))
+                {
                     return true;
                 }
             }
-            else System.out.println("Error: wrong visibility");
+            else
+                System.out.println("ERROR: Wrong Visibility!");
         }
         return false;
     }
 
     // Recursively generate all the providers in the subjectTree
-    private void generateNodes(List<Provider> providers, BinaryNode<List<Provider>> father, BinaryNode<Relation> relation) {
-        if(relation.getLeft() != null && relation.getRight() == null) {
+    private void generateNodes(List<Provider> providers, BinaryNode<List<Provider>> father, BinaryNode<Relation> relation)
+    {
+        if(relation.getLeft() != null && relation.getRight() == null)
+        {
             List<Provider> l = this.authorizedSubjects(providers, relation.getLeft());
             BinaryNode n = new BinaryNode(l);
             father.setLeft(n);
             n.setFather(father);
             this.generateNodes(providers, n, relation.getLeft());
         }
-        else if(relation.getLeft() != null && relation.getRight() != null) {
+        else if(relation.getLeft() != null && relation.getRight() != null)
+        {
             List<Provider> l1 = this.authorizedSubjects(providers, relation.getLeft());
             BinaryNode n1 = new BinaryNode(l1);
             father.setLeft(n1);
