@@ -49,9 +49,12 @@ public class Optimization1
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
-        // Generazione strutture dati dell'albero
+        // GENERAZIONE STRUTTURE DATI DELL'ALBERO
+        System.out.println("******************");
         List<Relation> relations = tree.getRelationTree().DFSVisit();
-        //System.out.println(relations);
+        System.out.println("=> RELATIONS:");
+        System.out.println(relations);
+        System.out.println("******************");
 
         // COST TEST of JOIN
         BinaryNode<Relation> newNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
@@ -82,10 +85,14 @@ public class Optimization1
 
         //System.out.println("newRelationProfile.toString():\n" + newRelationProfile.toString());
 
-        PlansMap plansMap = costModel.generatePlans(tree.getRelationTree().getRoot());
+         PlansMap plansMap = costModel.generatePlans(tree.getRelationTree().getRoot());
+
         Plan optimalPlan = costModel.getOptimalPlan(plansMap);
-        System.out.println("-----> OPTIMAL PLAN:");
+
+        System.out.println("******************");
+        System.out.println("=> OPTIMAL PLAN:");
         System.out.println(optimalPlan.toString());
+        System.out.println("******************");
 
     }
 
