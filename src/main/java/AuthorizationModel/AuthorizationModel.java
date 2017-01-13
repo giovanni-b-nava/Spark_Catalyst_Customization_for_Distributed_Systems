@@ -86,6 +86,7 @@ public class AuthorizationModel
                     authorized.add(providers.get(i));
                 }
             }
+            // LogicalRelation
             else if(providers.get(i).getCategory().equals("storage_server"))
             {
                 authorized.add(providers.get(i));

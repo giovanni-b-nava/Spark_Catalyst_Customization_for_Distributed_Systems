@@ -7,8 +7,8 @@
       "costs" : { "cpu" : 0.0000065, "encryption" : 0.99, "cpuSpeed" : 1},
       "links" :
       {
-        "name" : ["CL1", "SS1", "CS1"],
-        "costPerGB" : [0, 0.01, 0.09]
+        "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
+        "costPerGB" : [0, 0.01, 0.01, 0.09, 0.08]
       },
       "tables":
       [
@@ -56,8 +56,57 @@
       "costs" : { "cpu" : 0.000036, "encryption" : 0.99, "cpuSpeed" : 100},
       "links" :
       {
-        "name" : ["CL1", "SS1", "CS1"],
-        "costPerGB" : [0.01, 0, 0.09]
+        "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
+        "costPerGB" : [0.01, 0, 0.01, 0.09, 0.08]
+      },
+      "tables":
+      [
+        {
+          "name" : "employees",
+          "plaintext" :
+          ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"],
+          "encrypted" : []
+        },
+        {
+          "name" : "departments",
+          "plaintext" :
+          ["dept_no", "dept_name"],
+          "encrypted" : []
+        },
+        {
+          "name" : "dept_emp",
+          "plaintext" :
+          ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
+        },
+        {
+          "name" : "dept_manager",
+          "plaintext" :
+          ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
+        },
+        {
+          "name" : "salaries",
+          "plaintext" :
+          ["emp_no", "salary", "from_date", "to_date"],
+          "encrypted" : []
+        },
+        {
+          "name" : "titles",
+          "plaintext" :
+          ["emp_no", "title", "from_date", "to_date"],
+          "encrypted" : []
+        }
+      ]
+    },
+    {
+      "name" : "SS2",
+      "category" : "storage_server",
+      "costs" : { "cpu" : 0.000036, "encryption" : 0.99, "cpuSpeed" : 100},
+      "links" :
+      {
+        "name" : ["CL1", "SS1", "SS2" , "CS1", "CS2"],
+        "costPerGB" : [0.01, 0.01 , 0, 0.09, 0.08]
       },
       "tables":
       [
@@ -105,8 +154,51 @@
       "costs" : { "cpu" : 0.00000072, "encryption" : 0.99, "cpuSpeed" : 500},
       "links" :
       {
-        "name" : ["CL1", "SS1", "CS1"],
-        "costPerGB" : [0.09, 0.09, 0]
+        "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
+        "costPerGB" : [0.09, 0.09, 0.09, 0, 0.08]
+      },
+      "tables":
+      [
+        {
+          "name" : "employees",
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"]
+        },
+        {
+          "name" : "departments",
+          "plaintext" : [],
+          "encrypted" : ["dept_no", "dept_name"]
+        },
+        {
+          "name" : "dept_emp",
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "dept_no", "from_date", "to_date"]
+        },
+        {
+          "name" : "dept_manager",
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "dept_no", "from_date", "to_date"]
+        },
+        {
+          "name" : "salaries",
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "salary", "from_date", "to_date"]
+        },
+        {
+          "name" : "titles",
+          "plaintext" : [],
+          "encrypted" : ["emp_no", "title", "from_date", "to_date"]
+        }
+      ]
+    },
+    {
+      "name" : "CS2",
+      "category" : "computational_server",
+      "costs" : { "cpu" : 0.00000080, "encryption" : 0.99, "cpuSpeed" : 500},
+      "links" :
+      {
+        "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
+        "costPerGB" : [0.08, 0.08, 0.08, 0.08, 0]
       },
       "tables":
       [

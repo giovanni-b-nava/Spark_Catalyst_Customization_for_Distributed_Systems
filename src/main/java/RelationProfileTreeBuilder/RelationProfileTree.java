@@ -223,6 +223,7 @@ public class RelationProfileTree
                                 profile.setVisibleEncrypted(node.getElement().getAttributes());
                         }
                     }
+                   break;
                 }
             }
         }
