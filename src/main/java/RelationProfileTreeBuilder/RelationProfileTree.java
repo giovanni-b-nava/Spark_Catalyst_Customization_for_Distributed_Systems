@@ -67,7 +67,6 @@ public class RelationProfileTree
         switch(plan.nodeName()) {
             case "Project":
             case "Aggregate":
-                //TODO gestire estrazione di un attributo di avg
                 int i = 0;
                 while(i < plan.expressions().toList().length()) {
                     String s = plan.expressions().apply(i).toString();
@@ -77,9 +76,9 @@ public class RelationProfileTree
                 eliminateDuplicate(l);
                 break;
             case "Join":
-                //TODO gestire estrazione di un attributo di avg
                 int y=0;
-                while(y < plan.apply(0).constraints().toList().size()) {
+                while(y < plan.apply(0).constraints().toList().size())
+                {
                     String s;
                     if (plan.apply(0).constraints().toList().apply(y).flatArguments().toList().size() == 1) {
                         s = plan.apply(0).constraints().toList().apply(y).flatArguments().toList().apply(0).toString();
@@ -367,23 +366,48 @@ public class RelationProfileTree
                 l = joinLists(node.getLeft().getElement().getRelationProfile().getImplicitEncrypted(), node.getRight().getElement().getRelationProfile().getImplicitEncrypted());
                 p.setImplicitEncrypted(l);
                 // The attributes of the join condition have to be added to the implicit list
-                if(node.getElement().getAttributes().size() == 2) {
+                if(node.getElement().getAttributes().size() == 2)
+                {
+                    // If they have different visibility add them to implicit encrypted (priority to security)
+                    if (
+                            (p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && !p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1)))
+                            ||
+                            (!p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1)))
+                       )
+                    {
+                        if (p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)))
+                        {
+                            p.getVisibleEncrypted().add(node.getElement().getAttributes().get(0));
+                            p.getVisiblePlaintext().remove(node.getElement().getAttributes().get(0));
+                        }
+                        else
+                        {
+                            p.getVisibleEncrypted().add(node.getElement().getAttributes().get(1));
+                            p.getVisiblePlaintext().remove(node.getElement().getAttributes().get(1));
+                        }
+                    }
+
                     // If both are plaintext add them to implicit plaintext
-                    if (p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1))) {
+                    if (p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1)))
+                    {
                         List<String> newImplicitPlaintext = new ArrayList<>();
                         newImplicitPlaintext.addAll(p.getImplicitPlaintext());
                         newImplicitPlaintext.addAll(node.getElement().getAttributes());
                         eliminateDuplicate(newImplicitPlaintext);
                         p.setImplicitPlaintext(newImplicitPlaintext);
                     } // If both are encrypted add them to implicit encrypted
-                    else if (p.getVisibleEncrypted().contains(node.getElement().getAttributes().get(0)) && p.getVisibleEncrypted().contains(node.getElement().getAttributes().get(1))) {
+                    else if (p.getVisibleEncrypted().contains(node.getElement().getAttributes().get(0)) && p.getVisibleEncrypted().contains(node.getElement().getAttributes().get(1)))
+                    {
                         List<String> newImplicitEncrypted = new ArrayList<>();
                         newImplicitEncrypted.addAll(p.getImplicitEncrypted());
                         newImplicitEncrypted.addAll(node.getElement().getAttributes());
                         eliminateDuplicate(newImplicitEncrypted);
                         p.setImplicitEncrypted(newImplicitEncrypted);
                     }
-                    else System.out.println("ERROR: Join with different visibility");
+                    else
+                    {
+                        System.out.println("ERROR: Join with different visibility");
+                    }
                 }
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getRelationProfile().getEquivalenceSets(), node.getRight().getElement().getRelationProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);
