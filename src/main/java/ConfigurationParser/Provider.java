@@ -3,9 +3,6 @@ package ConfigurationParser;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Spark on 09/11/2016.
- */
 public class Provider {
 
     // Name of the node

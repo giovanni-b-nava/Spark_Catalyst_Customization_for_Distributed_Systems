@@ -1,5 +1,7 @@
 package RelationProfileTreeBuilder;
 
+import ConfigurationParser.Provider;
+import ConfigurationParser.Table;
 import DataConfigBuilder.DataBuilder;
 import TreeStructure.BinaryNode;
 import TreeStructure.BinaryTree;
@@ -12,14 +14,15 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class RelationProfileTree {
+public class RelationProfileTree
+{
 
     // Tree representing the relations in the optimized plan
     private BinaryTree<Relation> relationTree;
 
     // Builds the relationTree with the relations representing the operations
-    public RelationProfileTree(LogicalPlan plan) {
-
+    public RelationProfileTree(LogicalPlan plan)
+    {
         // Generate the root of the relationTree
         Relation e = this.createRelation(plan);
         BinaryNode<Relation> root = new BinaryNode<>(e);
@@ -37,14 +40,16 @@ public class RelationProfileTree {
     }
 
     // Generate the single relation of the current level
-    private Relation createRelation(LogicalPlan plan) {
+    private Relation createRelation(LogicalPlan plan)
+    {
         String operation = plan.nodeName();
         long sizeInByte = plan.statistics().sizeInBytes().longValue();
         // Table
-        if(operation.equals("LogicalRelation")) {
-            List<String> e = this.collectAttributes(plan);
-            String tableName = this.getTableName(e, DataBuilder.getDataBuilder().tables, DataBuilder.getDataBuilder().tableNames);
-            return new Relation(operation, e, tableName, sizeInByte);
+        if(operation.equals("LogicalRelation"))
+        {
+            List<String> attributes = this.collectAttributes(plan);
+            String tableName = this.getTableName(attributes, DataBuilder.getDataBuilder().tables, DataBuilder.getDataBuilder().tableNames);
+            return new Relation(operation, attributes, tableName, sizeInByte);
         }
         else // Operation
         {
@@ -54,7 +59,8 @@ public class RelationProfileTree {
     }
 
     // Generates the list of attributes for the current operation
-    private List<String> collectAttributes(LogicalPlan plan) {
+    private List<String> collectAttributes(LogicalPlan plan)
+    {
 
         List<String> l = new ArrayList<>();
 
@@ -120,7 +126,8 @@ public class RelationProfileTree {
     }
 
     // Get the name of the table using its attributes
-    private String getTableName(List<String> attributes, List<Dataset<Row>> tables, List<String> tableNames) {
+    private String getTableName(List<String> attributes, List<Dataset<Row>> tables, List<String> tableNames)
+    {
         for(int i = 0; i < tables.size(); i++) {
             String[] columns = tables.get(i).columns();
             if(this.isSameTable(attributes, columns)) {
@@ -131,7 +138,8 @@ public class RelationProfileTree {
     }
 
     // Check if two tables have the same attributes
-    private boolean isSameTable(List<String> attributes, String[] columns) {
+    private boolean isSameTable(List<String> attributes, String[] columns)
+    {
         for(int x = 0; x < columns.length; x++) {
             if(columns[x].equals(this.cleanAttribute(attributes.get(x)))) {
                 x++;
@@ -143,7 +151,8 @@ public class RelationProfileTree {
     }
 
     // Recursively generate all the providers in the relationTree
-    private void generateChildren(LogicalPlan plan, BinaryNode<Relation> father) {
+    private void generateChildren(LogicalPlan plan, BinaryNode<Relation> father)
+    {
         if(plan.children().size() == 1) {
             Relation r = this.createRelation(plan.children().toList().apply(0));
             BinaryNode n = new BinaryNode(r);
@@ -166,7 +175,8 @@ public class RelationProfileTree {
     }
 
     // Generate the profile for each node with a post order visit
-    private void generateProfiles(BinaryNode<Relation> node) {
+    private void generateProfiles(BinaryNode<Relation> node)
+    {
         if (node == null) return;
         generateProfiles(node.getLeft());
         generateProfiles(node.getRight());
@@ -184,13 +194,41 @@ public class RelationProfileTree {
     }
 
     // Generate the relation profile of a leaf
-    private RelationProfile buildLeafProfile(BinaryNode<Relation> node) {
+    private RelationProfile buildLeafProfile(BinaryNode<Relation> node)
+    {
         RelationProfile profile = new RelationProfile();
         // The leaf represent the tables
-        if(node.getElement().getOperation().equals("LogicalRelation")) {
-            // All the attributes are set as visible plaintext
-            profile.setVisiblePlaintext(node.getElement().getAttributes());
-        } else {
+        if(node.getElement().getOperation().equals("LogicalRelation"))
+        {
+            // TODO Operare qui per aggiungere gestione foglie
+            List<Provider> providers = DataBuilder.getDataBuilder().providers;
+            String target = node.getElement().getTableName();
+
+            // For all providers...
+            for (int i=0; i<providers.size(); i++)
+            {
+                // If is a storage server
+                if (providers.get(i).getCategory().equals("storage_server"))
+                {
+                    // Get the table names
+                    List<Table> tables = providers.get(i).getTables();
+
+                    for (int j = 0; j < tables.size(); j++)
+                    {
+                        // Assign the visibility to attributes of a table
+                        if (target.equals(tables.get(j).getName()))
+                        {
+                            if (tables.get(j).getEncrypted().size() == 0)
+                                profile.setVisiblePlaintext(node.getElement().getAttributes());
+                            else
+                                profile.setVisibleEncrypted(node.getElement().getAttributes());
+                        }
+                    }
+                }
+            }
+        }
+        else
+        {
             System.out.println("Error, not a table");
         }
         return profile;

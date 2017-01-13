@@ -64,8 +64,8 @@
         {
           "name" : "employees",
           "plaintext" :
-          ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"],
-          "encrypted" : []
+          [],
+          "encrypted" : ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"]
         },
         {
           "name" : "departments",

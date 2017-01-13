@@ -43,11 +43,13 @@ public class AuthorizationModel
         List<Relation> logicalRelations = new ArrayList<>();
         List<Relation> treeNodes = profileTree.DFSVisit();
         for (int i = 0; i < treeNodes.size(); i++) {
-            if (treeNodes.get(i).getOperation().equals("LogicalRelation")) {
+            if (treeNodes.get(i).getOperation().equals("LogicalRelation"))
+            {
                 logicalRelations.add(treeNodes.get(i));
             }
         }
-        for (int x = 0; x < providers.size(); x++) {
+        for (int x = 0; x < providers.size(); x++)
+        {
             for (int y = 0; y < providers.get(x).getTables().size(); y++) {
                 for (int z = 0; z < logicalRelations.size(); z++) {
                     if (providers.get(x).getTables().get(y).getName().equals(logicalRelations.get(z).getTableName())) {
@@ -74,21 +76,22 @@ public class AuthorizationModel
     // Generate the list of authorized providers for the current operation
     private List<Provider> authorizedSubjects(List<Provider> providers, BinaryNode<Relation> node)
     {
-        List<Provider> n = new ArrayList<>();
+        List<Provider> authorized = new ArrayList<>();
         for(int i = 0; i < providers.size(); i++)
         {
             if(!node.getElement().getOperation().equals("LogicalRelation"))
             {
-                if (this.isAuthorized(providers.get(i), node.getElement().getRelationProfile())) {
-                    n.add(providers.get(i));
+                if (this.isAuthorized(providers.get(i), node.getElement().getRelationProfile()))
+                {
+                    authorized.add(providers.get(i));
                 }
             }
             else if(providers.get(i).getCategory().equals("storage_server"))
             {
-                n.add(providers.get(i));
+                authorized.add(providers.get(i));
             }
         }
-        return n;
+        return authorized;
     }
 
     // Return true if the provider is authorized to execute the operation

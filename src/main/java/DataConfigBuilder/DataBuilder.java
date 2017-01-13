@@ -13,7 +13,8 @@ import java.util.List;
 /**
  * Created by Spark on 14/11/2016.
  */
-public class DataBuilder {
+public class DataBuilder
+{
 
     // Session
     public SparkSession sparkSession;
@@ -43,7 +44,8 @@ public class DataBuilder {
     }
 
     // Builds all variable and data necessary
-    public void buildData() throws FileNotFoundException {
+    public void buildData() throws FileNotFoundException
+    {
 
         // Create entry point
         sparkSession = org.apache.spark.sql.SparkSession
