@@ -200,13 +200,14 @@ public class RelationProfileTree
         if(node.getElement().getOperation().equals("LogicalRelation"))
         {
             // TODO QUI VENIVA GESTITA LA CREAZIONE DEL RELATON PROFILE DELLA LOGICALRELATION
+            // ORA DIVENTA OBSOLETO....
             List<Provider> providers = DataBuilder.getDataBuilder().providers;
             String target = node.getElement().getTableName();
 
-            // For all providers...
+            // For all the providers...
             for (int i=0; i<providers.size(); i++)
             {
-                // If is a storage server
+                // If the provider is a Storage Server...
                 if (providers.get(i).getCategory().equals("storage_server"))
                 {
                     // Get the table names

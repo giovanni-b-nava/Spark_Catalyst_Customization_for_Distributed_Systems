@@ -55,7 +55,7 @@ public class CostModel
             List<Provider> providers = DataBuilder.getDataBuilder().providers;
             String target = root.getElement().getTableName();
 
-            // For all providers...
+            // For all the providers...
             for (int i=0; i<providers.size(); i++)
             {
                 BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
