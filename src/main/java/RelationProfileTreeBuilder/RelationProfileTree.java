@@ -199,7 +199,7 @@ public class RelationProfileTree
         // The leaf represent the tables
         if(node.getElement().getOperation().equals("LogicalRelation"))
         {
-            // TODO Operare qui per aggiungere gestione foglie
+            // TODO QUI VENIVA GESTITA LA CREAZIONE DEL RELATON PROFILE DELLA LOGICALRELATION
             List<Provider> providers = DataBuilder.getDataBuilder().providers;
             String target = node.getElement().getTableName();
 
@@ -223,7 +223,7 @@ public class RelationProfileTree
                                 profile.setVisibleEncrypted(node.getElement().getAttributes());
                         }
                     }
-                   break;
+                   break; // TODO SI TENEVA SOLO IL PRIMO
                 }
             }
         }

@@ -12,9 +12,6 @@ import org.apache.spark.sql.Row;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-/**
- * Descrizione della classe
- *  */
 public class Optimization1
 {
 

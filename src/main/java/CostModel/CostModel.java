@@ -2,6 +2,8 @@ package CostModel;
 
 import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Provider;
+import ConfigurationParser.Table;
+import DataConfigBuilder.DataBuilder;
 import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
@@ -49,19 +51,50 @@ public class CostModel
         if (root.getLeft() == null && root.getRight() == null)
         {
             PlansMap leafMap = new PlansMap();
-            Plan newPlan = new Plan();
 
-            // 1. Set the BinaryNode<Relation>
-            newPlan.setRelation(root);
+            List<Provider> providers = DataBuilder.getDataBuilder().providers;
+            String target = root.getElement().getTableName();
 
-            // 2. NO REQUIRE to updateRelationProfile
+            // For all providers...
+            for (int i=0; i<providers.size(); i++)
+            {
+                BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
+                RelationProfile profile = new RelationProfile();
+                Plan newPlan = new Plan();
 
-            // 3. Compute and assign Cost
-            double cost = computeCost(findProvider("storage_server"), findProvider("storage_server"), null, root);
-            newPlan.setCost(cost);
-            newPlan.getAssignedProviders().add(findProvider("storage_server"));
+                // If the provider is a Storage Server...
+                if (providers.get(i).getCategory().equals("storage_server"))
+                {
+                    // Get the table names
+                    List<Table> tables = providers.get(i).getTables();
 
-            leafMap.addPlan(newPlan);
+                    for (int j = 0; j < tables.size(); j++)
+                    {
+                        // Assign the visibility to attributes of a table
+                        if (target.equals(tables.get(j).getName()))
+                        {
+                            if (tables.get(j).getEncrypted().size() == 0)
+                                profile.setVisiblePlaintext(rootCopy.getElement().getAttributes());
+                            else
+                                profile.setVisibleEncrypted(rootCopy.getElement().getAttributes());
+                        }
+                    }
+
+                    // 1. Set the BinaryNode<Relation>
+                    newPlan.setRelation(rootCopy);
+
+                    // 2. ASSIGN THE NEW RELATION PROFILE
+                    rootCopy.getElement().setRelationProfile(profile);
+
+                    // 3. Compute and assign Cost
+                    double cost = computeCost(providers.get(i), providers.get(i), null, rootCopy);
+                    newPlan.setCost(cost);
+                    newPlan.getAssignedProviders().add(providers.get(i));
+
+                    leafMap.addPlan(newPlan);
+                }
+            }
+
             return leafMap;
         }
 
