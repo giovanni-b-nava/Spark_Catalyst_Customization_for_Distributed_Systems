@@ -58,13 +58,13 @@ public class CostModel
             // For all the providers...
             for (int i=0; i<providers.size(); i++)
             {
-                BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
-                RelationProfile profile = new RelationProfile();
-                Plan newPlan = new Plan();
-
                 // If the provider is a Storage Server...
                 if (providers.get(i).getCategory().equals("storage_server"))
                 {
+                    BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
+                    RelationProfile profile = new RelationProfile();
+                    Plan newPlan = new Plan();
+
                     // Get the table names
                     List<Table> tables = providers.get(i).getTables();
 
@@ -80,13 +80,13 @@ public class CostModel
                         }
                     }
 
-                    // 1. Set the BinaryNode<Relation>
+                    // 1. SET THE BinaryNode<Relation>
                     newPlan.setRelation(rootCopy);
 
                     // 2. ASSIGN THE NEW RELATION PROFILE
                     rootCopy.getElement().setRelationProfile(profile);
 
-                    // 3. Compute and assign Cost
+                    // 3. COMPUTE AND ASSIGN COST
                     double cost = computeCost(providers.get(i), providers.get(i), null, rootCopy);
                     newPlan.setCost(cost);
                     newPlan.getAssignedProviders().add(providers.get(i));
