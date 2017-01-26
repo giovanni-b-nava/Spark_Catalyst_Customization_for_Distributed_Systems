@@ -47,7 +47,7 @@ public class CostModel
     // Recursively generate all the plans that come from the combination of providers and operations and put them into a map
     public PlansMap generatePlans(BinaryNode<Relation> root)
     {
-        // Base case: root = Logical Relation
+        // BASE CASE: ROOT = Logical Relation
         if (root.getLeft() == null && root.getRight() == null)
         {
             PlansMap leafMap = new PlansMap();
@@ -77,6 +77,7 @@ public class CostModel
                                 profile.setVisiblePlaintext(rootCopy.getElement().getAttributes());
                             else
                                 profile.setVisibleEncrypted(rootCopy.getElement().getAttributes());
+                            // TODO Gestire caso misto...
                         }
                     }
 
@@ -189,6 +190,7 @@ public class CostModel
         return plansMap;
     }
 
+    // TODO Metodo attualmente OBSOLETO
     // Find the Provider which matches category
     private Provider findProvider(String category)
     {

@@ -1,7 +1,5 @@
 package RelationProfileTreeBuilder;
 
-import ConfigurationParser.Provider;
-import ConfigurationParser.Table;
 import DataConfigBuilder.DataBuilder;
 import TreeStructure.BinaryNode;
 import TreeStructure.BinaryTree;
@@ -199,38 +197,12 @@ public class RelationProfileTree
         // The leaf represent the tables
         if(node.getElement().getOperation().equals("LogicalRelation"))
         {
-            // TODO QUI VENIVA GESTITA LA CREAZIONE DEL RELATON PROFILE DELLA LOGICALRELATION
-            // ORA DIVENTA OBSOLETO....
-            List<Provider> providers = DataBuilder.getDataBuilder().providers;
-            String target = node.getElement().getTableName();
-
-            // For all the providers...
-            for (int i=0; i<providers.size(); i++)
-            {
-                // If the provider is a Storage Server...
-                if (providers.get(i).getCategory().equals("storage_server"))
-                {
-                    // Get the table names
-                    List<Table> tables = providers.get(i).getTables();
-
-                    for (int j = 0; j < tables.size(); j++)
-                    {
-                        // Assign the visibility to attributes of a table
-                        if (target.equals(tables.get(j).getName()))
-                        {
-                            if (tables.get(j).getEncrypted().size() == 0)
-                                profile.setVisiblePlaintext(node.getElement().getAttributes());
-                            else
-                                profile.setVisibleEncrypted(node.getElement().getAttributes());
-                        }
-                    }
-                   break; // TODO SI TENEVA SOLO IL PRIMO
-                }
-            }
+            // The RelationProfile of a LogicalRelation is now evaluated
+            // in CostModel.generatePlans (BASE CASE)
         }
         else
         {
-            System.out.println("Error, not a table");
+            System.out.println("RelationProfileTree.buildLeafProfile: ERROR, not a table!");
         }
         return profile;
     }
