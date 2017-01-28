@@ -181,38 +181,33 @@ public class RelationProfileTree
     }
 
     // Set the profile of the current node considering the type of operation and its children
-    public void setProfile(BinaryNode<Relation> node) {
-        // If the node has no children is a leaf
-        if(node.getLeft() == null && node.getRight() == null) {
-            node.getElement().setRelationProfile(this.buildLeafProfile(node));
-        } else {
+    public void setProfile(BinaryNode<Relation> node)
+    {
+        // Node without children = leaf
+        if(node.getLeft() == null && node.getRight() == null)
+        {
+            // The RelationProfile of a LogicalRelation is now evaluated
+            // in CostModel.generatePlans (BASE CASE)
+            node.getElement().setRelationProfile(new RelationProfile());
+
+            // Integrity Check: Is a table?
+            if(! node.getElement().getOperation().equals("LogicalRelation"))
+                System.out.println("RelationProfileTree.setProfile: ERROR, not a table!");
+        }
+        else
+        {
             node.getElement().setRelationProfile(this.buildOperationProfile(node));
         }
     }
 
-    // Generate the relation profile of a leaf
-    private RelationProfile buildLeafProfile(BinaryNode<Relation> node)
-    {
-        RelationProfile profile = new RelationProfile();
-        // The leaf represent the tables
-        if(node.getElement().getOperation().equals("LogicalRelation"))
-        {
-            // The RelationProfile of a LogicalRelation is now evaluated
-            // in CostModel.generatePlans (BASE CASE)
-        }
-        else
-        {
-            System.out.println("RelationProfileTree.buildLeafProfile: ERROR, not a table!");
-        }
-        return profile;
-    }
-
     // Generate the specific profile for each operation
-    private RelationProfile buildOperationProfile(BinaryNode<Relation> node) {
+    private RelationProfile buildOperationProfile(BinaryNode<Relation> node)
+    {
 
         RelationProfile p = new RelationProfile();
 
-        switch (node.getElement().getOperation()) {
+        switch (node.getElement().getOperation())
+        {
             // All attributes became implicit except the ones of aggregate that remain visible
             case "Aggregate":
                 // Check if the attributes of the aggregate are plaintext or encrypted for the child and put them in the correct list
@@ -399,27 +394,34 @@ public class RelationProfileTree
     }
 
     // Support method to join two lists without duplicates
-    private List<String> joinLists(List<String> l1, List<String> l2) {
+    private List<String> joinLists(List<String> l1, List<String> l2)
+    {
 
         List<String> list = new ArrayList<>();
 
-        if(l1 != null) {
+        if(l1 != null)
+        {
             list.addAll(l1);
-            if (l2 != null) {
-                for (int i = 0; i < l2.size(); i++) {
-                    if (!list.contains(l2.get(i))) {
+            if (l2 != null)
+            {
+                for (int i = 0; i < l2.size(); i++)
+                {
+                    if (!list.contains(l2.get(i)))
+                    {
                         list.add(l2.get(i));
                     }
                 }
             }
-        } else if(l2 != null) {
+        } else if(l2 != null)
+        {
             list.addAll(l2);
         }
         return list;
     }
 
     // Support method to join two lists of lists without duplicates
-    private List<List<String>> joinListsLists(List<List<String>> l1, List<List<String>> l2) {
+    private List<List<String>> joinListsLists(List<List<String>> l1, List<List<String>> l2)
+    {
 
         List<List<String>> list = new ArrayList<>();
 
@@ -439,14 +441,16 @@ public class RelationProfileTree
     }
 
     // Cut the index from the attribute name
-    public static String cleanAttribute(String s) {
+    public static String cleanAttribute(String s)
+    {
         CharSequence c = s.subSequence(0, s.indexOf("#"));
         String r = c.toString();
         return r;
     }
 
     // Eliminate duplicates from a list
-    public static void eliminateDuplicate(List<String> l) {
+    public static void eliminateDuplicate(List<String> l)
+    {
         // Add elements to al, including duplicates
         Set<String> hs = new HashSet<>();
         hs.addAll(l);
@@ -455,11 +459,13 @@ public class RelationProfileTree
     }
 
     // Eliminate duplicates from a list of lists
-    public static void eliminateDuplicateLists(List<List<String>> l) {
+    public static void eliminateDuplicateLists(List<List<String>> l)
+    {
         // Add elements to al, including duplicates
         Set<List<String>> hs = new HashSet<>();
         hs.addAll(l);
         l.clear();
         l.addAll(hs);
     }
+
 }

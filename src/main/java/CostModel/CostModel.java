@@ -92,6 +92,7 @@ public class CostModel
                     newPlan.setCost(cost);
                     newPlan.getAssignedProviders().add(providers.get(i));
 
+                    // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
                 }
             }
