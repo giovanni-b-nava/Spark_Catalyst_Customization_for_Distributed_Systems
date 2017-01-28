@@ -131,9 +131,7 @@ public class CostModel
                     rootCopy.setLeft(leftChildRelation);
                     tree.setProfile(rootCopy);
 
-                    // TODO TESTARE
                     rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
-
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
 
                     // 2. COMPUTE THE COST
@@ -179,9 +177,7 @@ public class CostModel
                         rootCopy.setRight(rightChildRelation);
                         tree.setProfile(rootCopy);
 
-                        // TODO TESTARE
                         rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
-
                         rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
 
                         // 2. COMPUTE THE COST
