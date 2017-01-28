@@ -201,7 +201,7 @@ public class RelationProfileTree
     }
 
     // Generate the specific profile for each operation
-    private RelationProfile buildOperationProfile(BinaryNode<Relation> node)
+    public RelationProfile buildOperationProfile(BinaryNode<Relation> node)
     {
 
         RelationProfile p = new RelationProfile();
