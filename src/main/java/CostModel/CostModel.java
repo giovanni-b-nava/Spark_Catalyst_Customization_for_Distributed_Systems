@@ -196,23 +196,6 @@ public class CostModel
         return plansMap;
     }
 
-    // TODO Metodo attualmente OBSOLETO
-    // Find the Provider which matches category
-    private Provider findProvider(String category)
-    {
-        Provider provider = new Provider();
-
-        for (int i=0; i<providers.size(); i++)
-        {
-            if (providers.get(i).getCategory().equals(category))
-            {
-                provider = providers.get(i);
-            }
-        }
-
-        return provider;
-    }
-
     // Find the plan of the current element of PlansMap
     private Plan findPlanIntoMap(PlansMap plansMap, int i)
     {
