@@ -95,7 +95,7 @@ public class Relation {
                 "Attributes: " + this.attributes.toString() + "\n" +
                 "Size in Byte: " + this.sizeInBytes + "\n" +
                 "Table Name: " + this.tableName + "\n" +
-                this.relationProfile.toString() + "\n";
+                this.relationProfile.toString();
     }
 
     @Override

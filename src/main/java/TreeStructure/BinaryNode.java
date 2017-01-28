@@ -17,7 +17,6 @@ public class BinaryNode<E> {
 		father = left = right = null;
 	}
 
-	// TODO Check if is right
 	// Create a NEW copy of a BinaryNode<E>
 	public BinaryNode(BinaryNode<E> binaryNode)
 	{

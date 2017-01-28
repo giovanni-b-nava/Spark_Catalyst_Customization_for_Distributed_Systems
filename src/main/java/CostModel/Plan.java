@@ -85,7 +85,7 @@ public class Plan implements Comparable
                 "relation=" + relation.getElement().toString() +
                 ", cost=" + cost +
                 "\n, assignedProviders=\n" + assignedProviders.toString() +
-                "\n}";
+                "\n}\n\n";
     }
 
     @Override
