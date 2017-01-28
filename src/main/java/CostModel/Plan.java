@@ -19,6 +19,7 @@ public class Plan implements Comparable
 
     public Plan()
     {
+        relation = new BinaryNode<>();
         assignedProviders = new ArrayList<>();
     }
 
@@ -78,7 +79,8 @@ public class Plan implements Comparable
     }
 
     @Override
-    public String toString() {
+    public String toString()
+    {
         return "Plan{\n" +
                 "relation=" + relation.getElement().toString() +
                 ", cost=" + cost +

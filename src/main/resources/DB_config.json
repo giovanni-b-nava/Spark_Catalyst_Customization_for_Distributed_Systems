@@ -106,8 +106,8 @@
       [
         {
           "name" : "employees",
-          "plaintext" : [],
-          "encrypted" : ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"]
+          "plaintext" : ["emp_no", "birth_date", "first_name"],
+          "encrypted" : ["last_name", "gender", "hire_date"]
         },
         {
           "name" : "departments",
@@ -126,8 +126,8 @@
         },
         {
           "name" : "salaries",
-          "plaintext" : [],
-          "encrypted" : ["emp_no", "salary", "from_date", "to_date"]
+          "plaintext" : ["emp_no", "salary", "from_date"],
+          "encrypted" : ["to_date"]
         },
         {
           "name" : "titles",

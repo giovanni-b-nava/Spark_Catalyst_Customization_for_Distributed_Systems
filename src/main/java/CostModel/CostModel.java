@@ -73,11 +73,16 @@ public class CostModel
                         // Assign the visibility to attributes of a table
                         if (target.equals(tables.get(j).getName()))
                         {
-                            if (tables.get(j).getEncrypted().size() == 0)
-                                profile.setVisiblePlaintext(rootCopy.getElement().getAttributes());
-                            else
-                                profile.setVisibleEncrypted(rootCopy.getElement().getAttributes());
-                            // TODO Gestire caso misto...
+                            // Encrypted
+                            for (int k=0; k < tables.get(j).getEncrypted().size(); k++)
+                            {
+                                profile.getVisibleEncrypted().add(tables.get(j).getEncrypted().get(k));
+                            }
+                            // Plaintext
+                            for (int k=0; k < tables.get(j).getPlaintext().size(); k++)
+                            {
+                                profile.getVisiblePlaintext().add(tables.get(j).getPlaintext().get(k));
+                            }
                         }
                     }
 
