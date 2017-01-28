@@ -129,7 +129,6 @@ public class CostModel
                     BinaryNode<Relation> rootCopy = new BinaryNode<>(root);
 
                     rootCopy.setLeft(leftChildRelation);
-                    tree.setProfile(rootCopy);
 
                     rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
@@ -175,7 +174,6 @@ public class CostModel
 
                         rootCopy.setLeft(leftChildRelation);
                         rootCopy.setRight(rightChildRelation);
-                        tree.setProfile(rootCopy);
 
                         rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
                         rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
