@@ -99,6 +99,8 @@ public class CostModel
 
                     // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
+                    // TODO
+                    System.out.println("newPlan = " + newPlan.toString());
                 }
             }
 
@@ -148,6 +150,9 @@ public class CostModel
 
                     // 4. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
+
+                    // TODO
+                    System.out.println("newPlan = " + newPlan.toString());
                 }
             }
         }
@@ -196,6 +201,9 @@ public class CostModel
 
                         // 4. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
+
+                        // TODO
+                        System.out.println("newPlan = " + newPlan.toString());
                     }
                 }
             }
