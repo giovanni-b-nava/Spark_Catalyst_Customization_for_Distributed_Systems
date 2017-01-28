@@ -68,11 +68,14 @@ public class CostModel
                     // Get the table names
                     List<Table> tables = providers.get(i).getTables();
 
+                    boolean targetFound = false;
+
                     for (int j = 0; j < tables.size(); j++)
                     {
                         // Assign the visibility to attributes of a table
                         if (target.equals(tables.get(j).getName()))
                         {
+                            targetFound = true;
                             // Encrypted
                             for (int k=0; k < tables.get(j).getEncrypted().size(); k++)
                             {
@@ -85,6 +88,9 @@ public class CostModel
                             }
                         }
                     }
+
+                    if (targetFound == false)
+                        continue;
 
                     // 1. SET THE BinaryNode<Relation>
                     newPlan.setRelation(rootCopy);

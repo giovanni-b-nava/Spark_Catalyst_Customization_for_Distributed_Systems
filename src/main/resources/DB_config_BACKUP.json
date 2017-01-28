@@ -63,38 +63,32 @@
       [
         {
           "name" : "employees",
-          "plaintext" :
-          ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"],
+          "plaintext" : ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"],
           "encrypted" : []
         },
         {
           "name" : "departments",
-          "plaintext" :
-          ["dept_no", "dept_name"],
+          "plaintext" : ["dept_no", "dept_name"],
           "encrypted" : []
         },
         {
           "name" : "dept_emp",
-          "plaintext" :
-          ["emp_no", "dept_no", "from_date", "to_date"],
+          "plaintext" : ["emp_no", "dept_no", "from_date", "to_date"],
           "encrypted" : []
         },
         {
           "name" : "dept_manager",
-          "plaintext" :
-          ["emp_no", "dept_no", "from_date", "to_date"],
+          "plaintext" : ["emp_no", "dept_no", "from_date", "to_date"],
           "encrypted" : []
         },
         {
           "name" : "salaries",
-          "plaintext" :
-          ["emp_no", "salary", "from_date", "to_date"],
+          "plaintext" : ["emp_no", "salary", "from_date", "to_date"],
           "encrypted" : []
         },
         {
           "name" : "titles",
-          "plaintext" :
-          ["emp_no", "title", "from_date", "to_date"],
+          "plaintext" : ["emp_no", "title", "from_date", "to_date"],
           "encrypted" : []
         }
       ]
@@ -112,38 +106,32 @@
       [
         {
           "name" : "employees",
-          "plaintext" :
-          ["emp_no", "birth_date", "first_name", "last_name", "gender", "hire_date"],
-          "encrypted" : []
+          "plaintext" : ["emp_no", "birth_date", "first_name"],
+          "encrypted" : ["last_name", "gender", "hire_date"]
         },
         {
           "name" : "departments",
-          "plaintext" :
-          ["dept_no", "dept_name"],
+          "plaintext" : ["dept_no", "dept_name"],
           "encrypted" : []
         },
         {
           "name" : "dept_emp",
-          "plaintext" :
-          ["emp_no", "dept_no", "from_date", "to_date"],
+          "plaintext" : ["emp_no", "dept_no", "from_date", "to_date"],
           "encrypted" : []
         },
         {
           "name" : "dept_manager",
-          "plaintext" :
-          ["emp_no", "dept_no", "from_date", "to_date"],
+          "plaintext" : ["emp_no", "dept_no", "from_date", "to_date"],
           "encrypted" : []
         },
         {
           "name" : "salaries",
-          "plaintext" :
-          ["emp_no", "salary", "from_date", "to_date"],
-          "encrypted" : []
+          "plaintext" : ["emp_no", "salary", "from_date"],
+          "encrypted" : ["to_date"]
         },
         {
           "name" : "titles",
-          "plaintext" :
-          ["emp_no", "title", "from_date", "to_date"],
+          "plaintext" : ["emp_no", "title", "from_date", "to_date"],
           "encrypted" : []
         }
       ]

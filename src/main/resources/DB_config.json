@@ -96,7 +96,7 @@
     {
       "name" : "SS2",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.000036, "encryption" : 0.99, "cpuSpeed" : 100},
+      "costs" : { "cpu" : 0.000036, "encryption" : 0.99, "cpuSpeed" : 1000},
       "links" :
       {
         "name" : ["CL1", "SS1", "SS2" , "CS1", "CS2"],
@@ -104,11 +104,6 @@
       },
       "tables":
       [
-        {
-          "name" : "employees",
-          "plaintext" : ["emp_no", "birth_date", "first_name"],
-          "encrypted" : ["last_name", "gender", "hire_date"]
-        },
         {
           "name" : "departments",
           "plaintext" : ["dept_no", "dept_name"],
