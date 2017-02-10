@@ -7,9 +7,6 @@ import TreeStructure.BinaryNode;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Giovanni on 24/11/2016.
- */
 public class Plan implements Comparable
 {
 

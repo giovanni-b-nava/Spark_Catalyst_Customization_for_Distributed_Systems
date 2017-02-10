@@ -2,9 +2,6 @@ package CostModel;
 
 import java.util.HashMap;
 
-/**
- * Created by Giovanni on 24/11/2016.
- */
 public class PlansMap
 {
     private HashMap<Integer, Plan> plansMap;

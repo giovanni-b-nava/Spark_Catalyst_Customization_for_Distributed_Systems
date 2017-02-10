@@ -1,3 +1,14 @@
+/*
+    ----------------------------------------------------------------------------------------------------
+    European Research Project “Enforceable Security in the Cloud to Uphold Data Ownership” (ESCUDO-CLOUD)
+    ----------------------------------------------------------------------------------------------------
+    "Spark Catalyst Customization for Distributed Systems"
+    ----------------------------------------------------------------------------------------------------
+    Release 1.0 by Antonio Cosseddu and Giovanni B. Nava
+    Release 2.0 by Giovanni B. Nava
+    ----------------------------------------------------------------------------------------------------
+ */
+
 import AuthorizationModel.AuthorizationModel;
 import CostModel.CostModel;
 import CostModel.Plan;
@@ -8,9 +19,8 @@ import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
-
 import java.io.FileNotFoundException;
-import java.util.List;
+
 
 public class Optimization1
 {

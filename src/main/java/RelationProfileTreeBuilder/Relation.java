@@ -2,9 +2,6 @@ package RelationProfileTreeBuilder;
 
 import java.util.List;
 
-/**
- * Created by Spark on 17/11/2016.
- */
 public class Relation {
 
     // Type of operation

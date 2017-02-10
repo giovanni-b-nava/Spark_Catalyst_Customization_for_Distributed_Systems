@@ -3,10 +3,8 @@ package ConfigurationParser;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Spark on 09/11/2016.
- */
-public class Table {
+public class Table
+{
 
     private String name;
     private List<String> plaintext = new ArrayList<>();

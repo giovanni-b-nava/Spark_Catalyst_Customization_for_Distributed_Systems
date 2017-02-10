@@ -1,8 +1,5 @@
 package ConfigurationParser;
 
-/**
- * Created by Spark on 14/11/2016.
- */
 public class Costs {
 
     private Double cpu;

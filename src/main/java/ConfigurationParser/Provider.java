@@ -3,7 +3,8 @@ package ConfigurationParser;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Provider {
+public class Provider
+{
 
     // Name of the node
     private String name;

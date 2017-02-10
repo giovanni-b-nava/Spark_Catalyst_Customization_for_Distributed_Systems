@@ -3,9 +3,6 @@ package ConfigurationParser;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Spark on 14/11/2016.
- */
 public class Links {
 
     private List<String> name = new ArrayList<>();

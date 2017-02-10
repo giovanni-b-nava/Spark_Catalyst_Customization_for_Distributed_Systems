@@ -8,10 +8,8 @@ import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Spark on 09/11/2016.
- */
-public class Configurator {
+public class Configurator
+{
 
     // Returns the list of providers with all the data taken from the configuration file .json
     public List<Provider> parse(String jsonFile) throws FileNotFoundException {
