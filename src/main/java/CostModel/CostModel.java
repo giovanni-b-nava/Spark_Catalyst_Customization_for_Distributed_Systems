@@ -1,5 +1,16 @@
 package CostModel;
 
+/*
+    ----------------------------------------------------------------------------------------------------
+    European Research Project “Enforceable Security in the Cloud to Uphold Data Ownership” (ESCUDO-CLOUD)
+    ----------------------------------------------------------------------------------------------------
+    "Spark Catalyst Customization for Distributed Systems"
+    ----------------------------------------------------------------------------------------------------
+    Release 1.0 by Antonio Cosseddu and Giovanni B. Nava
+    Release 2.0 by Giovanni B. Nava
+    ----------------------------------------------------------------------------------------------------
+ */
+
 import AuthorizationModel.AuthorizationModel;
 import ConfigurationParser.Provider;
 import ConfigurationParser.Table;
@@ -88,7 +99,7 @@ public class CostModel
                             }
                         }
                     }
-
+                    // If a Storage Server doesn't contain a table => skip the creation of this plan
                     if (targetFound == false)
                         continue;
 
@@ -105,7 +116,7 @@ public class CostModel
 
                     // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
-                    // TODO
+                    // TODO Per visualizzare il piano creato
                     System.out.println("newPlan = " + newPlan.toString());
                 }
             }
@@ -154,7 +165,7 @@ public class CostModel
                     // 4. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
 
-                    // TODO
+                    // TODO Per visualizzare il piano creato
                     System.out.println("newPlan = " + newPlan.toString());
                 }
             }
@@ -202,7 +213,7 @@ public class CostModel
                         // 4. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
 
-                        // TODO
+                        // TODO Per visualizzare il piano creato
                         System.out.println("newPlan = " + newPlan.toString());
                     }
                 }
