@@ -222,7 +222,7 @@ public class AuthorizationModel
                 }
             }
             else
-                System.out.println("ERROR: Wrong Visibility!");
+                System.out.println("AuthorizationModel.checkVisibility: ERROR, wrong Visibility!");
         }
         return false;
     }
