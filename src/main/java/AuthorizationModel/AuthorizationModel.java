@@ -18,8 +18,7 @@ public class AuthorizationModel
     // Generate the list of subjects authorized to execute each operation and put them in a tree
     public AuthorizationModel(List<Provider> providers, BinaryTree<Relation> profileTree)
     {
-
-        // Set identification numbers for the attributes of the providers
+        // Set the identification numbers for all the providers' attributes
         List<Provider> indexed = this.setIndexNodes(providers, profileTree);
 
         // Generate the root of the subjectTree
