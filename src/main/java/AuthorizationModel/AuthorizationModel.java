@@ -39,6 +39,7 @@ public class AuthorizationModel
     private List<Provider> setIndexNodes(List<Provider> providers, BinaryTree<Relation> profileTree)
     {
         List<Provider> indexed = providers;
+
         // Create the list of logical relations
         List<Relation> logicalRelations = new ArrayList<>();
         List<Relation> treeNodes = profileTree.DFSVisit();
@@ -84,8 +85,10 @@ public class AuthorizationModel
     private List<Provider> authorizedSubjects(List<Provider> providers, BinaryNode<Relation> node)
     {
         List<Provider> authorized = new ArrayList<>();
+
         for(int i = 0; i < providers.size(); i++)
         {
+            // NOT a LogicalRelation
             if(!node.getElement().getOperation().equals("LogicalRelation"))
             {
                 if (this.isAuthorized(providers.get(i), node.getElement().getRelationProfile()))
@@ -99,6 +102,7 @@ public class AuthorizationModel
                 authorized.add(providers.get(i));
             }
         }
+
         return authorized;
     }
 
