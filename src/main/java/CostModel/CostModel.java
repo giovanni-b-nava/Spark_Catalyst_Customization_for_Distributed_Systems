@@ -84,7 +84,7 @@ public class CostModel
                             }
                         }
                     }
-                    // If a Storage Server doesn't contain a table => skip the creation of this plan
+                    // If a Storage Server doesn't contain the target table => SKIP THE CREATION OF THIS PLAN!
                     if (targetFound == false)
                         continue;
 

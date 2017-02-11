@@ -31,7 +31,8 @@ public class AuthorizationModel
         this.generateNodes(indexed, root, profileTree.getRoot());
     }
 
-    public BinaryTree<List<Provider>> getSubjectTree() {
+    public BinaryTree<List<Provider>> getSubjectTree()
+    {
         return subjectTree;
     }
 
@@ -42,19 +43,26 @@ public class AuthorizationModel
         // Create the list of logical relations
         List<Relation> logicalRelations = new ArrayList<>();
         List<Relation> treeNodes = profileTree.DFSVisit();
-        for (int i = 0; i < treeNodes.size(); i++) {
+
+        for (int i = 0; i < treeNodes.size(); i++)
+        {
             if (treeNodes.get(i).getOperation().equals("LogicalRelation"))
             {
                 logicalRelations.add(treeNodes.get(i));
             }
         }
+
         for (int x = 0; x < providers.size(); x++)
         {
-            for (int y = 0; y < providers.get(x).getTables().size(); y++) {
-                for (int z = 0; z < logicalRelations.size(); z++) {
+            for (int y = 0; y < providers.get(x).getTables().size(); y++)
+            {
+                for (int z = 0; z < logicalRelations.size(); z++)
+                {
                     if (providers.get(x).getTables().get(y).getName().equals(logicalRelations.get(z).getTableName())) {
-                        for (int w = 0; w < logicalRelations.get(z).getAttributes().size(); w++) {
-                            if (providers.get(x).getTables().get(y).getPlaintext().contains(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
+                        for (int w = 0; w < logicalRelations.get(z).getAttributes().size(); w++)
+                        {
+                            if (providers.get(x).getTables().get(y).getPlaintext().contains(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w))))
+                            {
                                 int q = providers.get(x).getTables().get(y).getPlaintext().indexOf(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)));
                                 indexed.get(x).getTables().get(y).getPlaintext().set(q, logicalRelations.get(z).getAttributes().get(w));
                             } else if (providers.get(x).getTables().get(y).getEncrypted().contains(RelationProfileTree.cleanAttribute(logicalRelations.get(z).getAttributes().get(w)))) {
