@@ -15,23 +15,27 @@ public class Configurator
     public List<Provider> parse(String jsonFile) throws FileNotFoundException {
 
         // Support objects
-        List<Provider> list = new ArrayList<>();
+        List<Provider> providerList = new ArrayList<>();
         Gson g = new Gson();
 
         // Read and parse the json file
-        JsonReader reader = new JsonReader(new FileReader(jsonFile));
-        JsonElement jelement = new JsonParser().parse(reader);
+        JsonReader jsonReader = new JsonReader(new FileReader(jsonFile));
+        JsonElement jsonElement = new JsonParser().parse(jsonReader);
 
         // Read and add the providers to the list
-        JsonObject jobject = jelement.getAsJsonObject();
-        JsonArray providers = jobject.getAsJsonArray("providers");
+        JsonObject jsonObject = jsonElement.getAsJsonObject();
+        JsonArray jsonArrayProviders = jsonObject.getAsJsonArray("providers");
+
         int i = 0;
-        while(i < providers.size()) {
-            JsonObject provider = providers.get(i).getAsJsonObject();
+        while(i < jsonArrayProviders.size())
+        {
+            JsonObject provider = jsonArrayProviders.get(i).getAsJsonObject();
             Provider n = g.fromJson(provider, Provider.class);
-            list.add(n);
+            providerList.add(n);
             i++;
         }
-        return list;
+
+        return providerList;
     }
+
 }
