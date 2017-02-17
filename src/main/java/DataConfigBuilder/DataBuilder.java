@@ -13,8 +13,9 @@ import java.util.List;
 public class DataBuilder
 {
 
-    // Session
+    // Spark Session
     public SparkSession sparkSession;
+
     // Tables
     public Dataset<Row> employees;
     public Dataset<Row> salaries;
@@ -22,10 +23,12 @@ public class DataBuilder
     public Dataset<Row> titles;
     public Dataset<Row> dept_emp;
     public Dataset<Row> dept_manager;
+
     // List of tables (correspondent list of table names)
     public List<Dataset<Row>> tables = new ArrayList<>();
     public List<String> tableNames = new ArrayList<>();
-    // System providers
+
+    // Providers
     public List<Provider> providers;
 
     // Builder is a singleton
@@ -33,8 +36,10 @@ public class DataBuilder
 
     private DataBuilder() {}
 
-    public static synchronized DataBuilder getDataBuilder() {
-        if (builder == null) {
+    public static synchronized DataBuilder getDataBuilder()
+    {
+        if (builder == null)
+        {
             builder = new DataBuilder();
         }
         return builder;
@@ -43,7 +48,6 @@ public class DataBuilder
     // Builds all variable and data necessary
     public void buildData() throws FileNotFoundException
     {
-
         // Create entry point
         sparkSession = org.apache.spark.sql.SparkSession
                 .builder()
