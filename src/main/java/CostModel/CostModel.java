@@ -537,7 +537,7 @@ public class CostModel
             }
 
             // Select the left encryption cost (AES or HOMOMORPHIC)
-            double encProfileCost = 0;
+            double encProfileCost = 1;
             if (encryptionPercentLeft != 0)
             {
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
@@ -566,7 +566,7 @@ public class CostModel
             }
 
             // Select the right encryption cost (AES or HOMOMORPHIC)
-            double encProfileCost = 0;
+            double encProfileCost = 1;
             if (encryptionPercentLeft != 0)
             {
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));

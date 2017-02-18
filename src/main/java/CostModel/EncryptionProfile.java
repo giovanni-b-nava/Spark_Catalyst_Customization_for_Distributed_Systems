@@ -1,8 +1,7 @@
 package CostModel;
 
+import ConfigurationParser.Provider;
 import RelationProfileTreeBuilder.Relation;
-import RelationProfileTreeBuilder.RelationProfile;
-import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryTree;
 import org.apache.commons.collections.map.HashedMap;
 
@@ -35,7 +34,6 @@ public class EncryptionProfile
     // Assign the all the encryption types to all the attributes
     public void assignDefaultProfiles(BinaryTree<Relation> tree)
     {
-        // TODO Modificare json e leggere da json i tipi di cifratura
         List<String> supportedEncryption = new ArrayList<>();
 
         supportedEncryption.add("aes");

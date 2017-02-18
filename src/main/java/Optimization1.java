@@ -53,13 +53,6 @@ public class Optimization1
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).prettyName());
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).constraints().toList().apply(1).flatArguments().toList().apply(1));
 
-        // GENERAZIONE STRUTTURE DATI DELL'ALBERO
-//        System.out.println("-----------------------------------------------------");
-//        List<Relation> relations = tree.getRelationTree().DFSVisit();
-//        System.out.println("=> RELATIONS:");
-//        System.out.println(relations);
-//        System.out.println("-----------------------------------------------------");
-
         // COST TEST of JOIN
         BinaryNode<Relation> newNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
 
@@ -80,16 +73,7 @@ public class Optimization1
 //        System.out.println("---> COSTO = " + cost);
 
 
-        // JOIN TEST
-//        BinaryNode<Relation> joinNode = tree.getRelationTree().getRoot().getLeft().getLeft();
-//        BinaryNode<Relation> leftProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft();
-//        BinaryNode<Relation> rightProjectionNode = tree.getRelationTree().getRoot().getLeft().getLeft().getRight();
-
-        //RelationProfile newRelationProfile = costModel.updateRelationProfile(DataBuilder.getDataBuilder().providers.get(2), joinNode);
-
-        //System.out.println("newRelationProfile.toString():\n" + newRelationProfile.toString());
-
-        // Create and setup an EncryptionProfile
+        // Create and setup an EncryptionProfile with default encryptions
         EncryptionProfile encProfile = new EncryptionProfile();
         encProfile.assignDefaultProfiles(tree.getRelationTree());
 
