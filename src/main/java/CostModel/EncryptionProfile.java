@@ -77,9 +77,6 @@ public class EncryptionProfile
                     }
                 }
                 break;
-            default:
-                System.out.println("updateEncryptionProfile.DEFAULT");
-                break;
         }
     }
 

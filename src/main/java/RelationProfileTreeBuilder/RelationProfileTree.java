@@ -129,8 +129,6 @@ public class RelationProfileTree
                     x++;
                 }
                 break;
-            default:
-                System.out.println("collectFilterOperator.Default");
         }
 
         return operator;
