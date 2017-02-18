@@ -27,6 +27,11 @@ public class EncryptionProfile
         this.map.putAll(profile.map);
     }
 
+    public Map<String, List<String>> getMap()
+    {
+        return map;
+    }
+
     // Assign the all the encryption types to all the attributes
     public void assignDefaultProfiles(BinaryTree<Relation> tree)
     {

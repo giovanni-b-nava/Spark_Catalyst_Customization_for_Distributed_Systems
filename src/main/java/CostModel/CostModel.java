@@ -535,9 +535,24 @@ public class CostModel
             {
                 encryptionPercentLeft = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
             }
+
+            // Select the left encryption cost (AES or HOMOMORPHIC)
+            double encProfileCost = 0;
+            if (encryptionPercentLeft != 0)
+            {
+                List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
+                if (supportedEncryption.contains("homomorphic"))
+                {
+                    encProfileCost = leftChildProvider.getCosts().getEncryptionHOMOMORPHIC();
+                }
+                else
+                {
+                    encProfileCost = leftChildProvider.getCosts().getEncryptionAES();
+                }
+            }
             // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
             // [ $ ]
-            encryptionCostLeft = ((leftGB * encryptionPercentLeft) / (leftChildProvider.getCosts().getCpuSpeed() * leftChildProvider.getCosts().getEncryption())) * leftChildProvider.getCosts().getCpu();
+            encryptionCostLeft = ((leftGB * encryptionPercentLeft) / (leftChildProvider.getCosts().getCpuSpeed() * encProfileCost)) * leftChildProvider.getCosts().getCpu();
         }
 
         if (relationNode.getRight() != null)
@@ -549,7 +564,25 @@ public class CostModel
             {
                 encryptionPercentRight = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
             }
-            encryptionCostRight = ((rightGB * encryptionPercentRight) / (rightChildProvider.getCosts().getCpuSpeed() * rightChildProvider.getCosts().getEncryption())) * rightChildProvider.getCosts().getCpu();
+
+            // Select the right encryption cost (AES or HOMOMORPHIC)
+            double encProfileCost = 0;
+            if (encryptionPercentLeft != 0)
+            {
+                List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
+                if (supportedEncryption.contains("homomorphic"))
+                {
+                    encProfileCost = rightChildProvider.getCosts().getEncryptionHOMOMORPHIC();
+                }
+                else
+                {
+                    encProfileCost = rightChildProvider.getCosts().getEncryptionAES();
+                }
+            }
+
+            // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
+            // [ $ ]
+            encryptionCostRight = ((rightGB * encryptionPercentRight) / (rightChildProvider.getCosts().getCpuSpeed() * encProfileCost)) * rightChildProvider.getCosts().getCpu();
         }
 
         // Represent the transfer cost from children to father

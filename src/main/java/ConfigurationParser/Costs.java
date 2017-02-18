@@ -3,13 +3,15 @@ package ConfigurationParser;
 public class Costs {
 
     private Double cpu;
-    private Double encryption;
+    private Double encryptionAES;
+    private Double encryptionHOMOMORPHIC;
     private Double cpuSpeed;
 
-    public Costs(Double c, Double e, Double s)
+    public Costs(Double c, Double ea, Double eh, Double s)
     {
         this.cpu = c;
-        this.encryption = e;
+        this.encryptionAES = ea;
+        this.encryptionHOMOMORPHIC = eh;
         this.cpuSpeed = s;
     }
 
@@ -21,8 +23,13 @@ public class Costs {
         this.cpu = cpu;
     }
 
-    public Double getEncryption() {
-        return encryption;
+    public Double getEncryptionAES() {
+        return encryptionAES;
+    }
+
+    public Double getEncryptionHOMOMORPHIC()
+    {
+        return encryptionHOMOMORPHIC;
     }
 
     public Double getCpuSpeed() {
@@ -33,8 +40,13 @@ public class Costs {
         this.cpuSpeed = cpuSpeed;
     }
 
-    public void setEncryption(Double encryption) {
-        this.encryption = encryption;
+    public void setEncryptionAES(Double encryptionAES) {
+        this.encryptionAES = encryptionAES;
+    }
+
+    public void setEncryptionHOMOMORPHIC(Double encryptionHOMOMORPHIC)
+    {
+        this.encryptionHOMOMORPHIC = encryptionHOMOMORPHIC;
     }
 
     @Override
@@ -45,7 +57,7 @@ public class Costs {
         Costs costs = (Costs) o;
 
         if (cpu != null ? !cpu.equals(costs.cpu) : costs.cpu != null) return false;
-        if (encryption != null ? !encryption.equals(costs.encryption) : costs.encryption != null) return false;
+        if (encryptionAES != null ? !encryptionAES.equals(costs.encryptionAES) : costs.encryptionAES != null) return false;
         return cpuSpeed != null ? cpuSpeed.equals(costs.cpuSpeed) : costs.cpuSpeed == null;
 
     }
@@ -53,7 +65,7 @@ public class Costs {
     @Override
     public int hashCode() {
         int result = cpu != null ? cpu.hashCode() : 0;
-        result = 31 * result + (encryption != null ? encryption.hashCode() : 0);
+        result = 31 * result + (encryptionAES != null ? encryptionAES.hashCode() : 0);
         result = 31 * result + (cpuSpeed != null ? cpuSpeed.hashCode() : 0);
         return result;
     }
