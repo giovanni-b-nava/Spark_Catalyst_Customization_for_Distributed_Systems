@@ -1,6 +1,7 @@
 package CostModel;
 
 import RelationProfileTreeBuilder.Relation;
+import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryTree;
 import org.apache.commons.collections.map.HashedMap;
@@ -11,10 +12,22 @@ import java.util.Map;
 
 public class EncryptionProfile
 {
-    private Map<String, List<String>> map = new HashedMap();
+    private Map<String, List<String>> map;
 
-    public EncryptionProfile() { }
+    public EncryptionProfile()
+    {
+        map = new HashedMap();
+    }
 
+    // Create a NEW copy of a EncryptionProfile
+    public EncryptionProfile(EncryptionProfile profile)
+    {
+        this();
+
+        this.map.putAll(profile.map);
+    }
+
+    // Assign the all the encryption types to all the attributes
     public void assignDefaultProfiles(BinaryTree<Relation> tree)
     {
         // TODO Modificare json e leggere da json i tipi di cifratura
@@ -40,4 +53,10 @@ public class EncryptionProfile
         }
 
     }
+
+    public void updateEncryptionProfile(RelationProfile relationProfile)
+    {
+
+    }
+
 }

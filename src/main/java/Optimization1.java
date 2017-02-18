@@ -9,13 +9,10 @@
     ----------------------------------------------------------------------------------------------------
  */
 
-import AuthorizationModel.AuthorizationModel;
-import CostModel.CostModel;
-import CostModel.Plan;
-import CostModel.PlansMap;
+import AuthorizationModel.*;
+import CostModel.*;
 import DataConfigBuilder.DataBuilder;
-import RelationProfileTreeBuilder.Relation;
-import RelationProfileTreeBuilder.RelationProfileTree;
+import RelationProfileTreeBuilder.*;
 import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
@@ -92,7 +89,11 @@ public class Optimization1
 
         //System.out.println("newRelationProfile.toString():\n" + newRelationProfile.toString());
 
-        PlansMap plansMap = costModel.generatePlans(tree.getRelationTree().getRoot());
+        // Create and setup an EncryptionProfile
+        EncryptionProfile encProfile = new EncryptionProfile();
+        encProfile.assignDefaultProfiles(tree.getRelationTree());
+
+        PlansMap plansMap = costModel.generatePlans(tree.getRelationTree().getRoot(), encProfile);
 
         Plan optimalPlan = costModel.getOptimalPlan(plansMap);
 

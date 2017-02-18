@@ -41,7 +41,7 @@ public class CostModel
     }
 
     // Recursively generate all the plans that come from the combination of providers and operations and put them into a map
-    public PlansMap generatePlans(BinaryNode<Relation> root)
+    public PlansMap generatePlans(BinaryNode<Relation> root, EncryptionProfile encProfile)
     {
         // BASE CASE: ROOT = Logical Relation
         if (root.getLeft() == null && root.getRight() == null)
@@ -109,11 +109,16 @@ public class CostModel
             return leafMap;
         }
 
-        PlansMap leftPlansMap = generatePlans(root.getLeft());
+        EncryptionProfile newEncProfile = new EncryptionProfile(encProfile);
+
+        // TODO aggiornare newEncProfile
+        newEncProfile.updateEncryptionProfile(root.getElement().getRelationProfile());
+
+        PlansMap leftPlansMap = generatePlans(root.getLeft(), newEncProfile);
         PlansMap rightPlansMap = null;
 
         if (root.getRight() != null)
-            rightPlansMap = generatePlans(root.getRight());
+            rightPlansMap = generatePlans(root.getRight(), newEncProfile);
 
         PlansMap plansMap = new PlansMap();
 
