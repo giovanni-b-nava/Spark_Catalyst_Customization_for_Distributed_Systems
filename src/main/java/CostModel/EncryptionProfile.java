@@ -59,13 +59,26 @@ public class EncryptionProfile
     {
         switch (relation.getOperation())
         {
-            //
-            case "":
-//            case "":
-//            case "":
-//            case "":
-//            case "":
+            // <=, <, >=, >
+            case "lessthanorequal":
+            case "lessthan":
+            case "greaterthanorequal":
+            case "greaterthan":
 
+                List<String> updated = new ArrayList<>();
+                updated.add("homomorphic");
+
+                for (int i=0; i<relation.getAttributes().size(); i++)
+                {
+                    if (map.containsKey(relation.getAttributes().get(i)))
+                    {
+                       // Replace the value with updated encryption
+                       map.put(relation.getAttributes().get(i), updated);
+                    }
+                }
+                break;
+            default:
+                System.out.println("updateEncryptionProfile.DEFAULT");
                 break;
         }
     }

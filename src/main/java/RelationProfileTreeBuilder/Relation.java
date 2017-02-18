@@ -78,7 +78,8 @@ public class Relation {
         this.sizeInBytes = sizeInBytes;
     }
 
-    public RelationProfile getRelationProfile() {
+    public RelationProfile getRelationProfile()
+    {
         return relationProfile;
     }
 
