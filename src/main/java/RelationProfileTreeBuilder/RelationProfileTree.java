@@ -52,7 +52,8 @@ public class RelationProfileTree
         else // Operation
         {
             List<String> e = this.collectAttributes(plan);
-            return new Relation(operation, e, sizeInByte);
+            String filterOperator = this.collectFilterOperator(plan);
+            return new Relation(operation, e, sizeInByte, filterOperator);
         }
     }
 
@@ -107,9 +108,32 @@ public class RelationProfileTree
                 }
                 break;
             default:
-                System.out.println("default");
+                System.out.println("collectAttributes.Default");
         }
         return l;
+    }
+
+    private String collectFilterOperator(LogicalPlan plan)
+    {
+        String operator = "";
+        switch (plan.nodeName())
+        {
+            case "Filter":
+                int x=0;
+                while(x < plan.apply(0).constraints().toList().size())
+                {
+                    if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 2)
+                    {
+                        operator = plan.apply(x).constraints().toList().apply(1).prettyName();
+                    }
+                    x++;
+                }
+                break;
+            default:
+                System.out.println("collectFilterOperator.Default");
+        }
+
+        return operator;
     }
 
     // Format the input string to the attribute style
@@ -341,9 +365,9 @@ public class RelationProfileTree
                     // If they have different visibility add them to implicit encrypted (priority to security)
                     if (
                             (p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && !p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1)))
-                            ||
-                            (!p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1)))
-                       )
+                                    ||
+                                    (!p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)) && p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(1)))
+                            )
                     {
                         if (p.getVisiblePlaintext().contains(node.getElement().getAttributes().get(0)))
                         {

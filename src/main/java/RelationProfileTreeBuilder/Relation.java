@@ -8,6 +8,8 @@ public class Relation {
     private String operation;
     // Attributes involved in the operation
     private List<String> attributes;
+    // The operator (>, <, >=, <= of Filter)
+    private String operator;
     // Size in byte of the data in the operation
     private long sizeInBytes;
     // Relation relationProfile of the relation
@@ -15,10 +17,12 @@ public class Relation {
     // Name of the table (only for LogicalRelations)
     private String tableName;
 
-    public Relation(String o, List<String> a, long s) {
+    public Relation(String o, List<String> a, long s, String filterOperator )
+    {
         this.operation = o;
         this.attributes = a;
         this.sizeInBytes = s;
+        this.operator = filterOperator;
         this.relationProfile = null;
         this.tableName = "Not a table";
     }
@@ -26,6 +30,7 @@ public class Relation {
     public Relation(String o, List<String> a, RelationProfile p, long s) {
         this.operation = o;
         this.attributes = a;
+        this.operator = "Not a filter";
         this.sizeInBytes = s;
         this.relationProfile = p;
         this.tableName = "Not a table";
@@ -34,6 +39,7 @@ public class Relation {
     public Relation(String o, List<String> a, RelationProfile p, String t, long s) {
         this.operation = o;
         this.attributes = a;
+        this.operator = "Not a filter";
         this.sizeInBytes = s;
         this.relationProfile = p;
         this.tableName = t;
@@ -42,6 +48,7 @@ public class Relation {
     public Relation(String o, List<String> a, String t, long s) {
         this.operation = o;
         this.attributes = a;
+        this.operator = "Not a filter";
         this.sizeInBytes = s;
         this.relationProfile = null;
         this.tableName = t;
