@@ -95,7 +95,7 @@ public class CostModel
                     rootCopy.getElement().setRelationProfile(profile);
 
                     // 3. COMPUTE AND ASSIGN COST
-                    double cost = computeCost(providers.get(i), providers.get(i), null, rootCopy);
+                    double cost = computeCost(providers.get(i), providers.get(i), null, rootCopy, encProfile);
                     newPlan.setCost(cost);
                     newPlan.getAssignedProviders().add(providers.get(i));
 
@@ -147,7 +147,7 @@ public class CostModel
                     // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                     Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
-                    double cost = computeCost(providers.get(i), childProvider, null, rootCopy) + leftChildPlan.getCost();
+                    double cost = computeCost(providers.get(i), childProvider, null, rootCopy, encProfile) + leftChildPlan.getCost();
 
                     // 3. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
@@ -194,7 +194,7 @@ public class CostModel
                         int rightChildProviderIndex = rightChildPlan.getAssignedProviders().size() - 1;
                         Provider leftChildProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
                         Provider rightChildProvider = rightChildPlan.getAssignedProviders().get(rightChildProviderIndex);
-                        double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy) + leftChildPlan.getCost() + rightChildPlan.getCost();
+                        double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy, encProfile) + leftChildPlan.getCost() + rightChildPlan.getCost();
 
                         // 3. CREATE A NEW PLAN
                         Plan newPlan = new Plan();
@@ -496,7 +496,7 @@ public class CostModel
     // ************************************************************************
     // COST COMPUTATION
 
-    private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode)
+    private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode, EncryptionProfile encProfile)
     {
         // Dimensions in Giga Bytes
         double GB = relationNode.getElement().getSizeInBytes() * Math.pow(10, -9);
