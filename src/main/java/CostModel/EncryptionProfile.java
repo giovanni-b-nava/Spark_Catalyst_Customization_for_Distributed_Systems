@@ -54,9 +54,20 @@ public class EncryptionProfile
 
     }
 
-    public void updateEncryptionProfile(RelationProfile relationProfile)
+    // Update the EncryptionProfile of the current relation
+    public void updateEncryptionProfile(Relation relation)
     {
+        switch (relation.getOperation())
+        {
+            //
+            case "":
+//            case "":
+//            case "":
+//            case "":
+//            case "":
 
+                break;
+        }
     }
 
 }

@@ -112,7 +112,7 @@ public class CostModel
         EncryptionProfile newEncProfile = new EncryptionProfile(encProfile);
 
         // TODO aggiornare newEncProfile
-        newEncProfile.updateEncryptionProfile(root.getElement().getRelationProfile());
+        newEncProfile.updateEncryptionProfile(root.getElement());
 
         PlansMap leftPlansMap = generatePlans(root.getLeft(), newEncProfile);
         PlansMap rightPlansMap = null;

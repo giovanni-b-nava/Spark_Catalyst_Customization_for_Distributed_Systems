@@ -124,7 +124,7 @@ public class RelationProfileTree
                 {
                     if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 2)
                     {
-                        operator = plan.apply(x).constraints().toList().apply(1).prettyName();
+                        operator = plan.apply(0).constraints().toList().apply(1).prettyName();
                     }
                     x++;
                 }
