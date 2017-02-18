@@ -70,6 +70,14 @@ public class Relation {
         this.attributes = attributes;
     }
 
+    public String getOperator() {
+        return operator;
+    }
+
+    public void setOperator(String operator) {
+        this.operator = operator;
+    }
+
     public long getSizeInBytes() {
         return sizeInBytes;
     }

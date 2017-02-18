@@ -102,7 +102,7 @@ public class CostModel
                     // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
                     // TODO Per visualizzare il piano creato
-                    System.out.println("newPlan = " + newPlan.toString());
+                    //System.out.println("newPlan = " + newPlan.toString());
                 }
             }
 
@@ -160,7 +160,7 @@ public class CostModel
                     plansMap.addPlan(newPlan);
 
                     // TODO Per visualizzare il piano creato
-                    System.out.println("newPlan = " + newPlan.toString());
+                    //System.out.println("newPlan = " + newPlan.toString());
                 }
             }
         }
@@ -208,7 +208,7 @@ public class CostModel
                         plansMap.addPlan(newPlan);
 
                         // TODO Per visualizzare il piano creato
-                        System.out.println("newPlan = " + newPlan.toString());
+                        //System.out.println("newPlan = " + newPlan.toString());
                     }
                 }
             }
@@ -541,13 +541,16 @@ public class CostModel
             if (encryptionPercentLeft != 0)
             {
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
-                if (supportedEncryption.contains("homomorphic"))
+
+                if (supportedEncryption.contains("homomorphic") && supportedEncryption.contains("aes"))
                 {
-                    encProfileCost = leftChildProvider.getCosts().getEncryptionHOMOMORPHIC();
+                    encProfileCost = leftChildProvider.getCosts().getEncryptionAES();
+                    System.out.println("SELEZIONATA AES");
                 }
                 else
                 {
-                    encProfileCost = leftChildProvider.getCosts().getEncryptionAES();
+                    encProfileCost = leftChildProvider.getCosts().getEncryptionHOMOMORPHIC();
+                    System.out.println("SELEZIONATA homomorphic");
                 }
             }
             // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
@@ -570,13 +573,16 @@ public class CostModel
             if (encryptionPercentLeft != 0)
             {
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
-                if (supportedEncryption.contains("homomorphic"))
+
+                if (supportedEncryption.contains("homomorphic") && supportedEncryption.contains("aes"))
                 {
-                    encProfileCost = rightChildProvider.getCosts().getEncryptionHOMOMORPHIC();
+                    encProfileCost = rightChildProvider.getCosts().getEncryptionAES();
+                    System.out.println("SELEZIONATA AES");
                 }
                 else
                 {
-                    encProfileCost = rightChildProvider.getCosts().getEncryptionAES();
+                    encProfileCost = rightChildProvider.getCosts().getEncryptionHOMOMORPHIC();
+                    System.out.println("SELEZIONATA homomorphic");
                 }
             }
 

@@ -60,7 +60,7 @@ public class EncryptionProfile
     // Update the EncryptionProfile of the current relation
     public void updateEncryptionProfile(Relation relation)
     {
-        switch (relation.getOperation())
+        switch (relation.getOperator())
         {
             // <=, <, >=, >
             case "lessthanorequal":

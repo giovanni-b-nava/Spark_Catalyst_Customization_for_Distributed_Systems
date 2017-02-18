@@ -107,15 +107,13 @@ public class RelationProfileTree
                     f++;
                 }
                 break;
-            default:
-                System.out.println("collectAttributes.Default");
         }
         return l;
     }
 
     private String collectFilterOperator(LogicalPlan plan)
     {
-        String operator = "";
+        String operator = "Not a filter";
         switch (plan.nodeName())
         {
             case "Filter":
