@@ -4,7 +4,7 @@
     {
       "name" : "CL1",
       "category" : "client",
-      "costs" : { "cpu" : 0.0000065, "encryption" : 0.99, "cpuSpeed" : 1},
+      "costs" : { "cpu" : 0.0000065, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95,"cpuSpeed" : 1},
       "links" :
       {
         "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
@@ -53,7 +53,7 @@
     {
       "name" : "SS1",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.000036, "encryption" : 0.99, "cpuSpeed" : 100},
+      "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 100},
       "links" :
       {
         "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
@@ -96,7 +96,7 @@
     {
       "name" : "SS2",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.000036, "encryption" : 0.99, "cpuSpeed" : 100},
+      "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 1000},
       "links" :
       {
         "name" : ["CL1", "SS1", "SS2" , "CS1", "CS2"],
@@ -104,11 +104,6 @@
       },
       "tables":
       [
-        {
-          "name" : "employees",
-          "plaintext" : ["emp_no", "birth_date", "first_name"],
-          "encrypted" : ["last_name", "gender", "hire_date"]
-        },
         {
           "name" : "departments",
           "plaintext" : ["dept_no", "dept_name"],
@@ -139,7 +134,7 @@
     {
       "name" : "CS1",
       "category" : "computational_server",
-      "costs" : { "cpu" : 0.00000072, "encryption" : 0.99, "cpuSpeed" : 500},
+      "costs" : { "cpu" : 0.00000072, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 500},
       "links" :
       {
         "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
@@ -182,7 +177,7 @@
     {
       "name" : "CS2",
       "category" : "computational_server",
-      "costs" : { "cpu" : 0.00000080, "encryption" : 0.99, "cpuSpeed" : 500},
+      "costs" : { "cpu" : 0.00000080, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 500},
       "links" :
       {
         "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],

@@ -585,7 +585,7 @@ public class CostModel
                 else
                 {
                     encProfileCost = rightChildProvider.getCosts().getEncryptionHOMOMORPHIC();
-                    System.out.println("SELEZIONATA homomorphic");
+                    System.out.println("SELEZIONATA HOMOMORPHIC");
                 }
             }
 
