@@ -22,6 +22,12 @@ public class CostModel
         this.providers = providers;
     }
 
+    // TODO Metodo per Testing
+    private void printNewPlan(Plan newPlan)
+    {
+        System.out.println("newPlan = " + newPlan.toString());
+    }
+
     // Returns the plan with the lowest cost
     public Plan getOptimalPlan(PlansMap plansMap)
     {
@@ -101,14 +107,13 @@ public class CostModel
 
                     // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
-                    // TODO Per visualizzare il piano creato
-                    //System.out.println("newPlan = " + newPlan.toString());
+
+                    printNewPlan(newPlan);
                 }
             }
 
             return leafMap;
         }
-
 
         // Create a new copy of the EncryptionProfile
         EncryptionProfile newEncProfile = new EncryptionProfile(encProfile);
@@ -159,8 +164,7 @@ public class CostModel
                     // 4. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
 
-                    // TODO Per visualizzare il piano creato
-                    //System.out.println("newPlan = " + newPlan.toString());
+                    printNewPlan(newPlan);
                 }
             }
         }
@@ -207,8 +211,7 @@ public class CostModel
                         // 4. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
 
-                        // TODO Per visualizzare il piano creato
-                        //System.out.println("newPlan = " + newPlan.toString());
+                        printNewPlan(newPlan);
                     }
                 }
             }
