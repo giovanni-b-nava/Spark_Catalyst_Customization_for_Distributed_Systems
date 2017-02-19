@@ -25,7 +25,7 @@ public class CostModel
     // TODO Metodo per Testing
     private void printNewPlan(Plan newPlan)
     {
-        System.out.println("newPlan = " + newPlan.toString());
+        //System.out.println("newPlan = " + newPlan.toString());
     }
 
     // Returns the plan with the lowest cost
@@ -573,7 +573,7 @@ public class CostModel
 
             // Select the right encryption cost (AES or HOMOMORPHIC)
             double encProfileCost = 1;
-            if (encryptionPercentLeft != 0)
+            if (encryptionPercentRight != 0)
             {
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
 
