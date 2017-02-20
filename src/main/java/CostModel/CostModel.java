@@ -41,7 +41,7 @@ public class CostModel
         // Order the list
         Collections.sort(plans);
 
-        System.out.println("Number of plans = " + plans.size());
+        System.out.println("NUMBER OF PLANS = " + plans.size());
 
         return plans.get(0);
     }
@@ -249,14 +249,14 @@ public class CostModel
         if (relationNode.getLeft() != null && relationNode.getRight() == null)
         {
             RelationProfile leftChildProfile = relationNode.getLeft().getElement().getRelationProfile();
-            updatedProfile = update1Child(currentProfile, leftChildProfile, currentProvider);
+            updatedProfile = updateOneChild(currentProfile, leftChildProfile, currentProvider);
         }
         // Join
         else if (relationNode.getLeft() != null && relationNode.getRight() != null)
         {
             RelationProfile leftChildProfile = relationNode.getLeft().getElement().getRelationProfile();
             RelationProfile rightChildProfile = relationNode.getRight().getElement().getRelationProfile();
-            updatedProfile = update2Children(currentProfile, leftChildProfile, rightChildProfile, currentProvider);
+            updatedProfile = updateTwoChildren(currentProfile, leftChildProfile, rightChildProfile, currentProvider);
 
             // Check if the attributes of the Join have the same visibility
             String firstAttribute = relationNode.getElement().getAttributes().get(0);
@@ -281,7 +281,7 @@ public class CostModel
     }
 
     // Update the profile with encryption and decryption (if needed) for the operations Filter, Project, Aggregate
-    private RelationProfile update1Child(RelationProfile currentProfile, RelationProfile leftChildProfile, Provider currentProvider)
+    private RelationProfile updateOneChild(RelationProfile currentProfile, RelationProfile leftChildProfile, Provider currentProvider)
     {
         RelationProfile updatedProfile = new RelationProfile(currentProfile);
 
@@ -305,7 +305,7 @@ public class CostModel
                         updatedProfile.getVisibleEncrypted().add(currentAttribute);
                     }
                     else
-                        System.out.println("CostModel.update1Child: ERROR the attribute is not visible (visibility#1)");
+                        System.out.println("CostModel.updateOneChild: ERROR the attribute is not visible (visibility#1)");
                 }
             }
             // The current attribute visibility is Encrypted for currentProvider
@@ -322,7 +322,7 @@ public class CostModel
                         updatedProfile.getVisibleEncrypted().add(currentAttribute);
                     }
                     else
-                        System.out.println("CostModel.update1Child: ERROR the attribute is not visible (visibility#2)");
+                        System.out.println("CostModel.updateOneChild: ERROR the attribute is not visible (visibility#2)");
                 }
             }
         }
@@ -347,7 +347,7 @@ public class CostModel
                         updatedProfile.getVisiblePlaintext().add(currentAttribute);
                     }
                     else
-                        System.out.println("CostModel.update1Child: ERROR invalid attribute (visibility#3)");
+                        System.out.println("CostModel.updateOneChild: ERROR invalid attribute (visibility#3)");
                 }
             }
             // The current attribute visibility is Plaintext for the current provider
@@ -365,7 +365,7 @@ public class CostModel
                         updatedProfile.getVisiblePlaintext().add(currentAttribute);
                     }
                     else
-                        System.out.println("CostModel.update1Child: ERROR invalid attribute (visibility#4)");
+                        System.out.println("CostModel.updateOneChild: ERROR invalid attribute (visibility#4)");
                 }
             }
         }
@@ -374,7 +374,7 @@ public class CostModel
     }
 
     // Update the profile with encryption and decryption (if needed) for the operation Join
-    private RelationProfile update2Children(RelationProfile currentProfile, RelationProfile leftChildProfile, RelationProfile rightChildProfile, Provider currentProvider)
+    private RelationProfile updateTwoChildren(RelationProfile currentProfile, RelationProfile leftChildProfile, RelationProfile rightChildProfile, Provider currentProvider)
     {
 
         RelationProfile updatedProfile = new RelationProfile(currentProfile);
@@ -385,27 +385,34 @@ public class CostModel
             String currentAttribute = currentProfile.getVisiblePlaintext().get(i);
 
             // If the current attribute visibility is Plaintext for the current provider...
-            if (AuthorizationModel.checkVisibility(currentProvider, currentAttribute, "Plaintext")) {
+            if (AuthorizationModel.checkVisibility(currentProvider, currentAttribute, "Plaintext"))
+            {
                 // If the left child profile doesn't contain in the visible plaintext the current attribute...
-                if (!leftChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                if (!leftChildProfile.getVisiblePlaintext().contains(currentAttribute))
+                {
                     // If the left child profile contains in the visible encrypted the current attribute
-                    if (leftChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                    if (leftChildProfile.getVisibleEncrypted().contains(currentAttribute))
+                    {
                         // Update the relation profile moving the attribute from the visible plaintext
                         // to the visible encrypted
                         updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                         updatedProfile.getVisibleEncrypted().add(currentAttribute);
-                    } else {
+                    }
+                    else
+                    {
                         // If the right child profile doesn't contain in the visible plaintext the current attribute...
-                        if (!rightChildProfile.getVisiblePlaintext().contains(currentAttribute)) {
+                        if (!rightChildProfile.getVisiblePlaintext().contains(currentAttribute))
+                        {
                             // If the right child profile (current) contains in the visible encrypted the current attribute
-                            if (rightChildProfile.getVisibleEncrypted().contains(currentAttribute)) {
+                            if (rightChildProfile.getVisibleEncrypted().contains(currentAttribute))
+                            {
                                 // Update the relation profile (current) moving the attribute from the visible plaintext
                                 // to the visible encrypted
                                 updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                                 updatedProfile.getVisibleEncrypted().add(currentAttribute);
                             }
                         } else
-                            System.out.println("CostModel.update2Children: ERROR the attribute is not visible (visibility#1)");
+                            System.out.println("CostModel.updateTwoChildren: ERROR the attribute is not visible (visibility#1)");
                     }
                 }
             }
@@ -429,7 +436,7 @@ public class CostModel
                                 updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                                 updatedProfile.getVisibleEncrypted().add(currentAttribute);
                             } else
-                                System.out.println("CostModel.update2Children: ERROR the attribute is not visible (visibility#2)");
+                                System.out.println("CostModel.updateTwoChildren: ERROR the attribute is not visible (visibility#2)");
                         }
                     }
                 }
@@ -461,7 +468,7 @@ public class CostModel
                                 updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                                 updatedProfile.getVisiblePlaintext().add(currentAttribute);
                             } else
-                                System.out.println("CostModel.update2Children: ERROR invalid attribute (visibility#3)");
+                                System.out.println("CostModel.updateTwoChildren: ERROR invalid attribute (visibility#3)");
                         }
                     }
                 }
@@ -485,7 +492,7 @@ public class CostModel
                                     updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                                     updatedProfile.getVisiblePlaintext().add(currentAttribute);
                                 } else
-                                    System.out.println("CostModel.update2Children: ERROR invalid attribute (visibility#4)");
+                                    System.out.println("CostModel.updateTwoChildren: ERROR invalid attribute (visibility#4)");
                             }
                         }
                     }
@@ -539,7 +546,7 @@ public class CostModel
                 encryptionPercentLeft = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
             }
 
-            // Select the left encryption cost (AES or HOMOMORPHIC)
+            // Select the LEFT encryption cost (AES or HOMOMORPHIC)
             double encProfileCost = 1;
             if (encryptionPercentLeft != 0)
             {
@@ -548,12 +555,12 @@ public class CostModel
                 if (supportedEncryption.contains("homomorphic") && supportedEncryption.contains("aes"))
                 {
                     encProfileCost = leftChildProvider.getCosts().getEncryptionAES();
-                    System.out.println("SELEZIONATA AES");
+                    System.out.println("[LEFT] AES");
                 }
                 else
                 {
                     encProfileCost = leftChildProvider.getCosts().getEncryptionHOMOMORPHIC();
-                    System.out.println("SELEZIONATA homomorphic");
+                    System.out.println("[LEFT] HOMOMORPHIC");
                 }
             }
             // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
@@ -571,7 +578,7 @@ public class CostModel
                 encryptionPercentRight = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
             }
 
-            // Select the right encryption cost (AES or HOMOMORPHIC)
+            // Select the RIGHT encryption cost (AES or HOMOMORPHIC)
             double encProfileCost = 1;
             if (encryptionPercentRight != 0)
             {
@@ -580,12 +587,12 @@ public class CostModel
                 if (supportedEncryption.contains("homomorphic") && supportedEncryption.contains("aes"))
                 {
                     encProfileCost = rightChildProvider.getCosts().getEncryptionAES();
-                    System.out.println("SELEZIONATA AES");
+                    System.out.println("[RIGHT] AES");
                 }
                 else
                 {
                     encProfileCost = rightChildProvider.getCosts().getEncryptionHOMOMORPHIC();
-                    System.out.println("SELEZIONATA HOMOMORPHIC");
+                    System.out.println("[RIGHT] HOMOMORPHIC");
                 }
             }
 

@@ -62,18 +62,18 @@
         },
         {
           "name" : "departments",
-          "plaintext" : [],
-          "encrypted" : ["dept_no", "dept_name"]
+          "plaintext" : ["dept_no", "dept_name"],
+          "encrypted" : []
         },
         {
           "name" : "dept_emp",
-          "plaintext" : [],
-          "encrypted" : ["emp_no", "dept_no", "from_date", "to_date"]
+          "plaintext" : ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "dept_manager",
-          "plaintext" : [],
-          "encrypted" : ["emp_no", "dept_no", "from_date", "to_date"]
+          "plaintext" : ["emp_no", "dept_no", "from_date", "to_date"],
+          "encrypted" : []
         },
         {
           "name" : "salaries",
@@ -82,8 +82,8 @@
         },
         {
           "name" : "titles",
-          "plaintext" : [],
-          "encrypted" : ["emp_no", "title", "from_date", "to_date"]
+          "plaintext" : ["emp_no", "title", "from_date", "to_date"],
+          "encrypted" : []
         }
       ]
     }
