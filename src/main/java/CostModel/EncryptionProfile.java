@@ -14,6 +14,11 @@ public class EncryptionProfile
     // Key = attribute, Value = List of Encryption supported
     private Map<String, List<String>> map;
 
+    public static final String AES = "AES";
+    public static final String HOMOMORPHIC = "HOMOMORPHIC";
+
+    public boolean isOmomorphic = false;
+
     public EncryptionProfile()
     {
         map = new HashMap();
@@ -36,8 +41,8 @@ public class EncryptionProfile
     {
         List<String> supportedEncryption = new ArrayList<>();
 
-        supportedEncryption.add("aes");
-        supportedEncryption.add("homomorphic");
+        supportedEncryption.add(AES);
+        supportedEncryption.add(HOMOMORPHIC);
 
         List<Relation> relations = tree.DFSVisit();
 
@@ -69,7 +74,7 @@ public class EncryptionProfile
             case "greaterthan":
 
                 List<String> update = new ArrayList<>();
-                update.add("homomorphic");
+                update.add(HOMOMORPHIC);
 
                 for (int i=0; i<relation.getAttributes().size(); i++)
                 {
@@ -77,6 +82,11 @@ public class EncryptionProfile
                     {
                        // Replace the value with update encryption
                        map.put(relation.getAttributes().get(i), update);
+
+                       // TODO Per Testing
+                       isOmomorphic = true;
+                       System.out.println("UPDATE di EncryptionProfile con HOMOMORPHIC");
+                       System.out.println(this.getMap().toString());
                     }
                 }
                 break;

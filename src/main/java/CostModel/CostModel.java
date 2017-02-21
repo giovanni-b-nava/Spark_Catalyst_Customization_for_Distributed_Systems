@@ -508,6 +508,13 @@ public class CostModel
 
     private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode, EncryptionProfile encProfile)
     {
+        // TODO Per Testing
+        if (encProfile.isOmomorphic == true)
+        {
+            System.out.println("COMPUTE COST: Rilevato EncryptionProfile con HOMOMORPHIC");
+            System.out.println(encProfile.getMap().toString());
+        }
+
         // Dimensions in Giga Bytes
         double GB = relationNode.getElement().getSizeInBytes() * Math.pow(10, -9);
         double leftGB = 0;
@@ -552,7 +559,7 @@ public class CostModel
             {
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
 
-                if (supportedEncryption.contains("homomorphic") && supportedEncryption.contains("aes"))
+                if (supportedEncryption.contains(EncryptionProfile.HOMOMORPHIC) && supportedEncryption.contains(EncryptionProfile.AES))
                 {
                     encProfileCost = leftChildProvider.getCosts().getEncryptionAES();
                     System.out.println("[LEFT] AES");
@@ -584,7 +591,7 @@ public class CostModel
             {
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
 
-                if (supportedEncryption.contains("homomorphic") && supportedEncryption.contains("aes"))
+                if (supportedEncryption.contains(EncryptionProfile.HOMOMORPHIC) && supportedEncryption.contains(EncryptionProfile.AES))
                 {
                     encProfileCost = rightChildProvider.getCosts().getEncryptionAES();
                     System.out.println("[RIGHT] AES");
