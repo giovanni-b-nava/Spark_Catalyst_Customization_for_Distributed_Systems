@@ -68,15 +68,15 @@ public class EncryptionProfile
             case "greaterthanorequal":
             case "greaterthan":
 
-                List<String> updated = new ArrayList<>();
-                updated.add("homomorphic");
+                List<String> update = new ArrayList<>();
+                update.add("homomorphic");
 
                 for (int i=0; i<relation.getAttributes().size(); i++)
                 {
                     if (map.containsKey(relation.getAttributes().get(i)))
                     {
-                       // Replace the value with updated encryption
-                       map.put(relation.getAttributes().get(i), updated);
+                       // Replace the value with update encryption
+                       map.put(relation.getAttributes().get(i), update);
                     }
                 }
                 break;
