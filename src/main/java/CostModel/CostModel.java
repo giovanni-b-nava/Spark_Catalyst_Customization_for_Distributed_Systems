@@ -77,7 +77,6 @@ public class CostModel
                         // Assign the visibility to attributes of a table
                         if (target.equals(tables.get(j).getName()))
                         {
-                            targetFound = true;
                             // Encrypted
                             for (int k=0; k < tables.get(j).getEncrypted().size(); k++)
                             {
@@ -88,6 +87,7 @@ public class CostModel
                             {
                                 profile.getVisiblePlaintext().add(tables.get(j).getPlaintext().get(k));
                             }
+                            targetFound = true;
                         }
                     }
                     // If a Storage Server doesn't contain the target table => SKIP THE CREATION OF THIS PLAN!

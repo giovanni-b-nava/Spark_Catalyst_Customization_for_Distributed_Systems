@@ -3,9 +3,9 @@ package CostModel;
 import ConfigurationParser.Provider;
 import RelationProfileTreeBuilder.Relation;
 import TreeStructure.BinaryTree;
-import org.apache.commons.collections.map.HashedMap;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -15,15 +15,15 @@ public class EncryptionProfile
 
     public EncryptionProfile()
     {
-        map = new HashedMap();
+        //map = new HashedMap();
+        map = new HashMap();
     }
 
     // Create a NEW copy of a EncryptionProfile
     public EncryptionProfile(EncryptionProfile profile)
     {
         this();
-
-        this.map.putAll(profile.map);
+        this.map.putAll(profile.getMap());
     }
 
     public Map<String, List<String>> getMap()
