@@ -1,6 +1,5 @@
 package CostModel;
 
-import ConfigurationParser.Provider;
 import RelationProfileTreeBuilder.Relation;
 import TreeStructure.BinaryTree;
 
@@ -21,6 +20,7 @@ public class EncryptionProfile
 
     public EncryptionProfile()
     {
+        System.out.println(">>> COSTRUITO NUOVO EncryptionProfile");
         map = new HashMap();
     }
 
@@ -29,6 +29,17 @@ public class EncryptionProfile
     {
         this();
         this.map.putAll(profile.getMap());
+
+        System.out.println(">>> COSTRUITA COPIA DI EncryptionProfile");
+        System.out.println(map.toString());
+
+        if (profile.isOmomorphic == true)
+        {
+            System.out.println("RICEVUTA copia di EncryptionProfile con HOMOMORPHIC");
+            System.out.println(this.getMap().toString());
+            this.isOmomorphic = true;
+        }
+
     }
 
     public Map<String, List<String>> getMap()

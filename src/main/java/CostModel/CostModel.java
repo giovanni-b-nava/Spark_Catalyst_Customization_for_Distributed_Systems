@@ -116,18 +116,18 @@ public class CostModel
         }
 
         // Create a new copy of the EncryptionProfile
-        EncryptionProfile newEncProfile = new EncryptionProfile(encProfile);
+        EncryptionProfile encProfileCopy = new EncryptionProfile(encProfile);
 
         // Update the EncryptionProfile considering the current operation
-        newEncProfile.updateEncryptionProfile(root.getElement());
+        encProfileCopy.updateEncryptionProfile(root.getElement());
 
         // GENERATION OF LEFT PLANS
-        PlansMap leftPlansMap = generatePlans(root.getLeft(), newEncProfile);
+        PlansMap leftPlansMap = generatePlans(root.getLeft(), encProfileCopy);
         // GENERATION OF RIGHT PLANS
         PlansMap rightPlansMap = null;
 
         if (root.getRight() != null)
-            rightPlansMap = generatePlans(root.getRight(), newEncProfile);
+            rightPlansMap = generatePlans(root.getRight(), encProfileCopy);
 
         PlansMap plansMap = new PlansMap();
 
