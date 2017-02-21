@@ -11,11 +11,11 @@ import java.util.Map;
 
 public class EncryptionProfile
 {
+    // Key = attribute, Value = List of Encryption supported
     private Map<String, List<String>> map;
 
     public EncryptionProfile()
     {
-        //map = new HashedMap();
         map = new HashMap();
     }
 
