@@ -57,6 +57,16 @@ public class Plan implements Comparable
         assignedProviders.add(provider);
     }
 
+    public Map<String, String> getAssignedEncryptions()
+    {
+        return assignedEncryptions;
+    }
+
+    public void assignEncryption(String attribute, String encryption)
+    {
+        this.assignedEncryptions.put(attribute, encryption);
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -88,6 +98,7 @@ public class Plan implements Comparable
                 "relation=" + relation.getElement().toString() +
                 ", cost=" + cost +
                 "\n, assignedProviders=\n" + assignedProviders.toString() +
+                "\n, assignedEncryptions=\n" + assignedEncryptions.toString() +
                 "\n}";
     }
 
