@@ -20,7 +20,6 @@ public class EncryptionProfile
 
     public EncryptionProfile()
     {
-        System.out.println(">>> COSTRUITO NUOVO EncryptionProfile");
         map = new HashMap();
     }
 
@@ -30,16 +29,14 @@ public class EncryptionProfile
         this();
         this.map.putAll(profile.getMap());
 
-        System.out.println(">>> COSTRUITA COPIA DI EncryptionProfile");
-        System.out.println(map.toString());
+        System.out.println(">>> CREATA COPY EncryptionProfile");
 
         if (profile.isOmomorphic == true)
         {
-            System.out.println("RICEVUTA copia di EncryptionProfile con HOMOMORPHIC");
-            System.out.println(this.getMap().toString());
+            System.out.println("    CON isOmomorphic == true");
             this.isOmomorphic = true;
         }
-
+        System.out.println(map.toString() + "\n");
     }
 
     public Map<String, List<String>> getMap()
@@ -74,7 +71,7 @@ public class EncryptionProfile
     }
 
     // Update the EncryptionProfile of the current relation
-    public void updateEncryptionProfile(Relation relation)
+    public void update(Relation relation)
     {
         switch (relation.getOperator())
         {
@@ -96,8 +93,8 @@ public class EncryptionProfile
 
                        // TODO Per Testing
                        isOmomorphic = true;
-                       System.out.println("UPDATE di EncryptionProfile con HOMOMORPHIC");
-                       System.out.println(this.getMap().toString());
+                       System.out.println("UPDATE di EncryptionProfile (isOmomorphic == true)");
+                       System.out.println(this.getMap().toString() + "\n");
                     }
                 }
                 break;

@@ -115,11 +115,12 @@ public class CostModel
             return leafMap;
         }
 
+        // Update the EncryptionProfile considering the current operation
+        encProfile.update(root.getElement());
+
         // Create a new copy of the EncryptionProfile
         EncryptionProfile encProfileCopy = new EncryptionProfile(encProfile);
 
-        // Update the EncryptionProfile considering the current operation
-        encProfileCopy.updateEncryptionProfile(root.getElement());
 
         // GENERATION OF LEFT PLANS
         PlansMap leftPlansMap = generatePlans(root.getLeft(), encProfileCopy);
@@ -512,7 +513,7 @@ public class CostModel
         if (encProfile.isOmomorphic == true)
         {
             System.out.println("COMPUTE COST: Rilevato EncryptionProfile con HOMOMORPHIC");
-            System.out.println(encProfile.getMap().toString());
+            System.out.println(encProfile.getMap().toString() + "\n");
         }
 
         // Dimensions in Giga Bytes
