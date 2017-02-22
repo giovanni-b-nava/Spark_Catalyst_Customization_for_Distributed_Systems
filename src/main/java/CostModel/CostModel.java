@@ -551,7 +551,6 @@ public class CostModel
             }
             else
             {
-                // TODO VERIFICARE VISIBILITA' ATTRIBUTI !!!
                 encryptionPercentLeft = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
             }
 
@@ -559,6 +558,9 @@ public class CostModel
             double encProfileCost = 1;
             if (encryptionPercentLeft != 0)
             {
+                // TODO CONTROLLARE OGNI ATTRIBUTO CON UN FOR???
+                // IDEA: LISTA CIFRARE CON AES, LISTA CIFRARE CON HOMOMORPHIC E POI
+                // USARLE PER I COSTI
                 List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
 
                 if (supportedEncryption.contains(EncryptionProfile.HOMOMORPHIC) && supportedEncryption.contains(EncryptionProfile.AES))
