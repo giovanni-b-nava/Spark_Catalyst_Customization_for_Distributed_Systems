@@ -512,7 +512,7 @@ public class CostModel
         // TODO Per Testing
         if (encProfile.isOmomorphic == true)
         {
-            System.out.println("COMPUTE COST: RICEVUTO EncryptionProfile (isOmomorphic == true)");
+            System.out.println("COMPUTE COST: RICEVUTO EncryptionProfile (isOmomorphic == true) [" + relationNode.getElement().getOperation() + "]");
             System.out.println(encProfile.getMap().toString() + "\n");
         }
 
@@ -558,21 +558,29 @@ public class CostModel
             double encProfileCost = 1;
             if (encryptionPercentLeft != 0)
             {
-                // TODO CONTROLLARE OGNI ATTRIBUTO CON UN FOR???
-                // IDEA: LISTA CIFRARE CON AES, LISTA CIFRARE CON HOMOMORPHIC E POI
-                // USARLE PER I COSTI
-                List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
+                // TODO IDEA: Contare attributi da cifrare con AES e con HOMOMORPHIC => calcolare il costo di cifratura in proporzione
 
-                if (supportedEncryption.contains(EncryptionProfile.HOMOMORPHIC) && supportedEncryption.contains(EncryptionProfile.AES))
+                List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
+                int countAES = 0;
+                int countHOMOMORPHIC = 0;
+
+                for (int i=0; i < visibleEncrypted.size(); i++)
                 {
-                    encProfileCost = leftChildProvider.getCosts().getEncryptionAES();
-                    System.out.println("[LEFT] AES");
+                    List<String> supported = encProfile.getMap().get(visibleEncrypted.get(i));
+
+                    if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
+                    {
+                        countAES++;
+                        System.out.println("[LEFT] AES");
+                    }
+                    else
+                    {
+                        countHOMOMORPHIC++;
+                        System.out.println("[LEFT] HOMOMORPHIC");
+                    }
                 }
-                else
-                {
-                    encProfileCost = leftChildProvider.getCosts().getEncryptionHOMOMORPHIC();
-                    System.out.println("[LEFT] HOMOMORPHIC");
-                }
+
+                encProfileCost = leftChildProvider.getCosts().getEncryptionAES() * (countAES / (countAES + countHOMOMORPHIC)) + leftChildProvider.getCosts().getEncryptionHOMOMORPHIC() * (countHOMOMORPHIC / (countAES + countHOMOMORPHIC));
             }
             // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)
             // [ $ ]
@@ -593,18 +601,29 @@ public class CostModel
             double encProfileCost = 1;
             if (encryptionPercentRight != 0)
             {
-                List<String> supportedEncryption = encProfile.getMap().get(relationNode.getElement().getRelationProfile().getVisibleEncrypted().get(0));
+                // TODO IDEA: Contare attributi da cifrare con AES e con HOMOMORPHIC => calcolare il costo di cifratura in proporzione
 
-                if (supportedEncryption.contains(EncryptionProfile.HOMOMORPHIC) && supportedEncryption.contains(EncryptionProfile.AES))
+                List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
+                int countAES = 0;
+                int countHOMOMORPHIC = 0;
+
+                for (int i=0; i < visibleEncrypted.size(); i++)
                 {
-                    encProfileCost = rightChildProvider.getCosts().getEncryptionAES();
-                    System.out.println("[RIGHT] AES");
+                    List<String> supported = encProfile.getMap().get(visibleEncrypted.get(i));
+
+                    if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
+                    {
+                        countAES++;
+                        System.out.println("[RIGHT] AES");
+                    }
+                    else
+                    {
+                        countHOMOMORPHIC++;
+                        System.out.println("[RIGHT] HOMOMORPHIC");
+                    }
                 }
-                else
-                {
-                    encProfileCost = rightChildProvider.getCosts().getEncryptionHOMOMORPHIC();
-                    System.out.println("[RIGHT] HOMOMORPHIC");
-                }
+
+                encProfileCost = rightChildProvider.getCosts().getEncryptionAES() * (countAES / (countAES + countHOMOMORPHIC)) + rightChildProvider.getCosts().getEncryptionHOMOMORPHIC() * (countHOMOMORPHIC / (countAES + countHOMOMORPHIC));
             }
 
             // Represents the encryption cost ( ( bytes encrypted / (cpu speed * encryption overhead)) *  cpu cost)

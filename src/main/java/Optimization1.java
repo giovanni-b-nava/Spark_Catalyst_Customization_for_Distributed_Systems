@@ -36,7 +36,7 @@ public class Optimization1
         DataBuilder.getDataBuilder().dept_manager.createOrReplaceTempView("dept_manager");
 
         // QUERY
-        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary>70000 GROUP BY first_name");
+        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary > 70000 GROUP BY first_name");
 
         // Generate the relation tree
         RelationProfileTree tree = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
