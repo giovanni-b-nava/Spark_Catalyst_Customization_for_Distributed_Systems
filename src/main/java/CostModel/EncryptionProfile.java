@@ -93,7 +93,7 @@ public class EncryptionProfile
 
                        // TODO Per Testing
                        isOmomorphic = true;
-                       System.out.println("UPDATE di EncryptionProfile (isOmomorphic == true)");
+                       System.out.println("UPDATE EncryptionProfile (isOmomorphic == true)");
                        System.out.println(this.getMap().toString() + "\n");
                     }
                 }

@@ -521,11 +521,11 @@ public class CostModel
         double leftGB = 0;
         double rightGB = 0;
 
-        // TODO GB TUNING
+        // TODO TABLE GB TUNING
         GB = GB * Math.pow(10, 3);
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {
-            System.out.println("Table GB = " + GB);
+            System.out.println("LogicalRelation: Table size = " + GB + " GB\n");
         }
 
         if (relationNode.getLeft() != null)
@@ -551,6 +551,7 @@ public class CostModel
             }
             else
             {
+                // TODO VERIFICARE VISIBILITA' ATTRIBUTI !!!
                 encryptionPercentLeft = relationNode.getElement().getRelationProfile().getVisibleEncrypted().size() / (relationNode.getElement().getRelationProfile().getVisiblePlaintext().size() + relationNode.getElement().getRelationProfile().getVisibleEncrypted().size());
             }
 
