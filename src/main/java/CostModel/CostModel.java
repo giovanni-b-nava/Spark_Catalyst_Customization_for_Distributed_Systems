@@ -104,7 +104,7 @@ public class CostModel
                     // 3. COMPUTE AND ASSIGN COST
                     double cost = computeCost(providers.get(i), providers.get(i), null, rootCopy, encProfile);
                     newPlan.setCost(cost);
-                    newPlan.getAssignedProviders().add(providers.get(i));
+                    newPlan.assignProvider(providers.get(i));
 
                     // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
@@ -160,8 +160,8 @@ public class CostModel
                     Plan newPlan = new Plan();
                     newPlan.setRelation(rootCopy);
                     newPlan.setCost(cost);
-                    newPlan.getAssignedProviders().addAll(leftChildPlan.getAssignedProviders());
-                    newPlan.getAssignedProviders().add(providers.get(i));
+                    newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
+                    newPlan.assignProvider(providers.get(i));
 
                     // 4. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
@@ -206,9 +206,9 @@ public class CostModel
                         Plan newPlan = new Plan();
                         newPlan.setRelation(rootCopy);
                         newPlan.setCost(cost);
-                        newPlan.getAssignedProviders().addAll(leftChildPlan.getAssignedProviders());
-                        newPlan.getAssignedProviders().addAll(rightChildPlan.getAssignedProviders());
-                        newPlan.getAssignedProviders().add(providers.get(i));
+                        newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
+                        newPlan.setAssignedProviders(rightChildPlan.getAssignedProviders());
+                        newPlan.assignProvider(providers.get(i));
 
                         // 4. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);

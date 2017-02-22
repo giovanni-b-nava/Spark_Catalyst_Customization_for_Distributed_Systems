@@ -5,7 +5,9 @@ import RelationProfileTreeBuilder.Relation;
 import TreeStructure.BinaryNode;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Plan implements Comparable
 {
@@ -13,11 +15,14 @@ public class Plan implements Comparable
     private BinaryNode<Relation> relation;
     private double cost;
     private List<Provider> assignedProviders;
+    private Map<String, String> assignedEncryptions;
 
     public Plan()
     {
         relation = new BinaryNode<>();
+        cost = 0;
         assignedProviders = new ArrayList<>();
+        assignedEncryptions = new HashMap<>();
     }
 
     public BinaryNode<Relation> getRelation()
@@ -42,11 +47,12 @@ public class Plan implements Comparable
         return assignedProviders;
     }
 
-    public void setAssignedProviders(List<Provider> assignedProviders) {
-        this.assignedProviders = assignedProviders;
+    public void setAssignedProviders(List<Provider> providers)
+    {
+        assignedProviders.addAll(providers);
     }
 
-    public void AddAssignedProviders(Provider provider)
+    public void assignProvider(Provider provider)
     {
         assignedProviders.add(provider);
     }
