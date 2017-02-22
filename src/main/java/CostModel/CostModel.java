@@ -512,7 +512,7 @@ public class CostModel
         // TODO Per Testing
         if (encProfile.isOmomorphic == true)
         {
-            System.out.println("COMPUTE COST: Rilevato EncryptionProfile con HOMOMORPHIC");
+            System.out.println("COMPUTE COST: RICEVUTO EncryptionProfile (isOmomorphic == true)");
             System.out.println(encProfile.getMap().toString() + "\n");
         }
 
