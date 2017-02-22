@@ -41,6 +41,7 @@ public class CostModel
         // Order the list
         Collections.sort(plans);
 
+        System.out.println("*****************************************************");
         System.out.println("NUMBER OF PLANS = " + plans.size());
 
         return plans.get(0);
@@ -509,10 +510,10 @@ public class CostModel
 
     private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode, EncryptionProfile encProfile)
     {
-        // TODO Per Testing
+        // TODO TESTING
         if (encProfile.isOmomorphic == true)
         {
-            System.out.println("COMPUTE COST: RICEVUTO EncryptionProfile (isOmomorphic == true) [" + relationNode.getElement().getOperation() + "]");
+            System.out.println("> COMPUTE COST: EncryptionProfile isOmomorphic [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
             System.out.println(encProfile.getMap().toString() + "\n");
         }
 
@@ -571,12 +572,12 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
-                        System.out.println("[LEFT] AES");
+                        System.out.println("[LEFT] AES [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                     else
                     {
                         countHOMOMORPHIC++;
-                        System.out.println("[LEFT] HOMOMORPHIC");
+                        System.out.println("[LEFT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                 }
 
@@ -614,12 +615,12 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
-                        System.out.println("[RIGHT] AES");
+                        System.out.println("[RIGHT] AES [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                     else
                     {
                         countHOMOMORPHIC++;
-                        System.out.println("[RIGHT] HOMOMORPHIC");
+                        System.out.println("[RIGHT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                 }
 
@@ -654,7 +655,7 @@ public class CostModel
 
     private double getOperationCost(Provider operationProvider, double totalGB, String operationType)
     {
-        double operationCost = 0;
+        double operationCost;
 
         switch (operationType)
         {

@@ -76,7 +76,7 @@ public class Optimization1
         // Create a new EncryptionProfile
         EncryptionProfile encProfile = new EncryptionProfile();
         // Init the EncryptionProfile with all default encryptions
-        encProfile.assignDefaultProfiles(tree.getRelationTree());
+        encProfile.setupDefault(tree.getRelationTree());
 
         PlansMap plansMap = costModel.generatePlans(tree.getRelationTree().getRoot(), encProfile);
 

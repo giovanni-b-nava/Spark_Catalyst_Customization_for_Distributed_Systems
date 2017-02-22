@@ -45,7 +45,7 @@ public class EncryptionProfile
     }
 
     // Assign the all the encryption types to all the attributes
-    public void assignDefaultProfiles(BinaryTree<Relation> tree)
+    public void setupDefault(BinaryTree<Relation> tree)
     {
         List<String> supportedEncryption = new ArrayList<>();
 
@@ -91,9 +91,9 @@ public class EncryptionProfile
                        // Replace the value with update encryption
                        map.put(relation.getAttributes().get(i), update);
 
-                       // TODO Per Testing
+                       // TODO TESTING
                        isOmomorphic = true;
-                       System.out.println("UPDATE EncryptionProfile (isOmomorphic == true)");
+                       System.out.println("> UPDATE: EncryptionProfile isOmomorphic [" + relation.getOperation() + "]");
                        System.out.println(this.getMap().toString() + "\n");
                     }
                 }
