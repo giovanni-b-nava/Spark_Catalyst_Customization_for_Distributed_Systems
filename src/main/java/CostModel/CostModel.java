@@ -22,7 +22,7 @@ public class CostModel
         this.providers = providers;
     }
 
-    // TODO Metodo per Testing
+    // TODO TESTING
     private void printNewPlan(Plan newPlan)
     {
         //System.out.println("newPlan = " + newPlan.toString());
