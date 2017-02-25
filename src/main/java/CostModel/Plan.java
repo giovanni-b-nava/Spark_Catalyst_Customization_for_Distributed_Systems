@@ -15,6 +15,7 @@ public class Plan implements Comparable
     private BinaryNode<Relation> relation;
     private double cost;
     private List<Provider> assignedProviders;
+    private EncryptionProfile encryptionProfile;
     private Map<String, String> assignedEncryptions;
 
     public Plan()
@@ -22,6 +23,7 @@ public class Plan implements Comparable
         relation = new BinaryNode<>();
         cost = 0;
         assignedProviders = new ArrayList<>();
+        encryptionProfile = new EncryptionProfile();
         assignedEncryptions = new HashMap<>();
     }
 
@@ -55,6 +57,16 @@ public class Plan implements Comparable
     public void assignProvider(Provider provider)
     {
         assignedProviders.add(provider);
+    }
+
+    public EncryptionProfile getEncryptionProfile()
+    {
+        return encryptionProfile;
+    }
+
+    public void setEncryptionProfile(EncryptionProfile encryptionProfile)
+    {
+        this.encryptionProfile = encryptionProfile;
     }
 
     public Map<String, String> getAssignedEncryptions()

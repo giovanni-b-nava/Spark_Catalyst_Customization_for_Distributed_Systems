@@ -10,7 +10,7 @@ import java.util.Map;
 
 public class EncryptionProfile
 {
-    // Key = attribute, Value = List of Encryption supported
+    // Key = attribute, Value = List of supported Encryptions
     private Map<String, List<String>> map;
 
     public static final String AES = "AES";

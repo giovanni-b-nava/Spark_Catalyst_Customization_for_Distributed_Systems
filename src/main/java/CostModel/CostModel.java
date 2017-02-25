@@ -45,19 +45,30 @@ public class CostModel
         System.out.println("NUMBER OF PLANS = " + plans.size());
 
         //
-        assignEncrytpions(plans.get(0));
+        assignEncrytpions(plans.get(0).getRelation(), plans.get(0).getEncryptionProfile(), plans.get(0).getAssignedEncryptions());
 
         return plans.get(0);
     }
 
-    private void assignEncrytpions(Plan plan)
+    // Recursively add the selected Encryptions for each encrypted attribute
+    private void assignEncrytpions(BinaryNode<Relation> relation, EncryptionProfile encProfile, Map<String, String> assignedEncryptions)
     {
-        plan.getRelation();
+        if (relation.getLeft() != null)
+            assignEncrytpions(relation.getLeft(), encProfile, assignedEncryptions);
+
+         List<String> visibleEncrypted = relation.getElement().getRelationProfile().getVisibleEncrypted();
+
+         // For every attribute in visibleEncrypted...
+        for (int i=0; i < visibleEncrypted.size(); i++)
+        {
+            // Find the encryption from encProfile and save it in assignedEncryptions
+            assignedEncryptions.put(visibleEncrypted.get(i), encProfile.getMap().get(visibleEncrypted.get(i)).get(0));
+        }
 
 
-
+        if(relation.getRight() != null )
+            assignEncrytpions(relation.getRight(), encProfile, assignedEncryptions);
     }
-
 
     // Recursively generate all the plans that come from the combination of providers and operations and put them into a map
     public PlansMap generatePlans(BinaryNode<Relation> root, EncryptionProfile encProfile)
@@ -118,7 +129,10 @@ public class CostModel
                     newPlan.setCost(cost);
                     newPlan.assignProvider(providers.get(i));
 
-                    // 4. ADD THE NEW PLAN TO LEAFMAP
+                    // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
+                    newPlan.setEncryptionProfile(encProfile);
+
+                    // 5. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
 
                     printNewPlan(newPlan);
@@ -127,6 +141,7 @@ public class CostModel
 
             return leafMap;
         }
+
 
         // Update the EncryptionProfile considering the current operation
         encProfile.update(root.getElement());
@@ -177,7 +192,10 @@ public class CostModel
                     newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
                     newPlan.assignProvider(providers.get(i));
 
-                    // 4. ADD THE NEW PLAN TO PLANSMAP
+                    // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
+                    newPlan.setEncryptionProfile(encProfile);
+
+                    // 5. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
 
                     printNewPlan(newPlan);
@@ -219,12 +237,15 @@ public class CostModel
                         Provider rightChildProvider = rightChildPlan.getAssignedProviders().get(rightChildProviderIndex);
                         double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy, encProfile, newPlan.getAssignedEncryptions()) + leftChildPlan.getCost() + rightChildPlan.getCost();
 
-                        // 4. SET THE NEW PLAN
+                        // 3. SET THE NEW PLAN
                         newPlan.setRelation(rootCopy);
                         newPlan.setCost(cost);
                         newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
                         newPlan.setAssignedProviders(rightChildPlan.getAssignedProviders());
                         newPlan.assignProvider(providers.get(i));
+
+                        // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
+                        newPlan.setEncryptionProfile(encProfile);
 
                         // 5. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
