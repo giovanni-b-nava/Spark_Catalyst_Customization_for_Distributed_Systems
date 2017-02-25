@@ -310,8 +310,7 @@ public class CostModel
                         updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                         updatedProfile.getVisibleEncrypted().add(currentAttribute);
                     }
-                    else
-                        System.out.println("CostModel.updateOneChild: ERROR the attribute is not visible (visibility#1)");
+                    // else Nothing to udpdate!
                 }
             }
             // The current attribute visibility is Encrypted for currentProvider
@@ -327,8 +326,7 @@ public class CostModel
                         updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                         updatedProfile.getVisibleEncrypted().add(currentAttribute);
                     }
-                    else
-                        System.out.println("CostModel.updateOneChild: ERROR the attribute is not visible (visibility#2)");
+                    // else Nothing to udpdate!
                 }
             }
         }
@@ -352,8 +350,7 @@ public class CostModel
                         updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                         updatedProfile.getVisiblePlaintext().add(currentAttribute);
                     }
-                    else
-                        System.out.println("CostModel.updateOneChild: ERROR invalid attribute (visibility#3)");
+                    // else Nothing to udpdate!
                 }
             }
             // The current attribute visibility is Plaintext for the current provider
@@ -370,8 +367,7 @@ public class CostModel
                         updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                         updatedProfile.getVisiblePlaintext().add(currentAttribute);
                     }
-                    else
-                        System.out.println("CostModel.updateOneChild: ERROR invalid attribute (visibility#4)");
+                    // else Nothing to udpdate!
                 }
             }
         }
@@ -417,8 +413,8 @@ public class CostModel
                                 updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                                 updatedProfile.getVisibleEncrypted().add(currentAttribute);
                             }
-                        } else
-                            System.out.println("CostModel.updateTwoChildren: ERROR the attribute is not visible (visibility#1)");
+                        }
+                        // else Nothing to udpdate!
                     }
                 }
             }
@@ -441,8 +437,8 @@ public class CostModel
                                 // to the visible encrypted
                                 updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                                 updatedProfile.getVisibleEncrypted().add(currentAttribute);
-                            } else
-                                System.out.println("CostModel.updateTwoChildren: ERROR the attribute is not visible (visibility#2)");
+                            }
+                            // else Nothing to udpdate!
                         }
                     }
                 }
@@ -473,8 +469,8 @@ public class CostModel
                                 // to the visible plaintext
                                 updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                                 updatedProfile.getVisiblePlaintext().add(currentAttribute);
-                            } else
-                                System.out.println("CostModel.updateTwoChildren: ERROR invalid attribute (visibility#3)");
+                            }
+                            // else Nothing to udpdate!
                         }
                     }
                 }
@@ -497,8 +493,8 @@ public class CostModel
                                     // to the visible plaintext
                                     updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                                     updatedProfile.getVisiblePlaintext().add(currentAttribute);
-                                } else
-                                    System.out.println("CostModel.updateTwoChildren: ERROR invalid attribute (visibility#4)");
+                                }
+                                // else Nothing to udpdate!
                             }
                         }
                     }
@@ -514,13 +510,6 @@ public class CostModel
 
     private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode, EncryptionProfile encProfile)
     {
-        // TODO TESTING
-        if (encProfile.isOmomorphic == true)
-        {
-            System.out.println("> COMPUTE COST: EncryptionProfile isOmomorphic [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
-            System.out.println(encProfile.getMap().toString() + "\n");
-        }
-
         // Dimensions in Giga Bytes
         double GB = relationNode.getElement().getSizeInBytes() * Math.pow(10, -9);
         double leftGB = 0;
@@ -563,12 +552,13 @@ public class CostModel
             double encProfileCost = 1;
             if (encryptionPercentLeft != 0)
             {
-                // TODO IDEA: Contare attributi da cifrare con AES e con HOMOMORPHIC => calcolare il costo di cifratura in proporzione
+                // Count the number of AES and HOMOMORPHIC encrptions to evaluate the proportion of encProfileCost
 
                 List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
                 int countAES = 0;
                 int countHOMOMORPHIC = 0;
 
+                // For every attribute in visibleEncrypted...
                 for (int i=0; i < visibleEncrypted.size(); i++)
                 {
                     List<String> supported = encProfile.getMap().get(visibleEncrypted.get(i));
@@ -576,7 +566,6 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
-                        System.out.println("[LEFT] AES [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                     else
                     {
@@ -606,12 +595,13 @@ public class CostModel
             double encProfileCost = 1;
             if (encryptionPercentRight != 0)
             {
-                // TODO IDEA: Contare attributi da cifrare con AES e con HOMOMORPHIC => calcolare il costo di cifratura in proporzione
+                // Count the number of AES and HOMOMORPHIC encrptions to evaluate the proportion of encProfileCost
 
                 List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
                 int countAES = 0;
                 int countHOMOMORPHIC = 0;
 
+                // For every attribute in visibleEncrypted...
                 for (int i=0; i < visibleEncrypted.size(); i++)
                 {
                     List<String> supported = encProfile.getMap().get(visibleEncrypted.get(i));
@@ -619,7 +609,6 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
-                        System.out.println("[RIGHT] AES [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                     else
                     {
