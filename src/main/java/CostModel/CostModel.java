@@ -604,8 +604,8 @@ public class CostModel
                 // Count the number of AES and HOMOMORPHIC encrptions to evaluate the proportion of encProfileCost
 
                 List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
-                int countAES = 0;
-                int countHOMOMORPHIC = 0;
+                double countAES = 0;
+                double countHOMOMORPHIC = 0;
 
                 // For every attribute in visibleEncrypted...
                 for (int i=0; i < visibleEncrypted.size(); i++)
@@ -650,8 +650,8 @@ public class CostModel
                 // Count the number of AES and HOMOMORPHIC encrptions to evaluate the proportion of encProfileCost
 
                 List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
-                int countAES = 0;
-                int countHOMOMORPHIC = 0;
+                double countAES = 0;
+                double countHOMOMORPHIC = 0;
 
                 // For every attribute in visibleEncrypted...
                 for (int i=0; i < visibleEncrypted.size(); i++)

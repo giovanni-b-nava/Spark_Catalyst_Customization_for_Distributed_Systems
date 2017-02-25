@@ -7,8 +7,8 @@
       "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 100},
       "links" :
       {
-        "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
-        "costPerGB" : [0.01, 0.09, 0.01, 0, 0.08]
+        "name" : ["SS1", "CS1"],
+        "costPerGB" : [0.1, 0]
       },
       "tables":
       [
@@ -47,11 +47,11 @@
     {
       "name" : "CS1",
       "category" : "computational_server",
-      "costs" : { "cpu" : 0.00000072, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 500},
+      "costs" : { "cpu" : 0, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 5000},
       "links" :
       {
-        "name" : ["CL1", "SS1", "SS2", "CS1", "CS2"],
-        "costPerGB" : [0.09, 0.09, 0.09, 0, 0.08]
+        "name" : ["SS1", "CS1"],
+        "costPerGB" : [0, 0]
       },
       "tables":
       [
