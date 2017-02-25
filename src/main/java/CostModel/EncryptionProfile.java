@@ -28,15 +28,6 @@ public class EncryptionProfile
     {
         this();
         this.map.putAll(profile.getMap());
-
-//        System.out.println(">>> CREATA COPY EncryptionProfile");
-//
-//        if (profile.isOmomorphic == true)
-//        {
-//            System.out.println("    CON isOmomorphic == true");
-//            this.isOmomorphic = true;
-//        }
-//        System.out.println(map.toString() + "\n");
     }
 
     public Map<String, List<String>> getMap()

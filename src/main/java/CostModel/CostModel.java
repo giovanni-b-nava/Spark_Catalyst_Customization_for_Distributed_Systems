@@ -8,6 +8,7 @@ import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
+
 import java.util.*;
 
 public class CostModel

@@ -38,18 +38,6 @@ public class Plan implements Comparable
         assignedEncryptions.putAll(plan.getAssignedEncryptions());
     }
 
-    // Create a NEW copy of a RelationProfile
-//    public RelationProfile(RelationProfile profile)
-//    {
-//        this();
-//
-//        this.visiblePlaintext.addAll(profile.getVisiblePlaintext());
-//        this.visibleEncrypted.addAll(profile.getVisibleEncrypted());
-//        this.implicitPlaintext.addAll(profile.getImplicitPlaintext());
-//        this.implicitEncrypted.addAll(profile.getImplicitEncrypted());
-//        this.equivalenceSets.addAll(profile.getEquivalenceSets());
-//    }
-
     public BinaryNode<Relation> getRelation()
     {
         return relation;

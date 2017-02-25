@@ -46,8 +46,6 @@ public class RelationProfile
         this.equivalenceSets.addAll(profile.getEquivalenceSets());
     }
 
-
-
     public List<String> getVisiblePlaintext() {
         return visiblePlaintext;
     }
