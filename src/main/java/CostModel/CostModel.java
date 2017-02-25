@@ -46,30 +46,30 @@ public class CostModel
         System.out.println("NUMBER OF PLANS = " + plans.size());
 
         //
-        assignEncrytpions(plans.get(0).getRelation(), plans.get(0).getEncryptionProfile(), plans.get(0).getAssignedEncryptions());
+        //assignEncrytpions(plans.get(0).getRelation(), plans.get(0).getEncryptionProfile(), plans.get(0).getAssignedEncryptions());
 
         return plans.get(0);
     }
 
     // Recursively add the selected Encryptions for each encrypted attribute
-    private void assignEncrytpions(BinaryNode<Relation> relation, EncryptionProfile encProfile, Map<String, String> assignedEncryptions)
-    {
-        if (relation.getLeft() != null)
-            assignEncrytpions(relation.getLeft(), encProfile, assignedEncryptions);
-
-         List<String> visibleEncrypted = relation.getElement().getRelationProfile().getVisibleEncrypted();
-
-         // For every attribute in visibleEncrypted...
-        for (int i=0; i < visibleEncrypted.size(); i++)
-        {
-            // Find the encryption from encProfile and save it in assignedEncryptions
-            assignedEncryptions.put(visibleEncrypted.get(i), encProfile.getMap().get(visibleEncrypted.get(i)).get(0));
-        }
-
-
-        if(relation.getRight() != null )
-            assignEncrytpions(relation.getRight(), encProfile, assignedEncryptions);
-    }
+//    private void assignEncrytpions(BinaryNode<Relation> relation, EncryptionProfile encProfile, Map<String, String> assignedEncryptions)
+//    {
+//        if (relation.getLeft() != null)
+//            assignEncrytpions(relation.getLeft(), encProfile, assignedEncryptions);
+//
+//         List<String> visibleEncrypted = relation.getElement().getRelationProfile().getVisibleEncrypted();
+//
+//         // For every attribute in visibleEncrypted...
+//        for (int i=0; i < visibleEncrypted.size(); i++)
+//        {
+//            // Find the encryption from encProfile and save it in assignedEncryptions
+//            assignedEncryptions.put(visibleEncrypted.get(i), encProfile.getMap().get(visibleEncrypted.get(i)).get(0));
+//        }
+//
+//
+//        if(relation.getRight() != null )
+//            assignEncrytpions(relation.getRight(), encProfile, assignedEncryptions);
+//    }
 
     // Recursively generate all the plans that come from the combination of providers and operations and put them into a map
     public PlansMap generatePlans(BinaryNode<Relation> root, EncryptionProfile encProfile)
