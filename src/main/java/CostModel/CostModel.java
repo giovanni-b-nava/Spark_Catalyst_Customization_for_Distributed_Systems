@@ -179,19 +179,20 @@ public class CostModel
                     // 1. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
 
-                    // 2. COPY THE ASSIGNED ENCRYPTION OF LEFT CHILD
-                    newPlan.setAssignedEncryptions(leftChildPlan.getAssignedEncryptions());
-
-                    // TODO TESTING
-                    if (newPlan.getAssignedEncryptions().size() != 0) {
-                        System.out.print("AssignedEncryptions: ");
-                        System.out.println(newPlan.getAssignedEncryptions().toString() + " [" + providers.get(i).getName() + "," + rootCopy.getElement().getOperation() + "]");
-                    }
-
-                    // 3. COMPUTE THE COST
+                    // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                     Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
                     double cost = computeCost(providers.get(i), childProvider, null, rootCopy, encProfile, newPlan) + leftChildPlan.getCost();
+
+                    // 3. COPY THE ASSIGNED ENCRYPTION OF LEFT CHILD
+                    newPlan.setAssignedEncryptions(leftChildPlan.getAssignedEncryptions());
+
+                    // TODO TESTING
+                    if (newPlan.getAssignedEncryptions().size() != 0)
+                    {
+                        System.out.print("AssignedEncryptions: ");
+                        System.out.println(newPlan.getAssignedEncryptions().toString() + " [" + providers.get(i).getName() + "," + rootCopy.getElement().getOperation() + "]");
+                    }
 
                     // 4. SET THE NEW PLAN
                     newPlan.setRelation(rootCopy);
@@ -237,7 +238,14 @@ public class CostModel
                         // 1. CREATE A NEW PLAN
                         Plan newPlan = new Plan();
 
-                        // 2. COPY THE ASSIGNED ENCRYPTION OF RIGHT CHILD
+                        // 2. COMPUTE THE COST
+                        int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
+                        int rightChildProviderIndex = rightChildPlan.getAssignedProviders().size() - 1;
+                        Provider leftChildProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
+                        Provider rightChildProvider = rightChildPlan.getAssignedProviders().get(rightChildProviderIndex);
+                        double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy, encProfile, newPlan) + leftChildPlan.getCost() + rightChildPlan.getCost();
+
+                        // 3. COPY THE ASSIGNED ENCRYPTION OF RIGHT CHILD
                         newPlan.setAssignedEncryptions(rightChildPlan.getAssignedEncryptions());
 
                         // TODO TESTING
@@ -245,13 +253,6 @@ public class CostModel
                             System.out.print("AssignedEncryptions: ");
                             System.out.println(newPlan.getAssignedEncryptions().toString() + " [" + providers.get(i).getName() + "," + rootCopy.getElement().getOperation() + "]");
                         }
-
-                        // 3. COMPUTE THE COST
-                        int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
-                        int rightChildProviderIndex = rightChildPlan.getAssignedProviders().size() - 1;
-                        Provider leftChildProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
-                        Provider rightChildProvider = rightChildPlan.getAssignedProviders().get(rightChildProviderIndex);
-                        double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy, encProfile, newPlan) + leftChildPlan.getCost() + rightChildPlan.getCost();
 
                         // 4. SET THE NEW PLAN
                         newPlan.setRelation(rootCopy);
