@@ -134,6 +134,8 @@ public class CostModel
                     leafMap.addPlan(newPlan);
 
                     printNewPlan(newPlan);
+
+                    System.out.println("["+ providers.get(i).getName() +"][" + newPlan.getRelation().getElement().getOperation() +"]RelationProfile: " + newPlan.getRelation().getElement().getRelationProfile());
                 }
             }
 
@@ -175,6 +177,7 @@ public class CostModel
 
                     rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
+                    System.out.println("["+ providers.get(i).getName() +"][" + rootCopy.getElement().getOperation() + "] RelationProfile: " + rootCopy.getElement().getRelationProfile());
 
                     // 1. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
@@ -234,6 +237,7 @@ public class CostModel
 
                         rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
                         rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
+                        System.out.println("["+ providers.get(i).getName() +"][" + rootCopy.getElement().getOperation() + "] RelationProfile: " + rootCopy.getElement().getRelationProfile());
 
                         // 1. CREATE A NEW PLAN
                         Plan newPlan = new Plan();

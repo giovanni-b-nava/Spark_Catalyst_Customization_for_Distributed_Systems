@@ -4,7 +4,7 @@
     {
       "name" : "SS1",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 100},
+      "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.99, "cpuSpeed" : 100},
       "links" :
       {
         "name" : ["SS1", "CS1"],
@@ -47,7 +47,7 @@
     {
       "name" : "CS1",
       "category" : "computational_server",
-      "costs" : { "cpu" : 0, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 5000},
+      "costs" : { "cpu" : 0, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.99, "cpuSpeed" : 5000},
       "links" :
       {
         "name" : ["SS1", "CS1"],
