@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 public class PlansMap
 {
+    // Key = Hash, Value = Plan
     private HashMap<Integer, Plan> plansMap;
 
     public PlansMap()

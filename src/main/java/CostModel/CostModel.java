@@ -296,7 +296,7 @@ public class CostModel
             }
         }
 
-        return value;
+        return new Plan(value);
     }
 
     // Generate the updated profile updating (if needed) Encryption or Decryption BEFORE computing the cost
