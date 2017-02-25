@@ -130,7 +130,8 @@ public class BinaryTree<E> {
 			return trimRight(father);
 	}
 
-	public List<E> DFSVisit() {
+	public List<E> DFSVisit()
+	{
 		List<E> output = new LinkedList<E>();
 		Stack<BinaryNode<E>> stack = new Stack<BinaryNode<E>>();
 		if (root != null)
@@ -147,7 +148,8 @@ public class BinaryTree<E> {
 		return output;
 	}
 
-	public List<E> orderedVisit() {
+	public List<E> orderedVisit()
+	{
 		List<E> output = new LinkedList<E>();
 		return orderedVisit(root, output);
 	}
@@ -163,4 +165,5 @@ public class BinaryTree<E> {
 
 		return output;
 	}
+
 }

@@ -44,8 +44,20 @@ public class CostModel
         System.out.println("*****************************************************");
         System.out.println("NUMBER OF PLANS = " + plans.size());
 
+        //
+        assignEncrytpions(plans.get(0));
+
         return plans.get(0);
     }
+
+    private void assignEncrytpions(Plan plan)
+    {
+        plan.getRelation();
+
+
+
+    }
+
 
     // Recursively generate all the plans that come from the combination of providers and operations and put them into a map
     public PlansMap generatePlans(BinaryNode<Relation> root, EncryptionProfile encProfile)
