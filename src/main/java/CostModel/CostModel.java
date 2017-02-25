@@ -15,6 +15,8 @@ public class CostModel
 
     private RelationProfileTree tree;
     private List<Provider> providers;
+    private EncryptionProfile encProfileLastUpdate;
+
 
     public CostModel(List<Provider> providers, RelationProfileTree tree)
     {
@@ -129,10 +131,7 @@ public class CostModel
                     newPlan.setCost(cost);
                     newPlan.assignProvider(providers.get(i));
 
-                    // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
-                    newPlan.setEncryptionProfile(encProfile);
-
-                    // 5. ADD THE NEW PLAN TO LEAFMAP
+                    // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
 
                     printNewPlan(newPlan);
