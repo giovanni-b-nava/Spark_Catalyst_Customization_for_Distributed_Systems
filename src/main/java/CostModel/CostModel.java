@@ -47,6 +47,7 @@ public class CostModel
         System.out.println("NUMBER OF PLANS = " + plans.size());
 
         //
+        plans.get(0).setEncryptionProfile(encProfileLastUpdate);
         assignEncrytpions(plans.get(0).getRelation(), plans.get(0).getEncryptionProfile(), plans.get(0).getAssignedEncryptions());
 
         return plans.get(0);
@@ -192,7 +193,7 @@ public class CostModel
                     newPlan.assignProvider(providers.get(i));
 
                     // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
-                    newPlan.setEncryptionProfile(encProfileCopy);
+                    encProfileLastUpdate = encProfileCopy;
 
                     // 5. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
@@ -244,7 +245,7 @@ public class CostModel
                         newPlan.assignProvider(providers.get(i));
 
                         // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
-                        newPlan.setEncryptionProfile(encProfileCopy);
+                        encProfileLastUpdate = encProfileCopy;
 
                         // 5. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
