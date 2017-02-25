@@ -82,7 +82,6 @@ public class Optimization1
 
         Plan optimalPlan = costModel.getOptimalPlan(plansMap);
 
-
         System.out.println("*****************************************************");
         System.out.println("=> OPTIMAL PLAN:");
         System.out.println(optimalPlan.toString());
