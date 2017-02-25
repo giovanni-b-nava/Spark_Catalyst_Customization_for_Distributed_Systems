@@ -182,6 +182,12 @@ public class CostModel
                     // 2. COPY THE ASSIGNED ENCRYPTION OF LEFT CHILD
                     newPlan.setAssignedEncryptions(leftChildPlan.getAssignedEncryptions());
 
+                    // TODO TESTING
+                    if (newPlan.getAssignedEncryptions().size() != 0) {
+                        System.out.print("AssignedEncryptions: ");
+                        System.out.println(newPlan.getAssignedEncryptions().toString() + " [" + providers.get(i).getName() + "," + rootCopy.getElement().getOperation() + "]");
+                    }
+
                     // 3. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                     Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
@@ -233,6 +239,12 @@ public class CostModel
 
                         // 2. COPY THE ASSIGNED ENCRYPTION OF RIGHT CHILD
                         newPlan.setAssignedEncryptions(rightChildPlan.getAssignedEncryptions());
+
+                        // TODO TESTING
+                        if (newPlan.getAssignedEncryptions().size() != 0) {
+                            System.out.print("AssignedEncryptions: ");
+                            System.out.println(newPlan.getAssignedEncryptions().toString() + " [" + providers.get(i).getName() + "," + rootCopy.getElement().getOperation() + "]");
+                        }
 
                         // 3. COMPUTE THE COST
                         int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
