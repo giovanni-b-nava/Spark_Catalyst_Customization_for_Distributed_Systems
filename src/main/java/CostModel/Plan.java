@@ -82,7 +82,8 @@ public class Plan implements Comparable
     }
 
     @Override
-    public int hashCode() {
+    public int hashCode()
+    {
         int result;
         long temp;
         result = relation != null ? relation.hashCode() : 0;
@@ -99,8 +100,10 @@ public class Plan implements Comparable
                 "relation=" + relation.getElement().toString() +
                 ", cost=" + cost +
                 "\n, assignedProviders=\n" + assignedProviders.toString() +
+                    "\n, assignedEncryptions=\n" + assignedEncryptions +
                 "\n}";
     }
+
 
     @Override
     public int compareTo(Object o)

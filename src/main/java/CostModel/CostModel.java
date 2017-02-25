@@ -566,10 +566,13 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
+                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.AES);
                     }
                     else
                     {
                         countHOMOMORPHIC++;
+                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
+                        // TODO Testing
                         System.out.println("[LEFT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                 }
@@ -609,10 +612,13 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
+                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.AES);
                     }
                     else
                     {
                         countHOMOMORPHIC++;
+                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
+                        // TODO Testing
                         System.out.println("[RIGHT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
                 }
