@@ -15,7 +15,6 @@ public class CostModel
 
     private RelationProfileTree tree;
     private List<Provider> providers;
-    private EncryptionProfile encProfileLastUpdate;
 
 
     public CostModel(List<Provider> providers, RelationProfileTree tree)
@@ -47,7 +46,6 @@ public class CostModel
         System.out.println("NUMBER OF PLANS = " + plans.size());
 
         //
-        plans.get(0).setEncryptionProfile(encProfileLastUpdate);
         assignEncrytpions(plans.get(0).getRelation(), plans.get(0).getEncryptionProfile(), plans.get(0).getAssignedEncryptions());
 
         return plans.get(0);
@@ -128,7 +126,7 @@ public class CostModel
                     rootCopy.getElement().setRelationProfile(profile);
 
                     // 3. COMPUTE AND ASSIGN COST
-                    double cost = computeCost(providers.get(i), providers.get(i), null, rootCopy, encProfile, newPlan.getAssignedEncryptions());
+                    double cost = computeCost(providers.get(i), providers.get(i), null, rootCopy, encProfile, newPlan);
                     newPlan.setCost(cost);
                     newPlan.assignProvider(providers.get(i));
 
@@ -184,7 +182,7 @@ public class CostModel
                     // 2. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                     Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
-                    double cost = computeCost(providers.get(i), childProvider, null, rootCopy, encProfile, newPlan.getAssignedEncryptions()) + leftChildPlan.getCost();
+                    double cost = computeCost(providers.get(i), childProvider, null, rootCopy, encProfile, newPlan) + leftChildPlan.getCost();
 
                     // 3. SET THE NEW PLAN
                     newPlan.setRelation(rootCopy);
@@ -193,7 +191,7 @@ public class CostModel
                     newPlan.assignProvider(providers.get(i));
 
                     // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
-                    encProfileLastUpdate = encProfileCopy;
+                    newPlan.setEncryptionProfile(encProfileCopy);
 
                     // 5. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
@@ -235,7 +233,7 @@ public class CostModel
                         int rightChildProviderIndex = rightChildPlan.getAssignedProviders().size() - 1;
                         Provider leftChildProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
                         Provider rightChildProvider = rightChildPlan.getAssignedProviders().get(rightChildProviderIndex);
-                        double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy, encProfile, newPlan.getAssignedEncryptions()) + leftChildPlan.getCost() + rightChildPlan.getCost();
+                        double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy, encProfile, newPlan) + leftChildPlan.getCost() + rightChildPlan.getCost();
 
                         // 3. SET THE NEW PLAN
                         newPlan.setRelation(rootCopy);
@@ -245,7 +243,7 @@ public class CostModel
                         newPlan.assignProvider(providers.get(i));
 
                         // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
-                        encProfileLastUpdate = encProfileCopy;
+                        newPlan.setEncryptionProfile(encProfileCopy);
 
                         // 5. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
@@ -541,7 +539,7 @@ public class CostModel
     // ************************************************************************
     // COST COMPUTATION
 
-    private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode, EncryptionProfile encProfile, Map<String, String> assignedEncryptions)
+    private double computeCost(Provider operationProvider, Provider leftChildProvider, Provider rightChildProvider, BinaryNode<Relation> relationNode, EncryptionProfile encProfile, Plan plan)
     {
         // Dimensions in Giga Bytes
         double GB = relationNode.getElement().getSizeInBytes() * Math.pow(10, -9);
@@ -599,12 +597,12 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
-                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.AES);
-                    }
+                        plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.AES);
+                }
                     else
                     {
                         countHOMOMORPHIC++;
-                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
+                        plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
                         // TODO Testing
                         System.out.println("[LEFT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
@@ -645,12 +643,12 @@ public class CostModel
                     if (supported.contains(EncryptionProfile.HOMOMORPHIC) && supported.contains(EncryptionProfile.AES))
                     {
                         countAES++;
-                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.AES);
+                        plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.AES);
                     }
                     else
                     {
                         countHOMOMORPHIC++;
-                        assignedEncryptions.put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
+                        plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
                         // TODO Testing
                         System.out.println("[RIGHT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
                     }
