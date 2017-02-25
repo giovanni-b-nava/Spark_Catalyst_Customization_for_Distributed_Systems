@@ -15,12 +15,14 @@ public class Plan implements Comparable
     private BinaryNode<Relation> relation;
     private double cost;
     private List<Provider> assignedProviders;
+    private Map<String, String> assignedEncryptions;
 
     public Plan()
     {
         relation = new BinaryNode<>();
         cost = 0;
         assignedProviders = new ArrayList<>();
+        assignedEncryptions = new HashMap<>();
     }
 
     public BinaryNode<Relation> getRelation()
@@ -53,6 +55,16 @@ public class Plan implements Comparable
     public void assignProvider(Provider provider)
     {
         assignedProviders.add(provider);
+    }
+
+    public Map<String, String> getAssignedEncryptions()
+    {
+        return assignedEncryptions;
+    }
+
+    public void setAssignedEncryptions(Map<String, String> assignedEncryptions)
+    {
+        this.assignedEncryptions = assignedEncryptions;
     }
 
     @Override
