@@ -179,21 +179,24 @@ public class CostModel
                     // 1. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
 
-                    // 2. COMPUTE THE COST
+                    // 2. COPY THE ASSIGNED ENCRYPTION OF LEFT CHILD
+                    newPlan.setAssignedEncryptions(leftChildPlan.getAssignedEncryptions());
+
+                    // 3. COMPUTE THE COST
                     int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                     Provider childProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
                     double cost = computeCost(providers.get(i), childProvider, null, rootCopy, encProfile, newPlan) + leftChildPlan.getCost();
 
-                    // 3. SET THE NEW PLAN
+                    // 4. SET THE NEW PLAN
                     newPlan.setRelation(rootCopy);
                     newPlan.setCost(cost);
                     newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
                     newPlan.assignProvider(providers.get(i));
 
-                    // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
+                    // 5. ASSIGN THE ENCRYPTION PROFILE RECEIVED
                     newPlan.setEncryptionProfile(encProfileCopy);
 
-                    // 5. ADD THE NEW PLAN TO PLANSMAP
+                    // 6. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
 
                     printNewPlan(newPlan);
@@ -228,24 +231,27 @@ public class CostModel
                         // 1. CREATE A NEW PLAN
                         Plan newPlan = new Plan();
 
-                        // 2. COMPUTE THE COST
+                        // 2. COPY THE ASSIGNED ENCRYPTION OF RIGHT CHILD
+                        newPlan.setAssignedEncryptions(rightChildPlan.getAssignedEncryptions());
+
+                        // 3. COMPUTE THE COST
                         int leftChildProviderIndex = leftChildPlan.getAssignedProviders().size() - 1;
                         int rightChildProviderIndex = rightChildPlan.getAssignedProviders().size() - 1;
                         Provider leftChildProvider = leftChildPlan.getAssignedProviders().get(leftChildProviderIndex);
                         Provider rightChildProvider = rightChildPlan.getAssignedProviders().get(rightChildProviderIndex);
                         double cost = computeCost(providers.get(i), leftChildProvider, rightChildProvider, rootCopy, encProfile, newPlan) + leftChildPlan.getCost() + rightChildPlan.getCost();
 
-                        // 3. SET THE NEW PLAN
+                        // 4. SET THE NEW PLAN
                         newPlan.setRelation(rootCopy);
                         newPlan.setCost(cost);
                         newPlan.setAssignedProviders(leftChildPlan.getAssignedProviders());
                         newPlan.setAssignedProviders(rightChildPlan.getAssignedProviders());
                         newPlan.assignProvider(providers.get(i));
 
-                        // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
+                        // 5. ASSIGN THE ENCRYPTION PROFILE RECEIVED
                         newPlan.setEncryptionProfile(encProfileCopy);
 
-                        // 5. ADD THE NEW PLAN TO PLANSMAP
+                        // 6. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
 
                         printNewPlan(newPlan);

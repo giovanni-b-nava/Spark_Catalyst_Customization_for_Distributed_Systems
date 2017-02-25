@@ -76,7 +76,24 @@ public class Plan implements Comparable
 
     public void setAssignedEncryptions(Map<String, String> assignedEncryptions)
     {
-        this.assignedEncryptions = assignedEncryptions;
+        List<String> keys = new ArrayList<String>(assignedEncryptions.keySet());
+
+        for (int i = 0; i < keys.size(); i++)
+        {
+
+            if (this.assignedEncryptions.containsKey(keys.get(i)))
+            {
+                if (assignedEncryptions.get(keys.get(i)).equals(EncryptionProfile.HOMOMORPHIC)
+                        ||
+                        this.assignedEncryptions.get(keys.get(i)).equals(EncryptionProfile.HOMOMORPHIC))
+                {
+                    this.assignedEncryptions.put(keys.get(i), EncryptionProfile.HOMOMORPHIC);
+                }
+
+            }
+            else
+                this.assignedEncryptions.put(keys.get(i), assignedEncryptions.get(keys.get(i)));
+        }
     }
 
     @Override
