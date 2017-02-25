@@ -193,7 +193,7 @@ public class CostModel
                     newPlan.assignProvider(providers.get(i));
 
                     // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
-                    newPlan.setEncryptionProfile(encProfile);
+                    newPlan.setEncryptionProfile(encProfileCopy);
 
                     // 5. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
@@ -245,7 +245,7 @@ public class CostModel
                         newPlan.assignProvider(providers.get(i));
 
                         // 4. ASSIGN THE ENCRYPTION PROFILE RECEIVED
-                        newPlan.setEncryptionProfile(encProfile);
+                        newPlan.setEncryptionProfile(encProfileCopy);
 
                         // 5. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
