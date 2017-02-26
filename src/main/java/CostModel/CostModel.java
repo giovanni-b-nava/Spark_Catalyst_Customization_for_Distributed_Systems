@@ -93,7 +93,7 @@ public class CostModel
                         }
                     }
                     // If a Storage Server doesn't contain the target table => SKIP THE CREATION OF THIS PLAN!
-                    if (targetFound == false)
+                    if (!targetFound)
                         continue;
 
                     // 1. SET THE BinaryNode<Relation>
@@ -530,12 +530,12 @@ public class CostModel
         double leftGB = 0;
         double rightGB = 0;
 
-        // TODO TABLE GB TUNING
-        GB = GB * Math.pow(10, 3);
+        // TODO: TUNING OF TABLE'S SIZE [GB]
+        GB = GB * Math.pow(10, 9);
 
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {
-            System.out.println("> [INFO] LogicalRelation [" + relationNode.getElement().getTableName() +  "]: = " + GB + " GB\n");
+            System.out.println("> [INFO] LogicalRelation '" + relationNode.getElement().getTableName() +  "' = " + GB + " GB\n");
         }
 
         if (relationNode.getLeft() != null)
@@ -548,8 +548,8 @@ public class CostModel
         double operationCost = getOperationCost(operationProvider, GB, relationNode.getElement().getOperation());
 
         // Represents the proportion (encrypted attributes / total attributes) of the children
-        double encryptionPercentLeft = 0;
-        double encryptionPercentRight = 0;
+        double encryptionPercentLeft;
+        double encryptionPercentRight;
         double encryptionCostLeft = 0;
         double encryptionCostRight = 0;
 
@@ -588,8 +588,7 @@ public class CostModel
                     {
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
-                        // TODO Testing
-                        System.out.println("> [INFO] DONE HOMOMORPHIC encryption on " + visibleEncrypted.get(i) + " [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][LEFT]\n");
+                        System.out.println("> [INFO] Enabled HOMOMORPHIC encryption on attribute '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][LEFT CHILD]\n");
                     }
                 }
 
@@ -634,8 +633,7 @@ public class CostModel
                     {
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
-                        // TODO Testing
-                        System.out.println("> [INFO] DONE HOMOMORPHIC encryption on " + visibleEncrypted.get(i) + " [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][RIGHT]\n");
+                        System.out.println("> [INFO] Enabled HOMOMORPHIC encryption on attribute '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][RIGHT CHILD]\n");
                     }
                 }
 
