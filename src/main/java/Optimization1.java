@@ -3,9 +3,10 @@
     "Spark Catalyst Customization for Distributed Systems"
     ----------------------------------------------------------------------------------------------------
     European Research Project “Enforceable Security in the Cloud to Uphold Data Ownership” (ESCUDO-CLOUD)
+    Univerità degli Studi di Bergamo, Italy
     ----------------------------------------------------------------------------------------------------
-    Release 1.0 by Antonio Cosseddu and Giovanni B. Nava
-    Release 2.0 by Giovanni B. Nava
+    Authors: Antonio Cosseddu and Giovanni B. Nava
+    Release 2.0
     ----------------------------------------------------------------------------------------------------
  */
 
