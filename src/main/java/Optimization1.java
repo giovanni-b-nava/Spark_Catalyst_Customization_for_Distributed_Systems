@@ -10,13 +10,18 @@
     ----------------------------------------------------------------------------------------------------
  */
 
-import AuthorizationModel.*;
-import CostModel.*;
+import AuthorizationModel.AuthorizationModel;
+import CostModel.CostModel;
+import CostModel.EncryptionProfile;
+import CostModel.Plan;
+import CostModel.PlansMap;
 import DataConfigBuilder.DataBuilder;
-import RelationProfileTreeBuilder.*;
+import RelationProfileTreeBuilder.Relation;
+import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
 import org.apache.spark.sql.Dataset;
 import org.apache.spark.sql.Row;
+
 import java.io.FileNotFoundException;
 
 

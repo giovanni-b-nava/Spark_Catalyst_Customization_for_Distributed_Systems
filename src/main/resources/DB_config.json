@@ -56,8 +56,8 @@
       "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 100},
       "links" :
       {
-        "name" : ["SS1", "CS1"],
-        "costPerGB" : [0, 0.09]
+        "name" : ["CL1", "SS1", "CS1"],
+        "costPerGB" : [0.01, 0, 0.09]
       },
       "tables":
       [
@@ -99,8 +99,8 @@
       "costs" : { "cpu" : 0.00000072, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 500},
       "links" :
       {
-        "name" : ["SS1", "CS1"],
-        "costPerGB" : [0.09, 0]
+        "name" : ["CL1", "SS1", "CS1"],
+        "costPerGB" : [0.09, 0.09 , 0]
       },
       "tables":
       [

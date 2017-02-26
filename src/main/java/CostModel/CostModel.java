@@ -534,7 +534,7 @@ public class CostModel
         double rightGB = 0;
 
         // TODO: TUNING OF TABLE'S SIZE [GB]
-        GB = GB * Math.pow(10, 9);
+        GB = GB * Math.pow(10, 3);
 
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {
@@ -591,7 +591,7 @@ public class CostModel
                     {
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
-                        System.out.println("> [INFO] Enabled HOMOMORPHIC encryption on attribute '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][LEFT CHILD]\n");
+                        System.out.println("> [INFO] HOMOMORPHIC encryption of '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][LEFT CHILD]\n");
                     }
                 }
 
@@ -636,7 +636,7 @@ public class CostModel
                     {
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
-                        System.out.println("> [INFO] Enabled HOMOMORPHIC encryption on attribute '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][RIGHT CHILD]\n");
+                        System.out.println("> [INFO] HOMOMORPHIC encryption of '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][RIGHT CHILD]\n");
                     }
                 }
 
@@ -669,8 +669,12 @@ public class CostModel
         // Find the Client provider
         for (int i=0; i<providers.size(); i++)
         {
-            if (providers.get(i).getCategory().equals("providerClient"))
+            if (providers.get(i).getCategory().equals("client"))
+            {
                 providerClient = providers.get(i);
+                optimalPlan.assignProvider(providerClient);
+                break;
+            }
         }
 
         // There isn't a providerClient
