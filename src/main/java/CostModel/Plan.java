@@ -115,10 +115,13 @@ public class Plan implements Comparable
 
         Plan plan = (Plan) o;
 
-        if (Double.compare(plan.cost, cost) != 0) return false;
-        if (relation != null ? !relation.equals(plan.relation) : plan.relation != null) return false;
-        return assignedProviders != null ? assignedProviders.equals(plan.assignedProviders) : plan.assignedProviders == null;
+        if (Double.compare(plan.cost, cost) != 0)
+            return false;
 
+        if (relation != null ? !relation.equals(plan.relation) : plan.relation != null)
+            return false;
+
+        return assignedProviders != null ? assignedProviders.equals(plan.assignedProviders) : plan.assignedProviders == null;
     }
 
     @Override

@@ -16,8 +16,6 @@ public class EncryptionProfile
     public static final String AES = "AES";
     public static final String HOMOMORPHIC = "HOMOMORPHIC";
 
-    public boolean isOmomorphic = false;
-
     public EncryptionProfile()
     {
         map = new HashMap();
@@ -81,11 +79,6 @@ public class EncryptionProfile
                     {
                        // Replace the value with update encryption
                        map.put(relation.getAttributes().get(i), update);
-
-                       // TODO TESTING
-                       isOmomorphic = true;
-                       System.out.println("> UPDATE: EncryptionProfile isOmomorphic [" + relation.getOperation() + "]");
-                       System.out.println(this.getMap().toString() + "\n");
                     }
                 }
                 break;

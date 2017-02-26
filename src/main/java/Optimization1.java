@@ -42,7 +42,7 @@ public class Optimization1
         RelationProfileTree tree = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
 
         // Generate the tree for the authorized subjects
-        AuthorizationModel m = new AuthorizationModel(DataBuilder.getDataBuilder().providers, tree.getRelationTree());
+        AuthorizationModel model = new AuthorizationModel(DataBuilder.getDataBuilder().providers, tree.getRelationTree());
 
         // produce l'albero ottimizzato numerato
         //System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
@@ -83,7 +83,7 @@ public class Optimization1
         Plan optimalPlan = costModel.getOptimalPlan(plansMap);
 
         System.out.println("*****************************************************");
-        System.out.println("=> OPTIMAL PLAN:");
+        System.out.println("> [INFO] OPTIMAL PLAN:");
         System.out.println(optimalPlan.toString());
         System.out.println("*****************************************************");
 

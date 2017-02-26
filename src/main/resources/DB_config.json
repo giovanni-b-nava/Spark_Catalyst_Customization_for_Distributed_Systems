@@ -47,7 +47,7 @@
     {
       "name" : "CS1",
       "category" : "computational_server",
-      "costs" : { "cpu" : 0, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.99, "cpuSpeed" : 5000},
+      "costs" : { "cpu" : 0, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.99, "cpuSpeed" : 500},
       "links" :
       {
         "name" : ["SS1", "CS1"],

@@ -394,11 +394,6 @@ public class RelationProfileTree
                         eliminateDuplicate(newImplicitEncrypted);
                         p.setImplicitEncrypted(newImplicitEncrypted);
                     }
-                    // TODO Verificare...
-//                    else
-//                    {
-//                        System.out.println("ERROR: Join with different visibility");
-//                    }
                 }
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getRelationProfile().getEquivalenceSets(), node.getRight().getElement().getRelationProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);

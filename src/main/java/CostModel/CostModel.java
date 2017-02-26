@@ -24,7 +24,7 @@ public class CostModel
     }
 
     // TODO TESTING
-    private void printNewPlan(Plan newPlan)
+    private void printThePlan(Plan newPlan)
     {
         //System.out.println("newPlan = " + newPlan.toString());
     }
@@ -43,7 +43,7 @@ public class CostModel
         Collections.sort(plans);
 
         System.out.println("*****************************************************");
-        System.out.println("NUMBER OF PLANS = " + plans.size());
+        System.out.println("> [INFO] NUMBER OF PLANS = " + plans.size());
 
         return plans.get(0);
     }
@@ -110,9 +110,7 @@ public class CostModel
                     // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
 
-                    printNewPlan(newPlan);
-
-                    System.out.println("["+ providers.get(i).getName() +"][" + newPlan.getRelation().getElement().getOperation() +"]RelationProfile: " + newPlan.getRelation().getElement().getRelationProfile());
+                    printThePlan(newPlan);
                 }
             }
 
@@ -154,7 +152,6 @@ public class CostModel
 
                     rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
-                    System.out.println("["+ providers.get(i).getName() +"][" + rootCopy.getElement().getOperation() + "] RelationProfile: " + rootCopy.getElement().getRelationProfile());
 
                     // 1. CREATE A NEW PLAN
                     Plan newPlan = new Plan();
@@ -166,13 +163,6 @@ public class CostModel
 
                     // 3. COPY THE ASSIGNED ENCRYPTION OF LEFT CHILD
                     newPlan.setAssignedEncryptions(leftChildPlan.getAssignedEncryptions());
-
-                    // TODO TESTING
-                    if (newPlan.getAssignedEncryptions().size() != 0)
-                    {
-                        System.out.print("AssignedEncryptions: ");
-                        System.out.println(newPlan.getAssignedEncryptions().toString() + " [" + providers.get(i).getName() + "," + rootCopy.getElement().getOperation() + "]");
-                    }
 
                     // 4. SET THE NEW PLAN
                     newPlan.setRelation(rootCopy);
@@ -186,7 +176,7 @@ public class CostModel
                     // 6. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
 
-                    printNewPlan(newPlan);
+                    printThePlan(newPlan);
                 }
             }
         }
@@ -214,7 +204,7 @@ public class CostModel
 
                         rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
                         rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
-                        System.out.println("["+ providers.get(i).getName() +"][" + rootCopy.getElement().getOperation() + "] RelationProfile: " + rootCopy.getElement().getRelationProfile());
+
 
                         // 1. CREATE A NEW PLAN
                         Plan newPlan = new Plan();
@@ -229,12 +219,6 @@ public class CostModel
                         // 3. COPY THE ASSIGNED ENCRYPTION OF RIGHT CHILD
                         newPlan.setAssignedEncryptions(rightChildPlan.getAssignedEncryptions());
 
-                        // TODO TESTING
-                        if (newPlan.getAssignedEncryptions().size() != 0) {
-                            System.out.print("AssignedEncryptions: ");
-                            System.out.println(newPlan.getAssignedEncryptions().toString() + " [" + providers.get(i).getName() + "," + rootCopy.getElement().getOperation() + "]");
-                        }
-
                         // 4. SET THE NEW PLAN
                         newPlan.setRelation(rootCopy);
                         newPlan.setCost(cost);
@@ -248,7 +232,7 @@ public class CostModel
                         // 6. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
 
-                        printNewPlan(newPlan);
+                        printThePlan(newPlan);
                     }
                 }
             }
@@ -312,7 +296,7 @@ public class CostModel
                 updatedProfile.getVisibleEncrypted().add(secondAttribute);
             }
         }
-        // else: for a Logical Relation don't do anything
+        // else: Logical Relation => Nothing to do
 
         return updatedProfile;
     }
@@ -341,7 +325,7 @@ public class CostModel
                         updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                         updatedProfile.getVisibleEncrypted().add(currentAttribute);
                     }
-                    // else Nothing to udpdate!
+                    // else: currentProfile it's already right
                 }
             }
             // The current attribute visibility is Encrypted for currentProvider
@@ -357,7 +341,7 @@ public class CostModel
                         updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                         updatedProfile.getVisibleEncrypted().add(currentAttribute);
                     }
-                    // else Nothing to udpdate!
+                    // else: currentProfile it's already right
                 }
             }
         }
@@ -381,7 +365,7 @@ public class CostModel
                         updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                         updatedProfile.getVisiblePlaintext().add(currentAttribute);
                     }
-                    // else Nothing to udpdate!
+                    // else: currentProfile it's already right
                 }
             }
             // The current attribute visibility is Plaintext for the current provider
@@ -398,7 +382,7 @@ public class CostModel
                         updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                         updatedProfile.getVisiblePlaintext().add(currentAttribute);
                     }
-                    // else Nothing to udpdate!
+                    // else: currentProfile it's already right
                 }
             }
         }
@@ -445,7 +429,7 @@ public class CostModel
                                 updatedProfile.getVisibleEncrypted().add(currentAttribute);
                             }
                         }
-                        // else Nothing to udpdate!
+                        // else: currentProfile it's already right
                     }
                 }
             }
@@ -469,7 +453,7 @@ public class CostModel
                                 updatedProfile.getVisiblePlaintext().remove(currentAttribute);
                                 updatedProfile.getVisibleEncrypted().add(currentAttribute);
                             }
-                            // else Nothing to udpdate!
+                            // else: currentProfile it's already right
                         }
                     }
                 }
@@ -501,7 +485,7 @@ public class CostModel
                                 updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                                 updatedProfile.getVisiblePlaintext().add(currentAttribute);
                             }
-                            // else Nothing to udpdate!
+                            // else: currentProfile it's already right
                         }
                     }
                 }
@@ -525,7 +509,7 @@ public class CostModel
                                     updatedProfile.getVisibleEncrypted().remove(currentAttribute);
                                     updatedProfile.getVisiblePlaintext().add(currentAttribute);
                                 }
-                                // else Nothing to udpdate!
+                                // else: currentProfile it's already right
                             }
                         }
                     }
@@ -547,10 +531,11 @@ public class CostModel
         double rightGB = 0;
 
         // TODO TABLE GB TUNING
-        GB = GB * Math.pow(10, 9);
+        GB = GB * Math.pow(10, 3);
+
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {
-            System.out.println("LogicalRelation: Table size = " + GB + " GB\n");
+            System.out.println("> [INFO] LogicalRelation [" + relationNode.getElement().getTableName() +  "]: = " + GB + " GB\n");
         }
 
         if (relationNode.getLeft() != null)
@@ -604,7 +589,7 @@ public class CostModel
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
                         // TODO Testing
-                        System.out.println("[LEFT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
+                        System.out.println("> [INFO] DONE HOMOMORPHIC encryption on " + visibleEncrypted.get(i) + " [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][LEFT]\n");
                     }
                 }
 
@@ -650,7 +635,7 @@ public class CostModel
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
                         // TODO Testing
-                        System.out.println("[RIGHT] HOMOMORPHIC [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "]");
+                        System.out.println("> [INFO] DONE HOMOMORPHIC encryption on " + visibleEncrypted.get(i) + " [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][RIGHT]\n");
                     }
                 }
 
