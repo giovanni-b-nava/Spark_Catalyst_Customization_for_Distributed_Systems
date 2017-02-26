@@ -45,6 +45,9 @@ public class CostModel
         System.out.println("*****************************************************");
         System.out.println("> [INFO] NUMBER OF PLANS = " + plans.size());
 
+        // Compute the cost of decryption and trasfert to client
+        computeFinalClientCost(plans.get(0));
+
         return plans.get(0);
     }
 
@@ -242,13 +245,13 @@ public class CostModel
     }
 
     // Find the plan of the current element of PlansMap
-    private Plan findPlanIntoMap(PlansMap plansMap, int i)
+    private Plan findPlanIntoMap(PlansMap plansMap, int index)
     {
         Set keySet = plansMap.getPlansMap().keySet();
         Iterator iterator = keySet.iterator();
         Plan value = new Plan();
 
-        for (int j=0; j <= i; j++)
+        for (int j=0; j <= index; j++)
         {
             if (iterator.hasNext())
             {
@@ -568,7 +571,7 @@ public class CostModel
             double encProfileCost = 1;
             if (encryptionPercentLeft != 0)
             {
-                // Count the number of AES and HOMOMORPHIC encrptions to evaluate the proportion of encProfileCost
+                // Count the number of AES and HOMOMORPHIC encryptions to evaluate the proportion of encProfileCost
 
                 List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
                 double countAES = 0;
@@ -583,7 +586,7 @@ public class CostModel
                     {
                         countAES++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.AES);
-                }
+                    }
                     else
                     {
                         countHOMOMORPHIC++;
@@ -613,7 +616,7 @@ public class CostModel
             double encProfileCost = 1;
             if (encryptionPercentRight != 0)
             {
-                // Count the number of AES and HOMOMORPHIC encrptions to evaluate the proportion of encProfileCost
+                // Count the number of AES and HOMOMORPHIC encryptions to evaluate the proportion of encProfileCost
 
                 List<String> visibleEncrypted = relationNode.getElement().getRelationProfile().getVisibleEncrypted();
                 double countAES = 0;
@@ -655,6 +658,68 @@ public class CostModel
             transferCostRight = rightGB * findCostPerGB(operationProvider, rightChildProvider);
 
         return (encryptionCostLeft + encryptionCostRight + transferCostLeft + transferCostRight + operationCost);
+    }
+
+    private void computeFinalClientCost(Plan optimalPlan)
+    {
+        // Providers
+        Provider providerOptimal = optimalPlan.getAssignedProviders().get(optimalPlan.getAssignedProviders().size() - 1);
+        Provider providerClient = null;
+
+        // Find the Client provider
+        for (int i=0; i<providers.size(); i++)
+        {
+            if (providers.get(i).getCategory().equals("providerClient"))
+                providerClient = providers.get(i);
+        }
+
+        // There isn't a providerClient
+        if (providerClient == null)
+            return;
+
+        // Dimensions in Giga Bytes
+        double GB = optimalPlan.getRelation().getElement().getSizeInBytes() * Math.pow(10, -9);
+
+        // Represents the proportion (encrypted attributes / total attributes) of the children
+        List<String> visibleEncrypted = optimalPlan.getRelation().getElement().getRelationProfile().getVisibleEncrypted();
+        List<String> visiblePlaintext = optimalPlan.getRelation().getElement().getRelationProfile().getVisiblePlaintext();
+
+        double decryptionPercent = visibleEncrypted.size() / (visiblePlaintext.size() + visibleEncrypted.size());
+
+        // Select the decryption cost (AES or HOMOMORPHIC)
+        double encProfileCost = 1;
+        if (decryptionPercent != 0)
+        {
+            // Count the number of AES and HOMOMORPHIC encryptions to evaluate the proportion of encProfileCost
+
+            double countAES = 0;
+            double countHOMOMORPHIC = 0;
+
+            // For every attribute in visibleEncrypted...
+            for (int i=0; i < visibleEncrypted.size(); i++)
+            {
+                String adopted = optimalPlan.getAssignedEncryptions().get(visibleEncrypted.get(i));
+
+                if (adopted.equals(EncryptionProfile.AES))
+                {
+                    countAES++;
+                }
+                else
+                {
+                    countHOMOMORPHIC++;
+                }
+            }
+
+            encProfileCost = providerOptimal.getCosts().getEncryptionAES() * (countAES / (countAES + countHOMOMORPHIC)) + providerOptimal.getCosts().getEncryptionHOMOMORPHIC() * (countHOMOMORPHIC / (countAES + countHOMOMORPHIC));
+        }
+        // Represents the decryption cost ( ( bytes decrypted / (cpu speed * decryption overhead)) *  cpu cost)
+        // [ $ ]
+        double decryptionCost = ((GB * decryptionPercent) / (providerOptimal.getCosts().getCpuSpeed() * encProfileCost)) * providerOptimal.getCosts().getCpu();
+
+        // Represent the transfer cost from providerOptimal to providerClient
+        double transferCost = GB * findCostPerGB(providerClient, providerOptimal);
+
+        optimalPlan.setCost(optimalPlan.getCost() + decryptionCost + transferCost);
     }
 
     private double findCostPerGB(Provider operationProvider, Provider childProvider)
