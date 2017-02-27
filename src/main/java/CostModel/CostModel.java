@@ -677,7 +677,7 @@ public class CostModel
             }
         }
 
-        // There isn't a providerClient
+        // There isn't a providerClient => stop the additional cost computation
         if (providerClient == null)
             return;
 
