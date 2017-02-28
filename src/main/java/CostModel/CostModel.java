@@ -42,8 +42,8 @@ public class CostModel
         // Order the list
         Collections.sort(plans);
 
-        System.out.println("*****************************************************");
-        System.out.println("> [INFO] NUMBER OF PLANS = " + plans.size());
+        System.out.println("***************************************************************");
+        System.out.println("> [INFO] NUMBER OF FINAL PLANS = " + plans.size() + " [" + plans.get(0).getRelation().getElement().getOperation() + "]");
 
         // Compute the cost of decryption and trasfert to client
         computeFinalClientCost(plans.get(0));
@@ -538,7 +538,7 @@ public class CostModel
 
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {
-            System.out.println("> [INFO] LogicalRelation '" + relationNode.getElement().getTableName() +  "' = " + GB + " GB\n");
+            System.out.println("> [INFO] LogicalRelation '" + relationNode.getElement().getTableName() +  "' = " + GB + " GB");
         }
 
         if (relationNode.getLeft() != null)
@@ -591,7 +591,7 @@ public class CostModel
                     {
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
-                        System.out.println("> [INFO] HOMOMORPHIC encryption of '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][LEFT CHILD]\n");
+                        System.out.println("> [INFO] HOMOMORPHIC encryption of '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][Left child]");
                     }
                 }
 
@@ -636,7 +636,7 @@ public class CostModel
                     {
                         countHOMOMORPHIC++;
                         plan.getAssignedEncryptions().put(visibleEncrypted.get(i), EncryptionProfile.HOMOMORPHIC);
-                        System.out.println("> [INFO] HOMOMORPHIC encryption of '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][RIGHT CHILD]\n");
+                        System.out.println("> [INFO] HOMOMORPHIC encryption of '" + visibleEncrypted.get(i) + "' [" + relationNode.getElement().getOperation() + "][" + operationProvider.getName() + "][Right child]");
                     }
                 }
 
@@ -695,7 +695,6 @@ public class CostModel
         if (decryptionPercent != 0)
         {
             // Count the number of AES and HOMOMORPHIC encryptions to evaluate the proportion of encProfileCost
-
             double countAES = 0;
             double countHOMOMORPHIC = 0;
 
