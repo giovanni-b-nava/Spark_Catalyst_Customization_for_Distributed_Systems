@@ -14,7 +14,9 @@ import java.util.*;
 public class CostModel
 {
 
+    // The Tree of RelatonProfile
     private RelationProfileTree tree;
+    // The List of Providers
     private List<Provider> providers;
 
     public CostModel(List<Provider> providers, RelationProfileTree tree)
