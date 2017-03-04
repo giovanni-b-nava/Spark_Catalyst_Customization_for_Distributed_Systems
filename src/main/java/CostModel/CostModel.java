@@ -662,10 +662,10 @@ public class CostModel
         return (encryptionCostLeft + encryptionCostRight + transferCostLeft + transferCostRight + operationCost);
     }
 
-    private void computeToClientCost(Plan optimalPlan)
+    private void computeToClientCost(Plan plan)
     {
         // Providers
-        Provider providerOptimal = optimalPlan.getAssignedProviders().get(optimalPlan.getAssignedProviders().size() - 1);
+        Provider providerOptimal = plan.getAssignedProviders().get(plan.getAssignedProviders().size() - 1);
         Provider providerClient = null;
 
         // Find the Client provider
@@ -674,7 +674,7 @@ public class CostModel
             if (providers.get(i).getCategory().equals("client"))
             {
                 providerClient = providers.get(i);
-                optimalPlan.assignProvider(providerClient);
+                plan.assignProvider(providerClient);
                 break;
             }
         }
@@ -684,11 +684,11 @@ public class CostModel
             return;
 
         // Dimensions in Giga Bytes
-        double GB = optimalPlan.getRelation().getElement().getSizeInBytes() * Math.pow(10, -9);
+        double GB = plan.getRelation().getElement().getSizeInBytes() * Math.pow(10, -9);
 
         // Represents the proportion (encrypted attributes / total attributes) of the children
-        List<String> visibleEncrypted = optimalPlan.getRelation().getElement().getRelationProfile().getVisibleEncrypted();
-        List<String> visiblePlaintext = optimalPlan.getRelation().getElement().getRelationProfile().getVisiblePlaintext();
+        List<String> visibleEncrypted = plan.getRelation().getElement().getRelationProfile().getVisibleEncrypted();
+        List<String> visiblePlaintext = plan.getRelation().getElement().getRelationProfile().getVisiblePlaintext();
 
         double decryptionPercent = visibleEncrypted.size() / (visiblePlaintext.size() + visibleEncrypted.size());
 
@@ -703,7 +703,7 @@ public class CostModel
             // For every attribute in visibleEncrypted...
             for (int i=0; i < visibleEncrypted.size(); i++)
             {
-                String adopted = optimalPlan.getAssignedEncryptions().get(visibleEncrypted.get(i));
+                String adopted = plan.getAssignedEncryptions().get(visibleEncrypted.get(i));
 
                 if (adopted.equals(EncryptionProfile.AES))
                 {
@@ -725,7 +725,7 @@ public class CostModel
         double transferCost = GB * findCostPerGB(providerClient, providerOptimal);
 
         // Update the cost
-        optimalPlan.setCost(optimalPlan.getCost() + decryptionCost + transferCost);
+        plan.setCost(plan.getCost() + decryptionCost + transferCost);
     }
 
     private double findCostPerGB(Provider operationProvider, Provider childProvider)
