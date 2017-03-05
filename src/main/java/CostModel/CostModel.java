@@ -249,20 +249,7 @@ public class CostModel
     // Find the plan of the current element of PlansMap
     private Plan findPlanIntoMap(PlansMap plansMap, int index)
     {
-//        Set keySet = plansMap.getPlansMap().keySet();
-//        Iterator iterator = keySet.iterator();
-//        Plan value = new Plan();
-//
-//        for (int j=0; j <= index; j++)
-//        {
-//            if (iterator.hasNext())
-//            {
-//                Object key = iterator.next();
-//                value = plansMap.getPlansMap().get(key);
-//            }
-//        }
-//
-//        return new Plan(value);
+        // TODO
         return new Plan();
     }
 
