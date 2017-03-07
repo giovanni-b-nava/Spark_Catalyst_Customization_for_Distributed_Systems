@@ -655,9 +655,9 @@ public class CostModel
         double transferCostRight = 0;
 
         if (leftChildProvider != null)
-            transferCostLeft = leftGB * findCostPerGB(operationProvider, leftChildProvider);
+            transferCostLeft = leftGB * getGBLinkCost(operationProvider, leftChildProvider);
         if (rightChildProvider != null)
-            transferCostRight = rightGB * findCostPerGB(operationProvider, rightChildProvider);
+            transferCostRight = rightGB * getGBLinkCost(operationProvider, rightChildProvider);
 
         return (encryptionCostLeft + encryptionCostRight + transferCostLeft + transferCostRight + operationCost);
     }
@@ -722,19 +722,19 @@ public class CostModel
         double decryptionCost = ((GB * decryptionPercent) / (providerOptimal.getCosts().getCpuSpeed() * encProfileCost)) * providerOptimal.getCosts().getCpu();
 
         // Represent the transfer cost from providerOptimal to providerClient
-        double transferCost = GB * findCostPerGB(providerClient, providerOptimal);
+        double transferCost = GB * getGBLinkCost(providerClient, providerOptimal);
 
         // Update the cost
         plan.setCost(plan.getCost() + decryptionCost + transferCost);
     }
 
-    private double findCostPerGB(Provider operationProvider, Provider childProvider)
+    private double getGBLinkCost(Provider operationProvider, Provider childProvider)
     {
         List<String> linksName = operationProvider.getLinks().getName();
         int index = linksName.indexOf(childProvider.getName());
 
-        // return the right cost per GB
-        return operationProvider.getLinks().getCostPerGB().get(index);
+        // Return the right cost per GB
+        return (operationProvider.getLinks().getCostPerGB().get(index));
     }
 
     private double getOperationCost(Provider operationProvider, double totalGB, String operationType)
