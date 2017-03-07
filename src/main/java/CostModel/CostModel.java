@@ -730,36 +730,12 @@ public class CostModel
 
     private double findCostPerGB(Provider operationProvider, Provider childProvider)
     {
-        List<String> linksName = operationProvider.getLinks().getName();
-        int index = linksName.indexOf(childProvider.getName());
-
-        // return the right cost per GB
-        return operationProvider.getLinks().getCostPerGB().get(index);
+        return 0;
     }
 
     private double getOperationCost(Provider operationProvider, double totalGB, String operationType)
     {
-        double operationCost;
-
-        switch (operationType)
-        {
-            case "LogicalRelation" :
-            case "Filter" :
-            case "Project" :
-                operationCost = 1;
-                break;
-            case "Aggregate" :
-                operationCost = 0.7;
-                break;
-            case "Join" :
-                operationCost = 0.1;
-                break;
-            default:
-                operationCost = 1;
-                System.out.println("CostModel.getOperationCost: ERROR Unknown operation!");
-        }
-
-        return ((totalGB / (operationProvider.getCosts().getCpuSpeed() * operationCost)) * operationProvider.getCosts().getCpu());
+       return 0;
     }
 
 }
