@@ -730,7 +730,11 @@ public class CostModel
 
     private double findCostPerGB(Provider operationProvider, Provider childProvider)
     {
-        return 0;
+        List<String> linksName = operationProvider.getLinks().getName();
+        int index = linksName.indexOf(childProvider.getName());
+
+        // return the right cost per GB
+        return operationProvider.getLinks().getCostPerGB().get(index);
     }
 
     private double getOperationCost(Provider operationProvider, double totalGB, String operationType)
