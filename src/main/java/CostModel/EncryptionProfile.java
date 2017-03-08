@@ -36,27 +36,7 @@ public class EncryptionProfile
     // Assign the all the encryption types to all the attributes
     public void setupDefault(BinaryTree<Relation> tree)
     {
-        List<String> supportedEncryption = new ArrayList<>();
-
-        supportedEncryption.add(AES);
-        supportedEncryption.add(HOMOMORPHIC);
-
-        List<Relation> relations = tree.DFSVisit();
-
-        // For every relation in the tree...
-        for (int i=0; i<relations.size(); i++)
-        {
-            // If is the current operation is a LogicalRelation...
-            if (relations.get(i).getOperation().equals("LogicalRelation"))
-            {
-                // For every attribute of the LogicalRelation...
-                for (int j=0; j< relations.get(i).getAttributes().size(); j++)
-                {
-                    map.put(relations.get(i).getAttributes().get(j), supportedEncryption);
-                }
-            }
-        }
-
+        // TODO Verify
     }
 
     // Update the EncryptionProfile of the current relation
