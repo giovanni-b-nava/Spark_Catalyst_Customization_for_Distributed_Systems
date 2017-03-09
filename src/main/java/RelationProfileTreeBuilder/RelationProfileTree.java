@@ -61,18 +61,19 @@ public class RelationProfileTree
     private List<String> collectAttributes(LogicalPlan plan)
     {
 
-        List<String> l = new ArrayList<>();
+        List<String> attributes = new ArrayList<>();
 
-        switch(plan.nodeName()) {
+        switch(plan.nodeName())
+        {
             case "Project":
             case "Aggregate":
                 int i = 0;
                 while(i < plan.expressions().toList().length()) {
                     String s = plan.expressions().apply(i).toString();
-                    l.add(s);
+                    attributes.add(s);
                     i++;
                 }
-                eliminateDuplicate(l);
+                eliminateDuplicate(attributes);
                 break;
             case "Join":
                 int y=0;
@@ -81,7 +82,7 @@ public class RelationProfileTree
                     String s;
                     if (plan.apply(0).constraints().toList().apply(y).flatArguments().toList().size() == 1) {
                         s = plan.apply(0).constraints().toList().apply(y).flatArguments().toList().apply(0).toString();
-                        l.add(s);
+                        attributes.add(s);
                     }
                     y++;
                 }
@@ -92,9 +93,9 @@ public class RelationProfileTree
                     String s;
                     if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 2) {
                         s = this.formatFilter(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(0).toString());
-                        l.add(s);
+                        attributes.add(s);
                         s = this.formatFilter(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(1).toString());
-                        l.add(s);
+                        attributes.add(s);
                     }
                     x++;
                 }
@@ -103,12 +104,13 @@ public class RelationProfileTree
                 int f = 0;
                 while(f < plan.output().size()) {
                     String s = String.valueOf(plan.output().apply(f));
-                    l.add(s);
+                    attributes.add(s);
                     f++;
                 }
                 break;
         }
-        return l;
+
+        return attributes;
     }
 
     private String collectFilterOperator(LogicalPlan plan)
@@ -413,7 +415,6 @@ public class RelationProfileTree
     // Support method to join two lists without duplicates
     private List<String> joinLists(List<String> l1, List<String> l2)
     {
-
         List<String> list = new ArrayList<>();
 
         if(l1 != null)
@@ -433,6 +434,7 @@ public class RelationProfileTree
         {
             list.addAll(l2);
         }
+
         return list;
     }
 
@@ -441,7 +443,23 @@ public class RelationProfileTree
     {
         List<List<String>> list = new ArrayList<>();
 
-
+        if(l1 != null)
+        {
+            list.addAll(l1);
+            if (l2 != null)
+            {
+                for (int i = 0; i < l2.size(); i++)
+                {
+                    if (!list.contains(l2.get(i)))
+                    {
+                        list.add(l2.get(i));
+                    }
+                }
+            }
+        } else if(l2 != null)
+        {
+            list.addAll(l2);
+        }
 
         return list;
     }
