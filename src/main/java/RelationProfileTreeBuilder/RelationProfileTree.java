@@ -60,55 +60,9 @@ public class RelationProfileTree
     // Generates the list of attributes for the current operation
     private List<String> collectAttributes(LogicalPlan plan)
     {
-
         List<String> attributes = new ArrayList<>();
 
-        switch(plan.nodeName())
-        {
-            case "Project":
-            case "Aggregate":
-                int i = 0;
-                while(i < plan.expressions().toList().length()) {
-                    String s = plan.expressions().apply(i).toString();
-                    attributes.add(s);
-                    i++;
-                }
-                eliminateDuplicate(attributes);
-                break;
-            case "Join":
-                int y=0;
-                while(y < plan.apply(0).constraints().toList().size())
-                {
-                    String s;
-                    if (plan.apply(0).constraints().toList().apply(y).flatArguments().toList().size() == 1) {
-                        s = plan.apply(0).constraints().toList().apply(y).flatArguments().toList().apply(0).toString();
-                        attributes.add(s);
-                    }
-                    y++;
-                }
-                break;
-            case "Filter":
-                int x=0;
-                while(x < plan.apply(0).constraints().toList().size()) {
-                    String s;
-                    if(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().size() == 2) {
-                        s = this.formatFilter(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(0).toString());
-                        attributes.add(s);
-                        s = this.formatFilter(plan.apply(0).constraints().toList().apply(x).flatArguments().toList().apply(1).toString());
-                        attributes.add(s);
-                    }
-                    x++;
-                }
-                break;
-            case "LogicalRelation":
-                int f = 0;
-                while(f < plan.output().size()) {
-                    String s = String.valueOf(plan.output().apply(f));
-                    attributes.add(s);
-                    f++;
-                }
-                break;
-        }
+        // TODO Testing
 
         return attributes;
     }
