@@ -97,8 +97,20 @@ public class RelationProfile
     @Override
     public boolean equals(Object o)
     {
-        // TODO Testing
-        return false;
+        if (this == o) return true;
+        if (!(o instanceof RelationProfile)) return false;
+
+        RelationProfile that = (RelationProfile) o;
+
+        if (visiblePlaintext != null ? !visiblePlaintext.equals(that.visiblePlaintext) : that.visiblePlaintext != null)
+            return false;
+        if (visibleEncrypted != null ? !visibleEncrypted.equals(that.visibleEncrypted) : that.visibleEncrypted != null)
+            return false;
+        if (implicitPlaintext != null ? !implicitPlaintext.equals(that.implicitPlaintext) : that.implicitPlaintext != null)
+            return false;
+        if (implicitEncrypted != null ? !implicitEncrypted.equals(that.implicitEncrypted) : that.implicitEncrypted != null)
+            return false;
+        return equivalenceSets != null ? equivalenceSets.equals(that.equivalenceSets) : that.equivalenceSets == null;
     }
 
     @Override
