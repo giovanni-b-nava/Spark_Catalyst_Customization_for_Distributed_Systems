@@ -42,7 +42,7 @@ public class Optimization1
         DataBuilder.getDataBuilder().dept_manager.createOrReplaceTempView("dept_manager");
 
         // QUERY
-        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary > 70000 GROUP BY first_name");
+        Dataset<Row> sqlDF = DataBuilder.getDataBuilder().sparkSession.sql("SELECT first_name,salary FROM salaries s Join employees e ON s.emp_no=e.emp_no WHERE salary > 70000 GROUP BY first_name,salary");
 
         // Generate the relation tree
         RelationProfileTree tree = new RelationProfileTree(sqlDF.queryExecution().optimizedPlan());
@@ -51,7 +51,7 @@ public class Optimization1
         AuthorizationModel model = new AuthorizationModel(DataBuilder.getDataBuilder().providers, tree.getRelationTree());
 
         // produce l'albero ottimizzato numerato
-        //System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
+        System.out.println(sqlDF.queryExecution().optimizedPlan().numberedTreeString());
 
         // istruzioni per stampare gli operatori di ogni operazione
         //System.out.println(sqlDF.queryExecution().optimizedPlan().apply(4).expressions().toList().apply(0));
@@ -62,7 +62,7 @@ public class Optimization1
         // COST TEST of JOIN
         BinaryNode<Relation> newNode = tree.getRelationTree().getRoot().getLeft().getLeft().getLeft().getLeft();
 
-        CostModel costModel = new CostModel(DataBuilder.getDataBuilder().providers, tree);
+        CostModel costModel = new CostModel(DataBuilder.getDataBuilder().providers, tree, sqlDF.queryExecution().optimizedPlan());
 //        double cost = costModel.computeCost(DataBuilder.getDataBuilder().providers.get(0), DataBuilder.getDataBuilder().providers.get(1), newNode);
 //        System.out.println("---> Da " + DataBuilder.getDataBuilder().providers.get(0).getName() + " a " + DataBuilder.getDataBuilder().providers.get(1).getName());
 //        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
@@ -92,6 +92,20 @@ public class Optimization1
         System.out.println("> [INFO] OPTIMAL PLAN:");
         System.out.println(optimalPlan.toString());
         System.out.println("***************************************************************");
+
+        //********************************
+       // System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(0).constraints().toList().apply(0).flatArguments().toList().size());
+
+
+        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).nodeName());
+        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(1).flatArguments().toList());
+        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(1).flatArguments().toList().apply(0).toString());
+        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(1).flatArguments().toList().apply(1).toString());
+
+
+
+
+
 
     }
 

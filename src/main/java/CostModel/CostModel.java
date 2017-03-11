@@ -8,6 +8,7 @@ import RelationProfileTreeBuilder.Relation;
 import RelationProfileTreeBuilder.RelationProfile;
 import RelationProfileTreeBuilder.RelationProfileTree;
 import TreeStructure.BinaryNode;
+import org.apache.spark.sql.catalyst.plans.logical.LogicalPlan;
 
 import java.util.*;
 
@@ -19,10 +20,13 @@ public class CostModel
     // The List of Providers
     private List<Provider> providers;
 
-    public CostModel(List<Provider> providers, RelationProfileTree tree)
+    private LogicalPlan plan;
+
+    public CostModel(List<Provider> providers, RelationProfileTree tree, LogicalPlan plan)
     {
         this.tree = tree;
         this.providers = providers;
+        this.plan = plan;
     }
 
     // TODO TESTING
@@ -155,7 +159,7 @@ public class CostModel
 
                     rootCopy.setLeft(leftChildRelation);
 
-                    rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
+                    rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy, plan));
                     rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
 
                     // 1. CREATE A NEW PLAN
@@ -207,7 +211,7 @@ public class CostModel
                         rootCopy.setLeft(leftChildRelation);
                         rootCopy.setRight(rightChildRelation);
 
-                        rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy));
+                        rootCopy.getElement().setRelationProfile(tree.buildOperationProfile(rootCopy, plan));
                         rootCopy.getElement().setRelationProfile(updateRelationProfile(providers.get(i), rootCopy));
 
 

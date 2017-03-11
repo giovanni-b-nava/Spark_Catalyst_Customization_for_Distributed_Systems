@@ -30,7 +30,7 @@ public class RelationProfileTree
         this.generateChildren(plan.apply(0), root);
 
         // Complete the tree with the profile of each operation
-        this.generateProfiles(relationTree.getRoot());
+        this.generateProfiles(relationTree.getRoot(), plan);
     }
 
     public BinaryTree<Relation> getRelationTree() {
@@ -193,16 +193,16 @@ public class RelationProfileTree
     }
 
     // Generate the profile for each node with a post order visit
-    private void generateProfiles(BinaryNode<Relation> node)
+    private void generateProfiles(BinaryNode<Relation> node, LogicalPlan plan)
     {
         if (node == null) return;
-        generateProfiles(node.getLeft());
-        generateProfiles(node.getRight());
-        this.setProfile(node);
+        generateProfiles(node.getLeft(), plan);
+        generateProfiles(node.getRight(), plan);
+        this.setProfile(node, plan);
     }
 
     // Set the profile of the current node considering the type of operation and its children
-    public void setProfile(BinaryNode<Relation> node)
+    public void setProfile(BinaryNode<Relation> node, LogicalPlan plan)
     {
         // Node without children = leaf
         if(node.getLeft() == null && node.getRight() == null)
@@ -217,12 +217,12 @@ public class RelationProfileTree
         }
         else
         {
-            node.getElement().setRelationProfile(this.buildOperationProfile(node));
+            node.getElement().setRelationProfile(this.buildOperationProfile(node, plan));
         }
     }
 
     // Generate the specific profile for each operation
-    public RelationProfile buildOperationProfile(BinaryNode<Relation> node)
+    public RelationProfile buildOperationProfile(BinaryNode<Relation> node, LogicalPlan plan)
     {
 
         RelationProfile p = new RelationProfile();
@@ -398,7 +398,13 @@ public class RelationProfileTree
                 }
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getRelationProfile().getEquivalenceSets(), node.getRight().getElement().getRelationProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);
-                l = node.getElement().getAttributes();
+
+                String s;
+                s = plan.apply(0).constraints().toList().apply(1).flatArguments().toList().apply(0).toString();
+                l.add(s);
+                s = plan.apply(0).constraints().toList().apply(1).flatArguments().toList().apply(1).toString();
+                l.add(s);
+
                 List<List<String>> eSet = new ArrayList<>();
                 eSet.addAll(p.getEquivalenceSets());
                 eSet.add(l);
