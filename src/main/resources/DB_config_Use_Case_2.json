@@ -47,11 +47,11 @@
     {
       "name" : "SS1",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 100},
+      "costs" : { "cpu" : 0.0000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 100},
       "links" :
       {
         "name" : ["CLI", "SS1", "SS2", "CS1", "CS2"],
-        "costPerGB" : [0.01, 0, 0.01, 0.09, 0.08]
+        "costPerGB" : [0.01, 0, 0.09, 0.09, 0.08]
       },
       "tables":
       [
@@ -76,11 +76,6 @@
           "encrypted" : []
         },
         {
-          "name" : "salaries",
-          "plaintext" : ["emp_no", "salary", "from_date", "to_date"],
-          "encrypted" : []
-        },
-        {
           "name" : "titles",
           "plaintext" : ["emp_no", "title", "from_date", "to_date"],
           "encrypted" : []
@@ -90,11 +85,11 @@
     {
       "name" : "SS2",
       "category" : "storage_server",
-      "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 1000},
+      "costs" : { "cpu" : 0.000036, "encryptionAES" : 0.99, "encryptionHOMOMORPHIC" : 0.95, "cpuSpeed" : 100},
       "links" :
       {
         "name" : ["CLI", "SS1", "SS2", "CS1", "CS2"],
-        "costPerGB" : [0.01, 0.01, 0, 0.09, 0.08]
+        "costPerGB" : [0.01, 0.09, 0, 0.09, 0.08]
       },
       "tables":
       [
