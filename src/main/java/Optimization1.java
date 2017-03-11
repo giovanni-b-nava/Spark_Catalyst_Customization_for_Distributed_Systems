@@ -92,21 +92,6 @@ public class Optimization1
         System.out.println("> [INFO] OPTIMAL PLAN:");
         System.out.println(optimalPlan.toString());
         System.out.println("***************************************************************");
-
-        //********************************
-       // System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(0).constraints().toList().apply(0).flatArguments().toList().size());
-
-
-        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).nodeName());
-        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(1).flatArguments().toList());
-        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(1).flatArguments().toList().apply(0).toString());
-        System.out.println(">>>> " + sqlDF.queryExecution().optimizedPlan().apply(2).constraints().toList().apply(1).flatArguments().toList().apply(1).toString());
-
-
-
-
-
-
     }
 
 }

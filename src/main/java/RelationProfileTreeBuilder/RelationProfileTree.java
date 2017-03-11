@@ -399,11 +399,19 @@ public class RelationProfileTree
                 List<List<String>> ll = joinListsLists(node.getLeft().getElement().getRelationProfile().getEquivalenceSets(), node.getRight().getElement().getRelationProfile().getEquivalenceSets());
                 p.setEquivalenceSets(ll);
 
-                String s;
-                s = plan.apply(0).constraints().toList().apply(1).flatArguments().toList().apply(0).toString();
-                l.add(s);
-                s = plan.apply(0).constraints().toList().apply(1).flatArguments().toList().apply(1).toString();
-                l.add(s);
+                int x=0;
+                while(x < plan.apply(2).constraints().toList().size())
+                {
+                    String s;
+                    if(plan.apply(2).constraints().toList().apply(x).flatArguments().toList().size() == 2 && plan.apply(2).constraints().toList().apply(x).prettyName().equals("equalto"))
+                    {
+                        s = this.formatFilter(plan.apply(2).constraints().toList().apply(x).flatArguments().toList().apply(0).toString());
+                        l.add(s);
+                        s = this.formatFilter(plan.apply(2).constraints().toList().apply(x).flatArguments().toList().apply(1).toString());
+                        l.add(s);
+                    }
+                    x++;
+                }
 
                 List<List<String>> eSet = new ArrayList<>();
                 eSet.addAll(p.getEquivalenceSets());
