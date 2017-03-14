@@ -109,7 +109,96 @@ public class AuthorizationModel
     // Return true if the provider is authorized to execute the operation
     private boolean isAuthorized(Provider provider, RelationProfile profile)
     {
-       return true;
+        boolean authorized = false;
+
+        // Check if provider is authorized for visible plaintext
+        if(profile.getVisiblePlaintext() != null)
+        {
+            for (int i = 0; i < profile.getVisiblePlaintext().size(); i++)
+            {
+                authorized = this.checkVisibility(provider, profile.getVisiblePlaintext().get(i), "Plaintext");
+                if(!authorized)
+                    return false;
+            }
+        }
+        else
+            authorized = true;
+
+        // Check if provider is authorized for implicit plaintext
+        if(authorized)
+        {
+            if(profile.getImplicitPlaintext() != null)
+            {
+                for (int i = 0; i < profile.getImplicitPlaintext().size(); i++)
+                {
+                    authorized = this.checkVisibility(provider, profile.getImplicitPlaintext().get(i), "Plaintext");
+                    if(!authorized)
+                        return false;
+                }
+            }
+            else
+                authorized = true;
+        }
+        else
+            return false;
+
+        // Check if provider is authorized for visible encrypted
+        if(authorized)
+        {
+            if(profile.getVisibleEncrypted() != null)
+            {
+                for (int i = 0; i < profile.getVisibleEncrypted().size(); i++)
+                {
+                    authorized = this.checkVisibility(provider, profile.getVisibleEncrypted().get(i), "Encrypted");
+                    if(!authorized)
+                        return false;
+                }
+            }
+            else
+                authorized = true;
+        }
+        else
+            return false;
+
+        // Check if provider is authorized for implicit encrypted
+        if(authorized)
+        {
+            if(profile.getImplicitEncrypted() != null)
+            {
+                for (int i = 0; i < profile.getImplicitEncrypted().size(); i++)
+                {
+                    authorized = this.checkVisibility(provider, profile.getImplicitEncrypted().get(i), "Encrypted");
+                    if(!authorized)
+                        return false;
+                }
+            }
+            else
+                authorized = true;
+        } else
+            return false;
+
+        // Check if the equivalence lists have the same visibility
+        if(authorized)
+        {
+            if(profile.getEquivalenceSets() != null)
+            {
+                for(int i = 0; i < profile.getEquivalenceSets().size(); i++)
+                {
+                    boolean plain1 = this.checkVisibility(provider, profile.getEquivalenceSets().get(i).get(0), "Plaintext");
+                    boolean plain2 = this.checkVisibility(provider, profile.getEquivalenceSets().get(i).get(1), "Plaintext");
+                    boolean enc1 = this.checkVisibility(provider, profile.getEquivalenceSets().get(i).get(0), "Encrypted");
+                    boolean enc2 = this.checkVisibility(provider, profile.getEquivalenceSets().get(i).get(1), "Encrypted");
+                    if(!(plain1 && plain2) && !(enc1 && enc2))
+                        return false;
+                }
+            }
+            else
+                authorized = true;
+        }
+        else
+            return false;
+
+        return authorized;
     }
 
     // Check if the current attribute has the right visibility
