@@ -2,7 +2,8 @@ package RelationProfileTreeBuilder;
 
 import java.util.List;
 
-public class Relation {
+public class Relation
+{
 
     // Type of operation
     private String operation;
