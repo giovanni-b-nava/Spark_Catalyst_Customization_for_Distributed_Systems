@@ -17,7 +17,8 @@ public class RelationProfile
     // List of attributes involved in relations between them
     private List<List<String>> equivalenceSets;
 
-    public RelationProfile() {
+    public RelationProfile()
+    {
         this.visiblePlaintext = new ArrayList<>();
         this.visibleEncrypted = new ArrayList<>();
         this.implicitPlaintext = new ArrayList<>();
@@ -25,8 +26,8 @@ public class RelationProfile
         this.equivalenceSets = new ArrayList<>();
     }
 
-
-    public RelationProfile(List<String> vp, List<String> ve, List<String> ip, List<String> ie, List<List<String>> es) {
+    public RelationProfile(List<String> vp, List<String> ve, List<String> ip, List<String> ie, List<List<String>> es)
+    {
         this.visiblePlaintext = vp;
         this.visibleEncrypted = ve;
         this.implicitPlaintext = ip;
@@ -86,7 +87,8 @@ public class RelationProfile
         this.equivalenceSets = equivalenceSets;
     }
 
-    public String toString() {
+    public String toString()
+    {
         return "Visible Plaintext: " + this.visiblePlaintext.toString() + "\n" +
                 "Visible Encrypted: " + this.visibleEncrypted.toString() +
                 "\n" +"Implicit Plaintext: " + this.implicitPlaintext.toString() + "\n" +
