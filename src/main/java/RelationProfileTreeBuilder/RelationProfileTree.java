@@ -134,7 +134,8 @@ public class RelationProfileTree
     }
 
     // Format the input string to the attribute style
-    private String formatFilter(String s) {
+    private String formatFilter(String s)
+    {
         if(s.startsWith("cast")) {
             int p = s.indexOf("(");
             int q = s.indexOf(" ");

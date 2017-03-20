@@ -14,7 +14,6 @@ import java.util.*;
 
 public class CostModel
 {
-
     // The Tree of RelatonProfile
     private RelationProfileTree tree;
     // The List of Providers
@@ -57,7 +56,8 @@ public class CostModel
         return plans.get(0);
     }
 
-    // Recursively generate all the plans that come from the combination of providers and operations and put them into a map
+    // Recursively generate all the plans that come from the combination of providers and operations
+    // and put them into a map
     public PlansMap generatePlans(BinaryNode<Relation> root, EncryptionProfile encProfile)
     {
         // BASE CASE: ROOT = Logical Relation
@@ -540,7 +540,7 @@ public class CostModel
         double rightGB = 0;
 
         // TODO: TUNING OF TABLE'S SIZE [GB]
-        GB = GB * Math.pow(10, 3);
+        GB = GB * Math.pow(10, 6);
 
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {

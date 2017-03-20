@@ -33,7 +33,7 @@ public class EncryptionProfile
         return map;
     }
 
-    // Assign the all the encryption types to all the attributes
+    // Assign all the encryption types to all the attributes
     public void setupDefault(BinaryTree<Relation> tree)
     {
         List<String> supportedEncryption = new ArrayList<>();

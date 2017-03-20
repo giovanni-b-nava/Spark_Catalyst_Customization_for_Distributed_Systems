@@ -12,7 +12,6 @@ import java.util.List;
 
 public class AuthorizationModel
 {
-
     private BinaryTree<List<Provider>> subjectTree;
 
     // Generate the list of subjects authorized to execute each operation and put them in a tree

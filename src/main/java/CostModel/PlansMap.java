@@ -26,7 +26,6 @@ public class PlansMap
         }
         else
             plansMap.put(hashCode, plan);
-
     }
 
     public HashMap<Integer, Plan> getPlansMap()
