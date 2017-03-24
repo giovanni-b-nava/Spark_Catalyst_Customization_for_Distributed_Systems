@@ -540,7 +540,7 @@ public class CostModel
         double rightGB = 0;
 
         // TODO: TUNING OF TABLE'S SIZE [GB]
-        GB = GB * Math.pow(10, 6);
+        GB = GB * Math.pow(10, 3);
 
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {
