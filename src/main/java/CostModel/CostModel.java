@@ -28,12 +28,6 @@ public class CostModel
         this.plan = plan;
     }
 
-    // TODO TESTING
-    private void printThePlan(Plan newPlan)
-    {
-        //System.out.println("newPlan = " + newPlan.toString());
-    }
-
     // Returns the plan with the lowest cost
     public Plan getOptimalPlan(PlansMap plansMap)
     {
@@ -46,9 +40,6 @@ public class CostModel
         }
         // Order the list
         Collections.sort(plans);
-
-        System.out.println("***************************************************************");
-        System.out.println("> [INFO] NUMBER OF FINAL PLANS = " + plans.size() + " [" + plans.get(0).getRelation().getElement().getOperation() + "]");
 
         // Compute the cost of decryption and trasfert to client
         computeToClientCost(plans.get(0));
@@ -118,8 +109,6 @@ public class CostModel
 
                     // 4. ADD THE NEW PLAN TO LEAFMAP
                     leafMap.addPlan(newPlan);
-
-                    printThePlan(newPlan);
                 }
             }
 
@@ -184,8 +173,6 @@ public class CostModel
 
                     // 6. ADD THE NEW PLAN TO PLANSMAP
                     plansMap.addPlan(newPlan);
-
-                    printThePlan(newPlan);
                 }
             }
         }
@@ -240,8 +227,6 @@ public class CostModel
 
                         // 6. ADD THE NEW PLAN TO PLANSMAP
                         plansMap.addPlan(newPlan);
-
-                        printThePlan(newPlan);
                     }
                 }
             }
@@ -540,7 +525,7 @@ public class CostModel
         double rightGB = 0;
 
         // TODO: TUNING OF TABLE'S SIZE [GB]
-        GB = GB * Math.pow(10, 3);
+        GB = GB * Math.pow(10, 6);
 
         if(relationNode.getElement().getOperation().equals("LogicalRelation"))
         {

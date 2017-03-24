@@ -142,11 +142,8 @@ public class Plan implements Comparable
         return "Plan{\n" +
                 "relation=" + relation.getElement().toString() +
                 ", cost=" + cost +
-                "\n, assignedProviders=\n" + assignedProviders.toString() +
-                    "\n, assignedEncryptions=\n" + assignedEncryptions +
-                "\n}";
+                "\n, assignedProviders=\n" + assignedProviders.toString() + "\n}";
     }
-
 
     @Override
     public int compareTo(Object o)

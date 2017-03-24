@@ -78,7 +78,6 @@ public class Optimization1
 //        System.out.println("---> OPERATION = " + newNode.getElement().getOperation());
 //        System.out.println("---> COSTO = " + cost);
 
-
         // Create a new EncryptionProfile
         EncryptionProfile encProfile = new EncryptionProfile();
         // Init the EncryptionProfile with all default encryptions
